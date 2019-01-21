@@ -10,4 +10,4 @@ def index():
 
 @app.route('/get', methods=['GET'])
 def envoi():
-    return "test de get"
+    return "test de get" 
