@@ -2,13 +2,37 @@
     width:25%;
     float:left;
     background-color: #999;
+    height:300px;
 }
 .right{
     width:75%;
     float:right;
 }
+body{
+    font-family:"Montserrat";
+
+}
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
+  }
+  table {
+    border-collapse: collapse;
+    display:inline;
+  }
+  select{
+    font-family:"Montserrat";
+  }
+  button{
+    font-family:"Montserrat";
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
   }
