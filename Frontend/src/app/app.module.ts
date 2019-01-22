@@ -3,10 +3,22 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeadersComponent } from './headers/headers.component';
+import { CoreComponent } from './core/core.component';
+import { LearningComponent } from './learning/learning.component';
+import { PredictionComponent } from './prediction/prediction.component';
+import { InteractionGraphComponent } from './interaction-graph/interaction-graph.component';
+import { ModelComponent } from './model/model.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeadersComponent,
+    CoreComponent,
+    LearningComponent,
+    PredictionComponent,
+    InteractionGraphComponent,
+    ModelComponent
   ],
   imports: [
     BrowserModule,
