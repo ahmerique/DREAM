@@ -1,0 +1,43 @@
+a {
+  color: rgb(0, 0, 0);
+  background-color: #999;
+  border-radius: 2px;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+img {
+  height: 1em;
+  float: left;
+  margin-left: 1%;
+}
+
+a:hover {
+  background-color: rgb(182, 182, 182);
+}
+
+a:ACTIVE {
+  color: rgb(114, 114, 114);
+}
+
+.compte {
+  width: 15%;
+  float: left;
+}
+
+.donnees {
+  width: 15%;
+  float: left;
+  margin-left: 1%;
+}
+
+.historique {
+  width: 15%;
+  float: left;
+  margin-left: 1%;
+}
+
+.deconnexion {
+  width: 15%;
+  float: right;
+}
