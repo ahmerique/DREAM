@@ -1,10 +1,14 @@
 <div class="clearfix">
-    <div class="left">
-      <h2>graphe d'interaction</h2>
-      <img src="assets/graph.jpg">
-    </div>
-    <div class="right">
-      <h2>Explication</h2>
-      <p>Explication de l'interet d'un tel graphe pour un biologiste</p>
-    </div>
+  <div class="left">
+    <h2>graphe d'interaction</h2>
+    <img src="assets/graph.jpg">
   </div>
+  <div class="right">
+    <h2>Explication</h2>
+    <p>Explication de l'interet d'un tel graphe pour un biologiste</p>
+  </div>
+</div>
+<button (click)="Modele()">Modèle réel</button>
+<div *ngIf=model>
+  <app-model></app-model>
+</div>

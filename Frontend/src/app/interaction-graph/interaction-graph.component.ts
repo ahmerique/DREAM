@@ -8,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 export class InteractionGraphComponent implements OnInit {
 
   constructor() { }
-
+  model:boolean=false;
   ngOnInit() {
   }
+  Modele(){
+    if(!this.model){
+    this.model=true;
+    }
+    else{
+      this.model=false;
 
+    }
+  }
 }
