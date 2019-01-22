@@ -1,10 +1,31 @@
 <div class="clearfix">
   <div class="left">
-    <h2>Choix des fichiers à analyser</h2>
+    <div>
+    <h2>Apprentissage :</h2>
+    <h3>Données : </h3>
+    <select>
+      <option value="knockout">Knockout</option>
+      <option value="temporelles">Temporelle</option>
+    </select><br />
+    <select>
+      <option value="Temporelle">Temporelle</option>
+      <option value="knockout">Knockout</option>
+    </select><br />
+    <button>+</button>
+    </div>
+    <div>
+      <h3>Méthode d'apprentissage</h3>
+      <select>
+          <option value="Reseau_neurone">Réseau de neurones</option>
+          <option value="RandomForest">Random Forest</option>
+        </select>
+    </div>
+    <button>Lancer l'apprentissage</button>
   </div>
   <div class="right">
     <h2>Explication</h2>
-    <p>blablabla</p>
+    <p>Explication de la possibilité de choisir un ou plusieurs jeux de données.</p>
+    <p>Explication du principe de la méthode selectionnée (texte changeant en fonction de la methode)</p>
   </div>
 </div>
 <app-prediction></app-prediction>

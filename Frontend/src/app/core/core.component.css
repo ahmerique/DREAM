@@ -1,14 +1,43 @@
+body{
+    line-height: 10px;  
+    font-family: 'Montserrat';
+}
 .left{
+    height:200px;
     width:25%;
     float:left;
     background-color: #999;
+    font-family: 'Montserrat';
+
 }
 .right{
+    height:200px;
+    height: 100%;
     width:75%;
     float:right;
+    text-align: left;
+    font-family: 'Montserrat';
+
 }
+
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
   }
+h2{
+  display: inline;
+}
+h3{
+    display: inline;
+  }
+  
+button{
+    margin-left: 10px;
+}
+select{
+    font-family: 'Montserrat';
+}
+button{
+    font-family: 'Montserrat';
+}

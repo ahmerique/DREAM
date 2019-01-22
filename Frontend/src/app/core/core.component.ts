@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./core.component.css']
 })
 export class CoreComponent implements OnInit {
+  hauteur = 200;
 
   constructor() { }
 

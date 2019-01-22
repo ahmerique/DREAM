@@ -1,8 +1,27 @@
 <div class="clearfix">
-  <div class="left">
+  <div class="left" >
     <h2>Explication</h2>
-    <p>blablabla</p>
+    <p>texte explicant quelles sont les données et ce que l'on souhaite en faire</p>
   </div>
   <div class="right">
-    <h2>Selection du fichier</h2>
+    <div>
+      <h2>Fichier :</h2>
+      <select>
+        <option value="insilicosize10">insilicosize10</option>
+        <option value="insilicosize100">insilicosize100</option>
+      </select>
+      <button type="button">Ajouter un nouveau fichier</button>
+      <button type="button">Ajouter un nouveau dossier</button>
+    </div>
+    <br />
+    <div>
+      <h3>Affichage : </h3>
+      <select>
+        <option value="timeseries1.tsv">timeseries1</option>
+        <option value="knockout.tsv">knockout</option>
+      </select>
+      <div class="graph"><img src="../courbetest.png"></div>
+      <button type="button">Ajouter une autre source de données</button>
+
+    </div>
   </div>
