@@ -1,15 +1,24 @@
 .left{
     width:75%;
     float:left;
+    font-family: 'Montserrat';
+
 }
 .right{
+    font-family: 'Montserrat';
     width:25%;
     float:right;
     background-color: #999;
-
+    height:300px;
 }
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
   }
+  select{
+    font-family: 'Montserrat';
+}
+button{
+    font-family: 'Montserrat';
+}

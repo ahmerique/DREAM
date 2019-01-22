@@ -1,11 +1,14 @@
 body{
     line-height: 10px;  
+    font-family: 'Montserrat';
 }
 .left{
     height:200px;
     width:25%;
     float:left;
     background-color: #999;
+    font-family: 'Montserrat';
+
 }
 .right{
     height:200px;
@@ -13,6 +16,8 @@ body{
     width:75%;
     float:right;
     text-align: left;
+    font-family: 'Montserrat';
+
 }
 
 .clearfix::after {
@@ -29,4 +34,10 @@ h3{
   
 button{
     margin-left: 10px;
+}
+select{
+    font-family: 'Montserrat';
+}
+button{
+    font-family: 'Montserrat';
 }
