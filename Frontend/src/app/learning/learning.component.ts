@@ -8,8 +8,16 @@ import { Component, OnInit } from '@angular/core';
 export class LearningComponent implements OnInit {
 
   constructor() { }
-
+  result:boolean=false;
   ngOnInit() {
   }
+  Result(){
+    if(!this.result){
+    this.result=true;
+    }
+    else{
+      this.result=false;
 
+    }
+  }
 }

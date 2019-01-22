@@ -20,7 +20,7 @@
           <option value="RandomForest">Random Forest</option>
         </select>
     </div>
-    <button>Lancer l'apprentissage</button>
+    <button (click)="Result()">Lancer l'apprentissage</button>
   </div>
   <div class="right">
     <h2>Explication</h2>
@@ -28,6 +28,8 @@
     <p>Explication du principe de la méthode selectionnée (texte changeant en fonction de la methode)</p>
   </div>
 </div>
+<div *ngIf="result">
 <app-prediction></app-prediction>
 <app-interaction-graph></app-interaction-graph>
 <app-model></app-model>
+</div>

@@ -1,9 +1,38 @@
+<body>
+<h1>Résultats</h1>
 <div class="clearfix">
-    <div class="left">
-        <h2>Explication</h2>
-        <p>blablabla</p>
-      </div>
-      <div class = "right">
-        <h2>Rappel sur les etats stables</h2>
-      </div>
+  <div class="left">
+    <h2>Explication de la prédiction</h2>
+    <p>Explication de la raison de générer une perturbation</p>
+  </div>
+  <div class="right">
+    <h2>Rappel sur les etats stables</h2>
+    <table *ngFor="let G of Gname">
+      <tr>
+        <th> {{G.name}}</th>
+      </tr>
+      <td> {{G.value}}</td>
+    </table>
+    <h2>Prédiction</h2>
+    <p>Etats stables avec perturbation :</p>
+    <p>Perturbation :</p>
+    <select >
+      <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
+      <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
+    </select><br />
+    <select>
+        <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
+        <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
+    </select><br />
+    <button (click)="Show()">Prédire</button>
+    <div *ngIf="show">
+        <table *ngFor="let G of Gname">
+            <tr>
+              <th> {{G.name}}</th>
+            </tr>
+            <td> {{G.value}}</td>
+          </table>
     </div>
+  </div>
+</div>
+</body>
