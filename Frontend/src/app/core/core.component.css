@@ -1,0 +1,10 @@
+.left{
+    width:25%;
+    float:left;
+    background-color: #999;
+}
+.right{
+    text-align: left;
+    width:75%;
+    float:right;
+}
