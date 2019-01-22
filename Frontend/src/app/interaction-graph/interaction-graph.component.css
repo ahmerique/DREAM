@@ -1,0 +1,15 @@
+.left{
+    width:75%;
+    float:left;
+}
+.right{
+    width:25%;
+    float:right;
+    background-color: #999;
+
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }

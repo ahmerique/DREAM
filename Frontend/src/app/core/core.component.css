@@ -4,7 +4,11 @@
     background-color: #999;
 }
 .right{
-    text-align: left;
     width:75%;
     float:right;
 }
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
