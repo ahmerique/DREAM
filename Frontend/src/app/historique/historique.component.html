@@ -2,11 +2,12 @@
   Derniers modèles:
 </h1>
 
-<div class="clearfix">
-  <div class="right">
-    <div *ngFor="let oldModel of _historique">
+
+<div class="center">
+  <div class="center-left">
+    <div *ngFor=" let oldModel of _historique">
       {{oldModel}}<br />
-      <button title="delete data" (click)="delete(data)">Charger modèle</button><br />
+      <button title="load model" (click)="loadModel(oldModel)">Charger modèle</button><br />
       <br />
     </div>
   </div>

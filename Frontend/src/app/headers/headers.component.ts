@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-headers',
@@ -7,11 +6,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./headers.component.css']
 })
 
-export class HeadersComponent implements OnInit {
+export class HeadersComponent implements OnInit, AfterViewInit {
 
-  constructor(private router: Router) { }
+  @ViewChild('stickyMenu') menuElement: ElementRef;
+
+  sticky = false;
+  elementPosition: any;
+
+  constructor() { }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.elementPosition = this.menuElement.nativeElement.offsetTop;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+
+  handleScroll() {
+    const windowScroll = window.pageYOffset;
+    if (windowScroll >= this.elementPosition) {
+      this.sticky = true;
+    } else {
+      this.sticky = false;
+    }
   }
 
 }
