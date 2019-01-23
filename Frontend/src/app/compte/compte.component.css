@@ -1,0 +1,20 @@
+h1 {
+  clear: both;
+}
+
+.outer {
+  list-style-type: none;
+  text-align: center;
+  margin-top: 10%;
+}
+
+.box {
+  display: inline-block;
+  padding: 1%;
+  margin: 1%;
+  background-color: #999;
+  text-decoration: none;
+  font-size: 1em;
+  text-align: center;
+  border-radius: 2px;
+}
