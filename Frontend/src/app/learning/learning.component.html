@@ -3,14 +3,16 @@
     <div>
     <h2>Apprentissage :</h2>
     <h3>Données : </h3>
-    <select [(ngModel)]="selectedType1">
+    <div *ngFor="let x of table">
+    <select [(ngModel)]="selectedType[x]">
         <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
-      </select><br />
-      <select [(ngModel)]="selectedType2">
-          <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
-        </select><br />
-    <button>+</button>
+      </select>    
+      <br />
+
     </div>
+    <button (click)="addData()">+</button><button (click)="deleteData(x)">-</button>
+
+  </div>
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
