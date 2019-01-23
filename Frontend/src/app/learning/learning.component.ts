@@ -10,17 +10,16 @@ export class LearningComponent implements OnInit {
 
   constructor() { }
   data=data;
-
+  table=[0];
   result:boolean=false;
   learning:String;
   @Input() id:number;
-  selectedType1:string;
-  selectedType2:string;
+  selectedType={};
   selectedLearning:string;
   ngOnInit() {
   }
   Result(){
-    console.log("Fichier :" + data[this.id].name + "\nDonnées : " + this.selectedType1+" , "+this.selectedType2 +'\nMéthode d\'apprentissage : ' + this.selectedLearning )
+    console.log("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
     if(!this.result){
   
     this.result=true;
@@ -32,6 +31,13 @@ export class LearningComponent implements OnInit {
       this.result=false;
 
     }
+  }
+  addData(){
+    this.table.push(this.table.length)
+  }
+  deleteData(x){
+    this.table.pop()
+    delete this.selectedType[this.table.length];
   }
   Learn(){
     return "coming soon"
