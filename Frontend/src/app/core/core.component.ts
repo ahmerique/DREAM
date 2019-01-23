@@ -12,8 +12,7 @@ export class CoreComponent implements OnInit {
   addfile: boolean = false;
   addGraph: boolean = false;
   data=data;
-  selectedData=null;
-
+  id:number;
   selectedOption: number=0
   options = [
     { name: "option1", value: 1 },
@@ -31,6 +30,9 @@ export class CoreComponent implements OnInit {
 
     }
   }
+  SuppGraph(){
+    this.addGraph=false;
+  }
   Addgraph() {
     if (!this.addGraph) {
       this.addGraph = true;
@@ -40,12 +42,5 @@ export class CoreComponent implements OnInit {
 
     }
   }
-  test(arg) {
-    console.log(arg);
-  }
-  Selection(arg){
-    console.log(arg)
 
-    this.selectedData=arg
-  }
 }

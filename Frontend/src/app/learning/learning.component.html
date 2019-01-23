@@ -3,19 +3,17 @@
     <div>
     <h2>Apprentissage :</h2>
     <h3>Données : </h3>
-    <select>
-      <option value="knockout">Knockout</option>
-      <option value="temporelles">Temporelle</option>
-    </select><br />
-    <select>
-      <option value="Temporelle">Temporelle</option>
-      <option value="knockout">Knockout</option>
-    </select><br />
+    <select [(ngModel)]="selectedType1">
+        <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
+      </select><br />
+      <select [(ngModel)]="selectedType2">
+          <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
+        </select><br />
     <button>+</button>
     </div>
     <div>
       <h3>Méthode d'apprentissage</h3>
-      <select>
+      <select [(ngModel)]="selectedLearning">
           <option value="Reseau_neurone">Réseau de neurones</option>
           <option value="RandomForest">Random Forest</option>
         </select>
