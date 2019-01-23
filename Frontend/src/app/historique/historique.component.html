@@ -1,3 +1,13 @@
-<p>
-  historique works!
-</p>
+<h1>
+  Derniers modèles:
+</h1>
+
+<div class="clearfix">
+  <div class="right">
+    <div *ngFor="let oldModel of _historique">
+      {{oldModel}}<br />
+      <button title="delete data" (click)="delete(data)">Charger modèle</button><br />
+      <br />
+    </div>
+  </div>
+</div>
