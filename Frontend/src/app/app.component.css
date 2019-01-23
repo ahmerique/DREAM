@@ -5,3 +5,8 @@
 .quicksand {
   font-family: 'Quicksand', sans-serif;
 }
+
+.main {
+  margin-top: 35px;
+  /* Add a top margin to avoid content overlay */
+}
