@@ -5,13 +5,20 @@
   </div>
   <div class="right">
     <div>
-      <h2>Fichier :</h2>
+      <h2>Fichier : </h2>
       <select>
         <option value="insilicosize10">insilicosize10</option>
         <option value="insilicosize100">insilicosize100</option>
       </select>
-      <button type="button">Ajouter un nouveau fichier</button>
-      <button type="button">Ajouter un nouveau dossier</button>
+      <button type="button" (click)="Addfile()">Ajouter un nouveau fichier</button>
+      <button type="button" (click)="Addfile()">Ajouter un nouveau dossier</button>
+
+    </div>
+    <div *ngIf="addfile"> 
+      <fieldset>
+            <input type="text" id="input_text_file" class="inputText" readonly="readonly" />
+            <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
+    </fieldset>
     </div>
     <br />
     <div>
@@ -21,7 +28,18 @@
         <option value="knockout.tsv">knockout</option>
       </select>
       <div class="graph"><img src="assets/courbetest.png" ></div>
-      <button type="button">Ajouter une autre source de données</button>
+      <button type="button" (click)="Addgraph()">Ajouter une autre source de données</button>
+
+    </div>
+    <br />
+    <div *ngIf="addGraph">
+      <h3>Affichage : </h3>
+      <select [(ngModel)]="selectedDevice">
+        <option value="timeseries1">timeseries1</option>
+        <option value="knockout">knockout</option>
+      </select>
+      {{selectedDevice}}
+      <div class="graph"><img src="assets/courbetest.png" ></div>
 
     </div>
   </div>
