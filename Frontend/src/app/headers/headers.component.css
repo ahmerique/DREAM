@@ -1,7 +1,7 @@
 /* The navigation bar */
 .navbar {
   overflow: hidden;
-  background-color: #999;
+  background-color: #ddd;
   position: fixed;
   /* Set the navbar to fixed position */
   top: -16px;
@@ -25,11 +25,16 @@
 }
 
 .navbar a:hover {
-  background-color: rgb(182, 182, 182);
+  background-color: #999;
 }
 
 .navbar a:active {
   color: rgb(114, 114, 114);
+}
+
+.navbar a.selected {
+  background-color: rgb(80, 80, 80);
+  color: rgb(255, 255, 255)
 }
 
 img {

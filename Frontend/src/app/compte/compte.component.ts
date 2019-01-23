@@ -21,8 +21,7 @@ export class CompteComponent implements OnInit {
     if (term === 'password') {
       this._changePassword = true;
       this._changeInfo = false;
-    }
-    else if (term === 'info') {
+    } else if (term === 'info') {
       this._changePassword = false;
       this._changeInfo = true;
     }
