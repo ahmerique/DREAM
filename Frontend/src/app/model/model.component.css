@@ -2,10 +2,13 @@
     width:25%;
     float:left;
     background-color: #999;
+    font-family:'Montserrat';
 }
 .right{
     width:75%;
     float:right;
+    font-family:'Montserrat';
+
 }
 .clearfix::after {
     content: "";
