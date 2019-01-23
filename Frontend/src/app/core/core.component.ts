@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {data} from '../datatest';
 @Component({
   selector: 'app-core',
   templateUrl: './core.component.html',
@@ -11,6 +11,14 @@ export class CoreComponent implements OnInit {
   constructor() { }
   addfile: boolean = false;
   addGraph: boolean = false;
+  data=data;
+  selectedData=null;
+
+  selectedOption: number=0
+  options = [
+    { name: "option1", value: 1 },
+    { name: "option2", value: 2 }
+  ]
 
   ngOnInit() {
   }
@@ -34,5 +42,10 @@ export class CoreComponent implements OnInit {
   }
   test(arg) {
     console.log(arg);
+  }
+  Selection(arg){
+    console.log(arg)
+
+    this.selectedData=arg
   }
 }

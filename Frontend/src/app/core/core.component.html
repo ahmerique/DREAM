@@ -6,26 +6,23 @@
   <div class="right">
     <div>
       <h2>Fichier : </h2>
-      <select>
-        <option value="insilicosize10">insilicosize10</option>
-        <option value="insilicosize100">insilicosize100</option>
-      </select>
+      <select [(ngModel)]="selectedOption" name="first">
+        <option *ngFor="let data of data" value={{data.id}} >{{data.name}}</option>
+      </select>      
       <button type="button" (click)="Addfile()">Ajouter un nouveau fichier</button>
       <button type="button" (click)="Addfile()">Ajouter un nouveau dossier</button>
 
     </div>
     <div *ngIf="addfile"> 
       <fieldset>
-            <input type="text" id="input_text_file" class="inputText" readonly="readonly" />
             <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
     </fieldset>
     </div>
     <br />
     <div>
-      <h3>Affichage : </h3>
+      <h3>Affichage :</h3>
       <select>
-        <option value="timeseries1.tsv">timeseries1</option>
-        <option value="knockout.tsv">knockout</option>
+        <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
       </select>
       <div class="graph"><img src="assets/courbetest.png" ></div>
       <button type="button" (click)="Addgraph()">Ajouter une autre source de données</button>

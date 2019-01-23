@@ -9,15 +9,22 @@ export class LearningComponent implements OnInit {
 
   constructor() { }
   result:boolean=false;
+  learning:String;
   ngOnInit() {
   }
   Result(){
+
     if(!this.result){
     this.result=true;
+    this.learning=this.Learn();
+    console.log(this.learning)
     }
     else{
       this.result=false;
 
     }
+  }
+  Learn(){
+    return "coming soon"
   }
 }

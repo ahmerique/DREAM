@@ -18,5 +18,14 @@ img{
     width:200px;
 }
 button{
-    font-family:'Montserrat'
+    height: 25px;
+    font-family: 'Montserrat';
+    border-radius: 5px;
+    border:0 none;
+    background-color: #ccc;
+    cursor: pointer;
+
 }
+button:hover{
+        background-color: #aaa;
+    }
