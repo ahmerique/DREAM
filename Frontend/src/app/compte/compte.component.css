@@ -5,7 +5,7 @@ h1 {
 .outer {
   list-style-type: none;
   text-align: center;
-  margin-top: 10%;
+  margin-top: 4%;
 }
 
 .box {
@@ -17,4 +17,28 @@ h1 {
   font-size: 1em;
   text-align: center;
   border-radius: 2px;
+}
+
+.box:hover {
+  background-color: rgb(182, 182, 182);
+}
+
+.box:active {
+  color: rgb(114, 114, 114);
+}
+
+.modif {
+  list-style-type: none;
+  text-align: left;
+  margin-left: 40%;
+  margin-top: 4%;
+}
+
+.modif input {
+  position: absolute;
+  left: 52%
+}
+
+.modif .box {
+  margin-left: 0%;
 }
