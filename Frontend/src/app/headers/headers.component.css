@@ -1,43 +1,45 @@
-a {
-  color: rgb(0, 0, 0);
-  background-color: #999;
-  border-radius: 2px;
-  text-decoration: none;
-  font-size: 1em;
+/* The navigation bar */
+.navbar {
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  /* Set the navbar to fixed position */
+  top: 0;
+  /* Position the navbar at the top of the page */
+  width: 100%;
+  /* Full width */
 }
 
-img {
-  height: 1em;
+
+.navbar a {
   float: left;
-  margin-left: 1%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-size: 1em;
+  background-color: #999;
+  padding: 0.5em 1em;
+
+  margin-right: 1%;
+  border-radius: 2px;
 }
 
-a:hover {
+.navbar a:hover {
   background-color: rgb(182, 182, 182);
 }
 
-a:ACTIVE {
+.navbar a:active {
   color: rgb(114, 114, 114);
 }
 
-.compte {
-  width: 15%;
-  float: left;
+img {
+  height: 2em;
+  float: right;
+  margin-right: 1%;
+  margin-top: 0.1em;
 }
 
-.donnees {
-  width: 15%;
-  float: left;
-  margin-left: 1%;
-}
-
-.historique {
-  width: 15%;
-  float: left;
-  margin-left: 1%;
-}
-
-.deconnexion {
-  width: 15%;
+.navbar .right {
   float: right;
 }
