@@ -25,9 +25,12 @@ export class CoreComponent implements OnInit {
   ngOnInit() {
   }
   getData() {
-    this.dataService.getData().subscribe(data => this.dataString = data)
-    this.dataTab = this.dataString.split('\t')
-    console.log(this.dataTab)
+    this.dataService.getData().subscribe(data => {
+      this.dataString = data;
+      this.dataTab = this.dataString.split('\t');
+      console.log(this.dataTab);
+    });
+
 
   }
   getData2() {
