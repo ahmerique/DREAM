@@ -13,6 +13,7 @@ import { CompteComponent } from './compte/compte.component';
 import { DonneesComponent } from './donnees/donnees.component';
 import { HistoriqueComponent } from './historique/historique.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { HttpClientModule }    from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MainPageComponent } from './main-page/main-page.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

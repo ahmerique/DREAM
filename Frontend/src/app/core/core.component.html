@@ -9,8 +9,8 @@
       <select [(ngModel)]="selectedOption" name="first" (change)="SuppGraph()">
         <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
       </select>
-      <button type="button" (click)="Addfile()">Ajouter un nouveau fichier</button>
-      <button type="button" (click)="Addfile()">Ajouter un nouveau dossier</button>
+      <button type="button" (click)="getData()">Ajouter un nouveau fichier</button>
+      <button type="button" (click)="getData2()">Ajouter un nouveau dossier</button>
 
     </div>
     <div *ngIf="addfile">

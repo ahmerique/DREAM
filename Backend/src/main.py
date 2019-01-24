@@ -1,32 +1,54 @@
+from flask import Flask, render_template, request
 import psycopg2
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/')
+def result():
+    return ("hello world")
+
+@app.route('/test', methods=['GET'])
+def config():
+    hello=""
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+
+    cur = conn.cursor()
 
 
-conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    ##sql1 = """create table test3 (indentifiant varchar)"""
+    sql2="select * from test1"
+    #cur.execute(sql1)
+    cur.execute(sql2)
+    records = cur.fetchall()
+    for row in records[1:len(records)]:
+        hello+='\t'.join(row)
+    print(hello)
+    cur.close()
 
-cur = conn.cursor()
+    conn.close()
 
-print(conn)
-print(cur)
+    return (hello)
 
-##sql1 = """create table test3 (indentifiant varchar)"""
-sql2="select * from test1"
-#cur.execute(sql1)
-cur.execute(sql2)
-records = cur.fetchall()
-print("Total number of rows in python_developers is - ", cur.rowcount)
-print ("Printing each row's column values i.e.  developer record")
-for row in records:
-    print("G1 = ", row[0], )
-    print("G2 = ", row[1])
-    print("G3  = ", row[2])
-    print("G4  = ", row[3])
-    print("G5  = ", row[4])
-    print("G6  = ", row[5])
-    print("G7  = ", row[6])
-    print("G8  = ", row[7])
-    print("G9  = ", row[8])
+@app.route('/test2', methods=['GET'])
+def config2():
+    hello=""
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
 
-    print("G10  = ", row[9], "\n")
-cur.close()
+    cur = conn.cursor()
 
-conn.close()
+
+    ##sql1 = """create table test3 (indentifiant varchar)"""
+    sql2="select * from test2"
+    #cur.execute(sql1)
+    cur.execute(sql2)
+    records = cur.fetchall()
+    for row in records[1:len(records)]:
+        hello+='\t'.join(row)
+    print(hello)
+    cur.close()
+
+    conn.close()
+
+    return (hello)
