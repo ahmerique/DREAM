@@ -23,7 +23,7 @@ def config():
     cur.execute(sql2)
     records = cur.fetchall()
     for row in records[1:len(records)]:
-        hello+='\t'.join(row)
+        hello+='\t'.join(row)+'\t'
     print(hello)
     cur.close()
 
@@ -45,7 +45,8 @@ def config2():
     cur.execute(sql2)
     records = cur.fetchall()
     for row in records[1:len(records)]:
-        hello+='\t'.join(row)
+        hello+='\t'.join(row)+'\t'
+
     cur.close()
 
     conn.close()

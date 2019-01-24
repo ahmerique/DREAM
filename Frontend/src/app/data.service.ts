@@ -23,8 +23,7 @@ export class DataService {
   }
 
   getData2() {
-    this.http.get(this.dataUrl2, { responseType: 'text' }).toPromise().then(data => this.data = data);
-    console.log(this.data);
-    return (this.data);
+    return (this.http.get(this.dataUrl2, { responseType: 'text' }));
+
   }
 }

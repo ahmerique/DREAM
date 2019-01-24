@@ -34,11 +34,11 @@ export class CoreComponent implements OnInit {
 
   }
   getData2() {
-    this.dataString = this.dataService.getData2()
-    console.log(this.dataString)
-    this.dataTab = this.dataString.split('\t')
-    console.log(this.dataTab)
-
+    this.dataService.getData2().subscribe(data => {
+      this.dataString = data;
+      this.dataTab = this.dataString.split('\t');
+      console.log(this.dataTab);
+    });
   }
   Addfile() {
     if (!this.addfile) {
