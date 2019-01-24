@@ -13,15 +13,10 @@ import { AccountComponent } from './account/account.component';
 import { DataComponent } from './data/data.component';
 import { HistoryComponent } from './history/history.component';
 import { MainPageComponent } from './main-page/main-page.component';
-<<<<<<< HEAD
 import { HttpClientModule }    from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
-=======
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
->>>>>>> 41e7ba9d02fc228a868f3904057b7b2634338867
 
 @NgModule({
   declarations: [
