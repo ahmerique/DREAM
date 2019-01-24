@@ -1,5 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {data} from '../datatest';
+import { LearningService } from '../learning.service'
 
 @Component({
   selector: 'app-learning',
@@ -8,7 +9,7 @@ import {data} from '../datatest';
 })
 export class LearningComponent implements OnInit {
 
-  constructor() { }
+  constructor(private learningService: LearningService) { }
   data=data;
   table=[0];
   result:boolean=false;
@@ -21,7 +22,7 @@ export class LearningComponent implements OnInit {
   Result(){
     console.log("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
     if(!this.result){
-  
+    this.learningService.learn("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
     this.result=true;
     this.learning=this.Learn();
     console.log(this.learning)

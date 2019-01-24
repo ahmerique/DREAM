@@ -17,9 +17,7 @@ def config():
     cur = conn.cursor()
 
 
-    ##sql1 = """create table test3 (indentifiant varchar)"""
     sql2="select * from test1"
-    #cur.execute(sql1)
     cur.execute(sql2)
     records = cur.fetchall()
     for row in records[1:len(records)]:
@@ -39,9 +37,7 @@ def config2():
     cur = conn.cursor()
 
 
-    ##sql1 = """create table test3 (indentifiant varchar)"""
     sql2="select * from test2"
-    #cur.execute(sql1)
     cur.execute(sql2)
     records = cur.fetchall()
     for row in records[1:len(records)]:
@@ -53,3 +49,7 @@ def config2():
 
     print(hello)
     return (hello)
+
+@app.route('/learning', methods=['POST'])
+def learn():
+    print(request)
