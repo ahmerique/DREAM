@@ -1,0 +1,53 @@
+<div class='center'>
+
+  <h1>Mon compte</h1>
+
+  <div class='center-left'>
+    <p><em>Pseudo:</em> {{_pseudo}}</p>
+    <p><em>Mail:</em> {{_mail}}</p>
+  </div>
+  <br />
+  <button [ngClass]="_changeInfo ? 'selected' : ''" (click)="onClick('info')">Modifier informations</button>
+  <button [ngClass]="_changePassword ? 'selected' : ''" (click)="onClick('password')">Modifier mot de passe</button>
+
+  <br />
+  <button>Supprimer votre compte</button>
+
+
+  <div *ngIf="_changeInfo==true">
+
+    <div id="left block" class="center-left">
+      <p>Nouveau pseudo:</p>
+      <p>Nouveau mail:</p>
+      <p>Mot de passe:</p>
+      <button (click)="newInfo(newPseudo.value,newMail.value,password.value)">
+        Enregistrer
+      </button>
+    </div>
+
+    <div id="right block" class="center-left">
+      <p><input #newPseudo /></p>
+      <p><input #newMail /></p>
+      <p><input #password /></p>
+    </div>
+  </div>
+
+  <div *ngIf="_changePassword==true">
+
+    <div id="left block" class="center-left">
+      <p>Ancien mot de passe:</p>
+      <p>Nouveau mot de passe:</p>
+      <p>confirmer le mot de passe:</p>
+      <button (click)="newPassword(oldPassword.value,newPassword.value,confirmPassword.value)">
+        Enregistrer
+      </button>
+    </div>
+
+    <div id="right block" class="center-left">
+      <p><input #oldPassword type="password" /></p>
+      <p><input #newPassword type="password" /></p>
+      <p><Input #confirmPassword type="password" /></p>
+    </div>
+
+  </div>
+</div>

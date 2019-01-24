@@ -9,11 +9,14 @@ import { LearningComponent } from './learning/learning.component';
 import { PredictionComponent } from './prediction/prediction.component';
 import { InteractionGraphComponent } from './interaction-graph/interaction-graph.component';
 import { ModelComponent } from './model/model.component';
-import { CompteComponent } from './compte/compte.component';
-import { DonneesComponent } from './donnees/donnees.component';
-import { HistoriqueComponent } from './historique/historique.component';
+import { AccountComponent } from './account/account.component';
+import { DataComponent } from './data/data.component';
+import { HistoryComponent } from './history/history.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+
 
 @NgModule({
   declarations: [
@@ -24,10 +27,12 @@ import { HttpClientModule }    from '@angular/common/http';
     PredictionComponent,
     InteractionGraphComponent,
     ModelComponent,
-    CompteComponent,
-    DonneesComponent,
-    HistoriqueComponent,
-    MainPageComponent
+    AccountComponent,
+    DataComponent,
+    HistoryComponent,
+    MainPageComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
