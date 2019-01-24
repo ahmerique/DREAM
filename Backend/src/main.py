@@ -46,9 +46,9 @@ def config2():
     records = cur.fetchall()
     for row in records[1:len(records)]:
         hello+='\t'.join(row)
-    print(hello)
     cur.close()
 
     conn.close()
 
+    print(hello)
     return (hello)

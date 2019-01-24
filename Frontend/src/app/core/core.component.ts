@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { data } from '../datatest';
-import {DataService} from '../data.service'
+import { DataService } from '../data.service'
 @Component({
   selector: 'app-core',
   templateUrl: './core.component.html',
@@ -9,36 +9,33 @@ import {DataService} from '../data.service'
 export class CoreComponent implements OnInit {
   hauteur = 200;
   selectedDevice: String;
-  constructor(private dataService : DataService) { }
+  constructor(private dataService: DataService) { }
   addfile: boolean = false;
   addGraph: boolean = false;
   data = data;
-  dataTab=[]
+  dataTab = []
   id: number;
-  dataString:String=""
+  dataString: String = ""
   selectedOption: number = 0
   options = [
     { name: "option1", value: 1 },
-    { name: "option2", value: 2 } 
+    { name: "option2", value: 2 }
   ];
 
   ngOnInit() {
   }
-  getData(){
-    this.dataService.getData().subscribe(data => this.dataString=data)
-    if(this.dataString){
-      console.log(this.dataString)
-    this.dataTab=this.dataString.split('\t')
+  getData() {
+    this.dataService.getData().subscribe(data => this.dataString = data)
+    this.dataTab = this.dataString.split('\t')
     console.log(this.dataTab)
-    }
+
   }
-  getData2(){
-    this.dataString=this.dataService.getData2()
-    if(this.dataString){
-      console.log(this.dataString)
-    this.dataTab=this.dataString.split('\t')
+  getData2() {
+    this.dataString = this.dataService.getData2()
+    console.log(this.dataString)
+    this.dataTab = this.dataString.split('\t')
     console.log(this.dataTab)
-    }
+
   }
   Addfile() {
     if (!this.addfile) {
