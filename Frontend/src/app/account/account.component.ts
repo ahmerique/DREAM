@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-compte',
-  templateUrl: './compte.component.html',
-  styleUrls: ['./compte.component.css']
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.css']
 })
-export class CompteComponent implements OnInit {
+export class AccountComponent implements OnInit {
 
   _pseudo = 'Bioman';
   _mail = 'Bioman@coucou.io';

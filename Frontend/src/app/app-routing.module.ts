@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CompteComponent } from './compte/compte.component';
-import { HistoriqueComponent } from './historique/historique.component';
-import { DonneesComponent } from './donnees/donnees.component';
+import { AccountComponent } from './account/account.component';
+import { HistoryComponent } from './history/history.component';
+import { DataComponent } from './data/data.component';
 import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
-  { path: 'compte', component: CompteComponent },
-  { path: 'historique', component: HistoriqueComponent },
-  { path: 'donnees', component: DonneesComponent },
+  { path: 'account', component: AccountComponent },
+  { path: 'history', component: HistoryComponent },
+  { path: 'data', component: DataComponent },
   { path: 'mainPage', component: MainPageComponent },
   { path: '', redirectTo: '/mainPage', pathMatch: 'full' },
 ];
