@@ -1,0 +1,33 @@
+<h1>
+  Connexion:
+</h1>
+
+<div class="center">
+
+  <div id="left block" class="center-left">
+    <p>Pseudo:</p>
+    <p>Mot de passe:</p>
+    <button (click)="login(pseudo.value,password.value)">
+      Se connecter
+    </button>
+    <br /><br />
+    <p>
+      Pas encore de compte?
+      <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Inscris-toi!</a>
+    </p>
+    <p class='text_interaction' (click)='forgot_password=true'>J'ai oublié mon mot de passe ou mon pseudo.</p>
+  </div>
+
+  <div id="right block" class="center-left">
+    <p><input #pseudo /></p>
+    <p><input #password type="password" /></p>
+  </div>
+
+  <div id='forgotpassword' *ngIf='forgot_password===true'>
+    <p>Mail:
+      <input #mail />
+      <button (click)="forgotPassword(mail.value)">Envoyer</button>
+    </p>
+  </div>
+
+</div>

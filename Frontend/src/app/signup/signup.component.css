@@ -1,5 +1,4 @@
 h1 {
-  list-style-type: none;
   text-align: center;
 }
 
@@ -8,8 +7,10 @@ h1 {
 }
 
 .center .center-left {
+  vertical-align: top;
   display: inline-block;
   text-align: left;
+  margin: 1%;
 }
 
 button {
@@ -20,6 +21,7 @@ button {
   cursor: hand;
   border-radius: 2px;
   padding: 5px 10px;
+  margin: 2%;
 }
 
 button:hover {

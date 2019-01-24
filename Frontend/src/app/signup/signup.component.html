@@ -1,0 +1,22 @@
+<h1>
+  Inscription:
+</h1>
+
+<div class="center">
+  <div class="center-left">
+    <p>Pseudo:</p>
+    <p>Mail:</p>
+    <p>Mot de passe:</p>
+    <p>Confirmer votre mot de passe:</p>
+  </div>
+  <div class="center-left">
+    <p><input #pseudo /></p>
+    <p><input #mail /></p>
+    <p><input #password type="password" /></p>
+    <p><input #confirmPassword type="password" /></p>
+  </div><br />
+  <button (click)="signup(pseudo.value,mail.value,password.value,confirmPassword.value)">
+    S'enregistrer
+  </button>
+
+</div>

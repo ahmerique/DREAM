@@ -1,17 +1,18 @@
 <h1> Données importées:</h1>
 
-<div style="text-align: center;">
-  <div style="display: inline-block; text-align: left;">
+<div class='center'>
+
+  <div class="center-left">
     <span *ngFor="let data of _currentUserData">
-      <button class='delete' *ngIf="_delete === true" title="delete data" (click)="delete(data)">x</button>
-      {{data}}
-      <br />
+      <p>
+        <button class='delete' *ngIf="_delete === true" title="delete data" (click)="delete(data)">x</button>
+        {{data}}
+      </p>
     </span>
   </div>
-</div>
-<br />
-<br />
-<div class='outer'>
+  <br />
+  <br />
+
   <button [ngClass]="_import ? 'selected' : ''" (click)="importData()">Importer des données</button>
   <button [ngClass]="_delete ? 'selected' : ''" (click)="allowDelete()">Supprimer des données</button>
   <div *ngIf="_import===true">

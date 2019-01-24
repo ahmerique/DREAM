@@ -1,5 +1,4 @@
 h1 {
-  list-style-type: none;
   text-align: center;
 }
 
@@ -9,7 +8,9 @@ h1 {
 
 .center .center-left {
   display: inline-block;
+  vertical-align: top;
   text-align: left;
+  margin: 1%;
 }
 
 button {
@@ -28,4 +29,15 @@ button:hover {
 
 button:active {
   color: rgb(114, 114, 114);
+}
+
+.text_interaction {
+  cursor: pointer;
+  cursor: hand;
+  font-style: italic;
+  text-decoration: none;
+}
+
+p button {
+  margin-left: 2%;
 }

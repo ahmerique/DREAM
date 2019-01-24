@@ -1,12 +1,11 @@
 <h1>
   Derniers modèles:
 </h1>
-
-
 <div class="center">
+
   <div class="center-left">
     <div *ngFor=" let oldModel of _history">
-      {{oldModel}}<br />
+      <p>{{oldModel}}</p>
       <button title="load model" (click)="loadModel(oldModel)">Charger modèle</button><br />
       <br />
     </div>

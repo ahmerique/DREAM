@@ -13,6 +13,8 @@ import { AccountComponent } from './account/account.component';
 import { DataComponent } from './data/data.component';
 import { HistoryComponent } from './history/history.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { MainPageComponent } from './main-page/main-page.component';
     AccountComponent,
     DataComponent,
     HistoryComponent,
-    MainPageComponent
+    MainPageComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
