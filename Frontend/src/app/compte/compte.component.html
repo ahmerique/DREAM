@@ -1,15 +1,14 @@
-<br />
 <div class='outer'>
 
   <h1>Mon compte</h1>
   <p><em>Pseudo:</em> {{_pseudo}}</p>
   <p><em>Mail:</em> {{_mail}}</p>
 
-  <div class='box' (click)="onClick('info')">Modifier informations</div>
-  <div class='box' (click)="onClick('password')">Modifier mot de passe</div>
+  <button [ngClass]="_changeInfo ? 'selected' : ''" (click)="onClick('info')">Modifier informations</button>
+  <button [ngClass]="_changePassword ? 'selected' : ''" (click)="onClick('password')">Modifier mot de passe</button>
 
   <br />
-  <div class='box'>Supprimer votre compte</div>
+  <button>Supprimer votre compte</button>
 
 </div>
 
@@ -20,9 +19,9 @@
   <p>Nouveau mail:
     <input #newMail />
   </p>
-  <div class='box' (click)="newInfo(newPseudo.value,newMail.value)">
+  <button (click)="newInfo(newPseudo.value,newMail.value)">
     Enregistrer
-  </div>
+  </button>
 </div>
 
 <div *ngIf="_changePassword==true" class="modif">
@@ -35,7 +34,7 @@
   <p>Confirmer le mot de passe:
     <input #confirmPassword type="password" />
   </p>
-  <div class='box' (click)="newPassword(oldPassword.value,newPassword.value,confirmPassword.value)">
+  <button (click)="newPassword(oldPassword.value,newPassword.value,confirmPassword.value)">
     Enregistrer
-  </div>
+  </button>
 </div>

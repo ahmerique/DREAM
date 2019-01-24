@@ -5,38 +5,46 @@ h1 {
 .outer {
   list-style-type: none;
   text-align: center;
-  margin-top: 4%;
 }
 
-.box {
+button {
   display: inline-block;
+  border: none;
   padding: 1%;
   margin: 1%;
-  background-color: #999;
+  background-color: #ddd;
   text-decoration: none;
   font-size: 1em;
   text-align: center;
   border-radius: 2px;
+  cursor: pointer;
+  cursor: hand;
 }
 
-.box:hover {
-  background-color: rgb(182, 182, 182);
+button:hover {
+  background-color: #999;
 }
 
-.box:active {
+button:active {
   color: rgb(114, 114, 114);
 }
+
+button.selected {
+  background-color: rgb(80, 80, 80);
+  color: rgb(255, 255, 255)
+}
+
 
 .modif {
   list-style-type: none;
   text-align: left;
-  margin-left: 40%;
+  margin-left: 38%;
   margin-top: 4%;
 }
 
 .modif input {
   position: absolute;
-  left: 52%
+  left: 53%
 }
 
 .modif .box {

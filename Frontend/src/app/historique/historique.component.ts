@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoriqueComponent implements OnInit {
 
+  _historique = ['modèle 1', 'modèle 2'];
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  loadModel(oldModel): void {
+
   }
 
 }

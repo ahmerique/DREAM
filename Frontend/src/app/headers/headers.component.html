@@ -1,10 +1,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<p class=navbar>
-  <a routerLink="/mainPage"><i class="fa fa-fw fa-home"></i> Accueil</a>
-  <a routerLink="/compte">Mon compte</a>
-  <a routerLink="/donnees">Mes données</a>
-  <a routerLink="/historique">Mon historique</a>
+<div class="Website-title">
+  COUCOU LES LOULOUS
+</div>
+
+<div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
+  <a routerLink="/mainPage" routerLinkActive='selected'>
+    <i class="fa fa-fw fa-home"></i> Accueil
+  </a>
+  <a routerLink="/compte" routerLinkActive='selected'>Mon compte</a>
+  <a routerLink="/donnees" routerLinkActive='selected'>Mes données</a>
+  <a routerLink="/historique" routerLinkActive='selected'>Mon historique</a>
   <a class=right routerLink="/deconnexion">Déconnexion</a>
   <img src="assets/img/uk_flag.png" routerLink="/en">
-</p>
+</div>

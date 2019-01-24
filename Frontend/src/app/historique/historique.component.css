@@ -1,0 +1,28 @@
+h1 {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.center .center-left {
+  display: inline-block;
+  text-align: left;
+}
+
+button {
+  border: none;
+  background-color: #ddd;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+button:hover {
+  background-color: #999;
+}
+
+button:active {
+  color: rgb(114, 114, 114);
+}
