@@ -11,13 +11,20 @@ import { Component } from '@angular/core';
 })
 export class LearningService {
   private dataUrl = ' http://localhost:5000/learning';
+  private dataUrl2 = ' http://localhost:5000/prediction';
 
   data: any;
 
   constructor(    private http: HttpClient) { }
 
   learn(json) {
+    // appelle la fonction learning du back pour lancer l'algorithme de traitement des données
     return(this.http.post(this.dataUrl,json, { responseType: 'text' }));
   }
 
+  prediction(json){
+    // appelle la fonction prediction du back pour renvoyer des données en cas de perturabtion du modele
+    return(this.http.post(this.dataUrl2,json, { responseType: 'text' }));
+
+  }
 }

@@ -18,10 +18,13 @@ export class DataService {
 
   constructor(    private http: HttpClient) { }
   getData() {
+    // fonction test pour renvoyer des données depuis la base de données
     return (this.http.get(this.dataUrl, { responseType: 'text' }));
   }
 
   getData2() {
+    // fonction test pour renvoyer des données depuis la base de données
+
     return (this.http.get(this.dataUrl2, { responseType: 'text' }));
 
   }
