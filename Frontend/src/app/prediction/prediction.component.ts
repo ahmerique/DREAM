@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
-import {LearningService} from '../learning.service'
+import { LearningService } from '../learning.service'
 @Component({
   selector: 'app-prediction',
   templateUrl: './prediction.component.html',
@@ -9,16 +9,16 @@ import {LearningService} from '../learning.service'
 })
 export class PredictionComponent implements OnInit {
   Gname = [{ name: "G1", value: 0.42 }, { name: "G2", value: 0.42 }, { name: "G3", value: 0.42 }, { name: "G4", value: 0.42 }, { name: "G5", value: 0.42 }, { name: "G6", value: 0.42 }, { name: "G7", value: 0.42 }, { name: "G8", value: 0.42 }, { name: "G9", value: 0.42 }, { name: "G10", value: 0.42 }]
-  constructor(private dataService: DataService, private learningService : LearningService) { }
+  constructor(private dataService: DataService, private learningService: LearningService) { }
   dataTab = []
-  @Input() dataSend:String;
+  @Input() dataSend: String;
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String
 
   Show() {
-    let perturbation={
-      pert1 : this.selectedOption1,
+    let perturbation = {
+      pert1: this.selectedOption1,
       pert2: this.selectedOption2
     }
     console.log(perturbation)

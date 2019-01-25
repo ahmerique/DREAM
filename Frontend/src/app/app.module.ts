@@ -13,10 +13,9 @@ import { AccountComponent } from './account/account.component';
 import { DataComponent } from './data/data.component';
 import { HistoryComponent } from './history/history.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { GraphComponent } from './graph/graph.component';
 
 
 @NgModule({
@@ -33,8 +32,7 @@ import { GraphComponent } from './graph/graph.component';
     HistoryComponent,
     MainPageComponent,
     LoginComponent,
-    SignupComponent,
-    GraphComponent
+    SignupComponent
   ],
   imports: [
     BrowserModule,

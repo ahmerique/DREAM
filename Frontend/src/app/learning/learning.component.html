@@ -1,24 +1,24 @@
 <div class="clearfix">
   <div class="left">
     <div>
-    <h2>Apprentissage :</h2>
-    <h3>Données : </h3>
-    <div *ngFor="let x of table">
-    <select [(ngModel)]="selectedType[x]">
-        <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
-      </select>    
-      <br />
+      <h2>Apprentissage :</h2>
+      <h3>Données : </h3>
+      <div *ngFor="let x of table">
+        <select [(ngModel)]="selectedType[x]">
+          <option *ngFor="let type of data[id].type" value={{type}}>{{type}}</option>
+        </select>
+        <br />
+
+      </div>
+      <button (click)="addData()">+</button><button (click)="deleteData(x)">-</button>
 
     </div>
-    <button (click)="addData()">+</button><button (click)="deleteData(x)">-</button>
-
-  </div>
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
-          <option value="Reseau_neurone">Réseau de neurones</option>
-          <option value="RandomForest">Random Forest</option>
-        </select>
+        <option value="Reseau_neurone">Réseau de neurones</option>
+        <option value="RandomForest">Random Forest</option>
+      </select>
     </div>
     <button (click)="Result()">Lancer l'apprentissage</button>
   </div>
@@ -29,6 +29,6 @@
   </div>
 </div>
 <div *ngIf="result">
-<app-prediction [dataSend]=dataString></app-prediction>
-<app-interaction-graph></app-interaction-graph>
+  <app-prediction [dataSend]='dataString'></app-prediction>
+  <app-interaction-graph></app-interaction-graph>
 </div>

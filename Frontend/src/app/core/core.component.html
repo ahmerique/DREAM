@@ -9,11 +9,11 @@
 
     <div>
       <h2>Fichier : </h2>
-      <select [(ngModel)]="selectedOption" name="first" (change)="SuppGraph()">
+      <select [(ngModel)]="selectedOption" name="first" (change)="changeOption()">
         <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
       </select>
-      <button type="button" (click)="getData()">Ajouter un nouveau fichier</button>
-      <button type="button" (click)="getData2()">Ajouter un nouveau dossier</button>
+      <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
+      <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>
     </div>
 
     <div *ngIf="addfile">
@@ -26,27 +26,23 @@
 
     <div>
       <h3>Affichage :</h3>
-      <select [(ngModel)]="selectedGraphType">
+      <select [(ngModel)]="selectedGraphType" (change)="changeGraphType()">
         <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
       </select>
-      <app-graph [selectedGraphType]="selectedGraphType" [selectedOption]="selectedOption"></app-graph>
-      <button type="button" (click)="Addgraph()">Ajouter une autre source de données</button>
+      <canvas id="myChart"></canvas>
+      <button type="button" (click)="addGraph()">Ajouter une autre source de données</button>
     </div>
 
     <br />
 
-    <div *ngIf="addGraph">
+    <div *ngIf="addgraph">
       <h3>Affichage : </h3>
       <select #selectedGraphType2>
         <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
       </select>
-      <app-graph [selectedGraphType]="selectedGraphType2" [selectedOption]="selectedOption"></app-graph>
-      <div ng-init="callBack()"></div>
-
     </div>
 
   </div>
-
 </div>
 
 <app-learning [id]=selectedOption></app-learning>
