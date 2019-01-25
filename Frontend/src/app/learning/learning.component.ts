@@ -1,5 +1,6 @@
-import { Component, OnInit,Input } from '@angular/core';
-import {data} from '../datatest';
+import { Component, OnInit, Input } from '@angular/core';
+import { data } from '../datatest';
+import { LearningService } from '../learning.service'
 
 @Component({
   selector: 'app-learning',
@@ -8,38 +9,52 @@ import {data} from '../datatest';
 })
 export class LearningComponent implements OnInit {
 
-  constructor() { }
-  data=data;
-  table=[0];
-  result:boolean=false;
-  learning:String;
-  @Input() id:number;
-  selectedType={};
-  selectedLearning:string;
+  constructor(private learningService: LearningService) { }
+  data = data;
+  table = [0];
+  result: boolean = false;
+  learning: String;
+  @Input() id: number;
+  selectedType = {};
+  selectedLearning: string;
+  dataString: String;
+  dataSend: String;
+  dataTab: any;
   ngOnInit() {
   }
-  Result(){
-    console.log("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
-    if(!this.result){
-  
-    this.result=true;
-    this.learning=this.Learn();
-    console.log(this.learning)
 
+  Result() {
+    console.log(this.id)
+    let dataSent = {
+      name: data[this.id].name,
+      data: JSON.stringify(this.selectedType),
+      learning: this.selectedLearning
     }
-    else{
-      this.result=false;
+    this.learningService.learn(dataSent).subscribe(data => {
+      this.dataString = data;
 
-    }
+      console.log(this.dataString);
+      if (!this.result) {
+        this.result = true;
+        this.learning = this.Learn();
+        console.log(this.learning)
+
+      }
+      else {
+        this.result = false;
+
+      }
+    });
+
   }
-  addData(){
+  addData() {
     this.table.push(this.table.length)
   }
-  deleteData(x){
+  deleteData(x) {
     this.table.pop()
     delete this.selectedType[this.table.length];
   }
-  Learn(){
+  Learn() {
     return "coming soon"
   }
 }

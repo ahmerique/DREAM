@@ -21,7 +21,7 @@ export class CoreComponent implements OnInit {
   id: number;
   dataString: String = '';
   selectedOption = 0;
-  selectedGraph = data[this.selectedOption].type[0];
+  selectedGraphType = 'temporelle';
 
   options = [
     { name: 'option1', value: 1 },
@@ -40,10 +40,11 @@ export class CoreComponent implements OnInit {
   }
 
   getData2() {
-    this.dataString = this.dataService.getData2();
-    console.log(this.dataString);
-    this.dataTab = this.dataString.split('\t');
-    console.log(this.dataTab);
+    this.dataService.getData2().subscribe(data => {
+      this.dataString = data;
+      this.dataTab = this.dataString.split('\t');
+      console.log(this.dataTab);
+    });
   }
 
   Addfile() {

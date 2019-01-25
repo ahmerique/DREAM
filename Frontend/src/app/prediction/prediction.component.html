@@ -17,11 +17,11 @@
     <h2>Prédiction</h2>
     <p>Etats stables avec perturbation :</p>
     <p>Perturbation :</p>
-    <select >
+    <select [(ngModel)]="selectedOption1">
       <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
       <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
     </select><br />
-    <select>
+    <select [(ngModel)]="selectedOption2">
         <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
         <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
     </select><br />
