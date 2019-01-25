@@ -50,6 +50,8 @@ def config2():
     print(hello)
     return (hello)
 
-@app.route('/learning', methods=['POST'])
+@app.route('/learning', methods=['POST','GET'])
 def learn():
-    print(request)
+    x=request.get_json(force=True)
+    print(x)
+    return (str(x))

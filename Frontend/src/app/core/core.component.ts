@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { data } from '../datatest';
 import { DataService } from '../data.service'
+
 @Component({
   selector: 'app-core',
   templateUrl: './core.component.html',

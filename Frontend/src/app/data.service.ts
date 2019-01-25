@@ -16,8 +16,7 @@ export class DataService {
 
   data: any;
 
-  constructor(
-    private http: HttpClient) { }
+  constructor(    private http: HttpClient) { }
   getData() {
     return (this.http.get(this.dataUrl, { responseType: 'text' }));
   }

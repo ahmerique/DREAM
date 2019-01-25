@@ -17,12 +17,23 @@ export class LearningComponent implements OnInit {
   @Input() id:number;
   selectedType={};
   selectedLearning:string;
+  dataString:any;
+  dataTab:any;
   ngOnInit() {
   }
+
   Result(){
-    console.log("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
+    let dataSent={
+      name : data[this.id].name,
+      data : JSON.stringify(this.selectedType),
+      learning : this.selectedLearning
+    }
+    this.learningService.learn(dataSent).subscribe(data => {
+      this.dataString = data;
+
+      console.log(this.dataString);
+    });
     if(!this.result){
-    this.learningService.learn("Fichier :" + data[this.id].name + "\nDonnées : " +JSON.stringify(this.selectedType)+'\nMéthode d\'apprentissage : ' + this.selectedLearning )
     this.result=true;
     this.learning=this.Learn();
     console.log(this.learning)
