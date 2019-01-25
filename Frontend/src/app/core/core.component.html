@@ -1,9 +1,12 @@
 <div class="clearfix">
+
   <div class="left">
     <h2>Explication</h2>
     <p>texte explicant quelles sont les données et ce que l'on souhaite en faire</p>
   </div>
+
   <div class="right">
+
     <div>
       <h2>Fichier : </h2>
       <select [(ngModel)]="selectedOption" name="first" (change)="SuppGraph()">
@@ -11,32 +14,39 @@
       </select>
       <button type="button" (click)="getData()">Ajouter un nouveau fichier</button>
       <button type="button" (click)="getData2()">Ajouter un nouveau dossier</button>
-
     </div>
+
     <div *ngIf="addfile">
       <fieldset>
         <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
       </fieldset>
     </div>
+
     <br />
+
     <div>
       <h3>Affichage :</h3>
-      <select>
+      <select [(ngModel)]="selectedGraphType">
         <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
       </select>
-      <div class="graph"><img src="assets/courbetest.png"></div>
+      <app-graph [selectedGraphType]="selectedGraphType" [selectedOption]="selectedOption"></app-graph>
       <button type="button" (click)="Addgraph()">Ajouter une autre source de données</button>
-
     </div>
+
     <br />
+
     <div *ngIf="addGraph">
       <h3>Affichage : </h3>
-      <select>
-          <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
-        </select>
-      <div class="graph"><img src="assets/courbetest.png"></div>
+      <select #selectedGraphType2>
+        <option *ngFor="let type of data[selectedOption].type">{{type}}</option>
+      </select>
+      <app-graph [selectedGraphType]="selectedGraphType2" [selectedOption]="selectedOption"></app-graph>
+      <div ng-init="callBack()"></div>
 
     </div>
+
   </div>
+
 </div>
+
 <app-learning [id]=selectedOption></app-learning>
