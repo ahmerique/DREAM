@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'app-prediction',
@@ -10,7 +11,7 @@ export class PredictionComponent implements OnInit {
   Gname = [{ name: "G1", value: 0.42 }, { name: "G2", value: 0.42 }, { name: "G3", value: 0.42 }, { name: "G4", value: 0.42 }, { name: "G5", value: 0.42 }, { name: "G6", value: 0.42 }, { name: "G7", value: 0.42 }, { name: "G8", value: 0.42 }, { name: "G9", value: 0.42 }, { name: "G10", value: 0.42 }]
   constructor(private dataService: DataService) { }
   dataTab = []
-
+  @Input() dataSend:String;
   show: boolean = false;
   Show() {
     if (!this.show) {
@@ -23,6 +24,7 @@ export class PredictionComponent implements OnInit {
   }
 
   getData() {
+    console.log(this.dataSend)
     this.dataService.getData().subscribe(data => {
       this.dataTab = data.split('\t');
       for (let i = 0; i < 10; i++) {
@@ -33,6 +35,7 @@ export class PredictionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getData();
   }
 
 }
