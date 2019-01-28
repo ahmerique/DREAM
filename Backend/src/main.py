@@ -10,7 +10,7 @@ CORS(app)
 def result():
     return ("le back est plutôt bon")
 
-@app.route('/test', methods=['GET'])
+@app.route('/test2', methods=['GET'])
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test1
 
 def config():
@@ -32,7 +32,7 @@ def config():
 
     return (hello)
 
-@app.route('/test2', methods=['GET'])
+@app.route('/test', methods=['GET'])
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test2
 def config2():
     hello=""
@@ -41,17 +41,29 @@ def config2():
     cur = conn.cursor()
 
 
-    sql2="select * from test2"
+    sql2="select datas from tsv where nom='wildtype'"
     cur.execute(sql2)
     records = cur.fetchall()
-    for row in records[1:len(records)]:
-        hello+='\t'.join(row)+'\t'
-
+    datas=str(records[0])
+    newdata=''
+    for j in range(2,len(datas)-2):
+        if datas[j]=="\\":
+            newdata+=' '
+        elif datas[j]=="n":
+            newdata+='t'
+        else:
+            newdata+=datas[j]
+    print(newdata)
+    records=newdata.split(" t")
+    print(records)
+    for row in records:
+        print(row)
+        hello+=' '+row
+    print(hello)
     cur.close()
 
     conn.close()
 
-    print(hello)
     return (hello)
 
 @app.route('/learning', methods=['POST'])
@@ -62,6 +74,27 @@ def learn():
     print(x)
     return (str(x))
 
+
+@app.route('/addFile', methods=['POST'])
+
+def upload():
+    if request.method == 'POST':
+            print("ok post")
+            x=request.files(force=True)
+            print(x)
+            # check if the post request has the file part
+            # if user does not select file, browser also
+            # submit a empty part without filename
+            return '''
+            <!doctype html>
+            <title>Upload new File</title>
+            <h1>Upload new File</h1>
+            <form method=post enctype=multipart/form-data>
+            <p><input type=file name=file>
+                <input type=submit value=Upload>
+            </form>
+            '''
+
 @app.route('/prediction', methods=['POST'])
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
@@ -69,14 +102,31 @@ def predict():
     x=request.get_json(force=True)
     hello=""
     conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+
     cur = conn.cursor()
-    sql2="select * from test2"
+
+
+    sql2="select datas from tsv where nom='knockdowns'"
     cur.execute(sql2)
     records = cur.fetchall()
-    for row in records[1:len(records)]:
-        hello+='\t'.join(row)+'\t'
+    datas=str(records[0])
+    newdata=''
+    for j in range(2,len(datas)-2):
+        if datas[j]=="\\":
+            newdata+=' '
+        elif datas[j]=="n":
+            newdata+='t'
+        else:
+            newdata+=datas[j]
+    print(newdata)
+    records=newdata.split(" t")
+    print(records)
+    for row in records:
+        print(row)
+        hello+=' '+row
+    print(hello)
     cur.close()
+
     conn.close()
-    
-    print(x)
+
     return (hello)

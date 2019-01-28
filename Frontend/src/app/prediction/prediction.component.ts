@@ -26,10 +26,11 @@ export class PredictionComponent implements OnInit {
     console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
-      this.dataTab = data.split('\t');
+      console.log(data)
+      this.dataTab = data.split(' ');
       this.perturbation=[]
-      for (let i = 0; i < this.lengthData; i++) {
-        this.perturbation.push({name:'G'+(i+1).toString(), value: (parseFloat(this.dataTab[i]).toFixed(2))})
+      for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {
+        this.perturbation.push({name:'G'+(i-this.lengthData).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
     this.show = true
@@ -37,10 +38,11 @@ export class PredictionComponent implements OnInit {
 
   getData() {
     this.dataService.getData().subscribe(data => {
-      this.dataTab = data.split('\t');
+      console.log(data)
+      this.dataTab = data.split(' ');
       this.wildtype=[]
-      for (let i = 0; i < this.lengthData; i++) {
-        this.wildtype.push({name:'G'+(i+1).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {
+        this.wildtype.push({name:'G'+(i-this.lengthData).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
   }
