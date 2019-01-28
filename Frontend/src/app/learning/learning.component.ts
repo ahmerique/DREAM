@@ -20,6 +20,7 @@ export class LearningComponent implements OnInit {
   dataString: String;
   dataSend: String;
   dataTab: any;
+  lengthNumber: number = 10;//nombre de données dans la table utilisée
   ngOnInit() {
   }
 
@@ -34,16 +35,10 @@ export class LearningComponent implements OnInit {
       this.dataString = data;
 
       console.log(this.dataString);
-      if (!this.result) {
-        this.result = true;
-        this.learning = this.Learn();
-        console.log(this.learning)
+      this.result = true;
+      this.learning = this.Learn();
+      console.log(this.learning);
 
-      }
-      else {
-        this.result = false;
-
-      }
     });
 
   }

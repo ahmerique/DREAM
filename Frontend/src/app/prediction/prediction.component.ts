@@ -8,10 +8,12 @@ import { LearningService } from '../learning.service'
   styleUrls: ['./prediction.component.css']
 })
 export class PredictionComponent implements OnInit {
-  Gname = [{ name: "G1", value: 0.42 }, { name: "G2", value: 0.42 }, { name: "G3", value: 0.42 }, { name: "G4", value: 0.42 }, { name: "G5", value: 0.42 }, { name: "G6", value: 0.42 }, { name: "G7", value: 0.42 }, { name: "G8", value: 0.42 }, { name: "G9", value: 0.42 }, { name: "G10", value: 0.42 }]
+  perturbation = []
+  wildtype=[]
   constructor(private dataService: DataService, private learningService: LearningService) { }
   dataTab = []
   @Input() dataSend: String;
+  @Input() lengthData: number;
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String
@@ -25,32 +27,29 @@ export class PredictionComponent implements OnInit {
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
       this.dataTab = data.split('\t');
-      for (let i = 0; i < 10; i++) {
-        this.Gname[i]['value'] = this.dataTab[i];
+      this.perturbation=[]
+      for (let i = 0; i < this.lengthData; i++) {
+        this.perturbation.push({name:'G'+(i+1).toString(), value: (parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
-    if (!this.show) {
-      this.show = true;
-    }
-    else {
-      this.show = false;
-
-    }
+    this.show = true
   }
 
   getData() {
-    console.log(this.dataSend)
     this.dataService.getData().subscribe(data => {
       this.dataTab = data.split('\t');
-      for (let i = 0; i < 10; i++) {
-        this.Gname[i]['value'] = this.dataTab[i];
+      this.wildtype=[]
+      for (let i = 0; i < this.lengthData; i++) {
+        this.wildtype.push({name:'G'+(i+1).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
-    console.log(this.dataTab);
   }
 
   ngOnInit() {
     this.getData();
+    for (let i = 0; i < this.lengthData; i++) {
+      this.perturbation.push({name:'G'+(i+1).toString()})
+    }
   }
 
 }

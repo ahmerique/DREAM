@@ -3,12 +3,12 @@
 <div class="clearfix">
   <div class="left">
     <h2>Explication de la prédiction</h2>
+    {{lenghtData}}
     <p>Explication de la raison de générer une perturbation</p>
   </div>
   <div class="right">
     <h2>Rappel sur les états stables</h2>
-    <button (click)="getData()">actualiser</button>
-    <table *ngFor="let G of Gname">
+    <table *ngFor="let G of wildtype">
       <tr>
         <th> {{G.name}}</th>
       </tr>
@@ -18,16 +18,16 @@
     <p>Etats stables avec perturbation :</p>
     <p>Perturbation :</p>
     <select [(ngModel)]="selectedOption1">
-      <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
-      <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
+      <option *ngFor="let G of perturbation" value="knockout {{G.name}}">Knockout {{G.name}}</option>
+      <option *ngFor="let G of perturbation" value="knockdown {{G.name}}">Knockdown {{G.name}}</option>
     </select><br />
     <select [(ngModel)]="selectedOption2">
-        <option *ngFor="let G of Gname" value="knockout">Knockout {{G.name}}</option>
-        <option *ngFor="let G of Gname" value="knockdown">Knockdown {{G.name}}</option>
+        <option *ngFor="let G of perturbation" value="knockout {{G.name}}">Knockout {{G.name}}</option>
+        <option *ngFor="let G of perturbation" value="knockdown {{G.name}}">Knockdown {{G.name}}</option>
     </select><br />
     <button (click)="Show()">Prédire</button>
     <div *ngIf="show">
-        <table *ngFor="let G of Gname">
+        <table *ngFor="let G of perturbation">
             <tr>
               <th> {{G.name}}</th>
             </tr>
