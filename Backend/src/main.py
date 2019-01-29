@@ -32,9 +32,37 @@ def config():
 
     return (hello)
 
-@app.route('/test', methods=['GET'])
-##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test2
-def config2():
+@app.route('/data', methods=['GET'])
+def getData():
+    data=[]
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    cur = conn.cursor() 
+    sql2="select id_dossier,nom from dossier"
+    cur.execute(sql2)
+    records = cur.fetchall()
+    for row in records:
+        row=(str(row).split(','))
+        id=int(row[0][1:])
+        name=row[1][2:-2]
+        data.append({"id":id,"name":name})
+    for i in range(len(data)):
+        sql="select tsv.nom from tsv, dossier, contient where dossier.id_dossier="+str(i+1) +"and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv"
+        cur.execute(sql)
+        records = cur.fetchall()
+        if len(records)!=0:
+            types=[]
+            for j in range(len(records)):
+                type_name=str(records[j])[2:-3]
+                types.append(type_name)
+            data[i]["type"]=types
+        else:
+            data[i]["type"]=['test' + str(i)]
+    print(str(data))
+    return(str(data))
+
+@app.route('/wildtype', methods=['GET'])
+##Fonction de recuperation des etats stables
+def wildtype():
     hello=""
     conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
 

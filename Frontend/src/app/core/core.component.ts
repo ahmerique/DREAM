@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { data } from '../datatest';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-core',
@@ -17,18 +17,18 @@ export class CoreComponent implements OnInit {
   selectedDevice: String;
   addfile = false;
   addgraph = false;
-  data = data;
+  data = [{id:0,name:'', type:[]}];
   dataTab = [];
   id: number;
-  dataString: String = '';
-  selectedOption = 0;
+  dataString: string = '';
+  selectedOption = 1;
   selectedGraphType = 'temporelle';
   chart: Chart;
 
   data1 = [{ label: 'G1', data: [1, 2, 3] }, { label: 'G2', data: [1, 3, 2] }, { label: 'G3', data: [3, 2, 1] }];
   data2 = [{ label: 'G1', data: [5, 3, 1] }, { label: 'G2', data: [1, 2, 3] }, { label: 'G3', data: [1, 3, 2] }];
   data3 = [{ label: 'G2', data: [5, 3, 1] }, { label: 'G3', data: [1, 10, 3] }, { label: 'G1', data: [1, 3, 2] }];
-  dataGraph = [this.data1, this.data2, this.data3];
+  dataGraph = [this.data1, this.data2, this.data3,this.data3,this.data3];
   xAxis = [0, 1, 2];
 
 
@@ -36,8 +36,17 @@ export class CoreComponent implements OnInit {
     { name: 'option1', value: 1 },
     { name: 'option2', value: 2 }
   ];
-
+  getDataBase(){
+    this.dataService.getDataBase().subscribe(data =>
+      {
+      this.dataString=data,
+      this.data=JSON.parse(this.dataString.replace(/'/g,"\"")),
+      console.log(this.data)
+      
+    })
+  }
   ngOnInit() {
+    this.getDataBase()
     this.chart = new Chart('myChart', {
       type: 'line',
       data: {
@@ -54,20 +63,20 @@ export class CoreComponent implements OnInit {
         },
         title: {
           display: true,
-          text: this.data[this.selectedOption].name + ' ' + this.selectedGraphType
+          text: this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType
         }
       }
     });
   }
 
   changeGraphType() {
-    this.chart.options.title.text = this.data[this.selectedOption].name + ' ' + this.selectedGraphType;
+    this.chart.options.title.text = this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType;
     this.chart.update();
   }
 
   changeOption() {
-    this.chart.options.title.text = this.data[this.selectedOption].name + ' ' + this.selectedGraphType;
-    this.chart.data.datasets = this.dataGraph[this.selectedOption];
+    this.chart.options.title.text = this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType;
+    this.chart.data.datasets = this.dataGraph[this.selectedOption-1];
     this.chart.update();
   }
 

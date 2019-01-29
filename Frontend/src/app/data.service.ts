@@ -10,10 +10,10 @@ import { Component } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
-  private dataUrl = ' http://localhost:5000/test';
+  private dataUrl = ' http://localhost:5000/wildtype';
   private dataUrl2 = ' http://localhost:5000/test2';
   private dataUrl3 = ' http://localhost:5000/addFile';
-
+  private dataUrl4='http://localhost:5000/data'
 
   data: any;
 
@@ -32,5 +32,8 @@ export class DataService {
 
     return (this.http.post(this.dataUrl3, file,{ responseType: 'text' }));
 
+  }
+  getDataBase(){
+    return (this.http.get(this.dataUrl4, { responseType: 'text' }));
   }
 }
