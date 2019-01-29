@@ -11,8 +11,8 @@
       <select [(ngModel)]="selectedOption" name="first" (change)="getData()">
         <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
       </select>
-      <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
-      <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>
+     <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
+      <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>-->
     </div>
 
     <div *ngIf="addfile">
