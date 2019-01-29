@@ -16,79 +16,96 @@ export class CoreComponent implements OnInit {
   selectedDevice: String;
   addfile = false;
   addgraph = false;
-  data = [{id:0,name:'', type:[]}];
+  data = [{ id: 0, name: '', type: [] }];
+  dataToSelect=[{ id: 0, name: '', type: [] }];
   dataTab = [];
   id: number;
   dataString: string = '';
   selectedOption = 1;
-  selectedGraphType = 'temporelle';
+  selectedGraphType: String;
+  selectedGraphType2: String;
   chart: Chart;
-  displayData=[]
-  lengthData=10
-  data1 = [{ label: 'G1', data: [1, 2, 3] }, { label: 'G2', data: [1, 3, 2] }, { label: 'G3', data: [3, 2, 1] }];
-  data2 = [{ label: 'G1', data: [5, 3, 1] }, { label: 'G2', data: [1, 2, 3] }, { label: 'G3', data: [1, 3, 2] }];
-  data3 = [{ label: 'G2', data: [5, 3, 1] }, { label: 'G3', data: [1, 10, 3] }, { label: 'G1', data: [1, 3, 2] }];
-  dataGraph = [this.data1, this.data2, this.data3,this.data3,this.data3];
-  xAxis = [0, 1, 2,3,4,5,6,7,8,9];
+  chart2: Chart;
+  displayData = []
+  displayData2 = []
+
+  lengthData = 10
+
+  xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 
   options = [
     { name: 'option1', value: 1 },
     { name: 'option2', value: 2 }
   ];
-  getDataBase(){
-    this.dataService.getDataBase().subscribe(data =>
-      {
-      this.dataString=data,
-      this.data=JSON.parse(this.dataString.replace(/'/g,"\"")),
-      console.log(this.data)
-      
-    })
+  getDataBase() {
+    this.dataService.getDataBase().subscribe(data => {
+      this.dataString = data,
+        this.data = JSON.parse(this.dataString.replace(/'/g, "\"")),
+        console.log(this.data),
+        this.dataToSelect=this.data
+        this.selectedGraphType = this.data[0]['type'][0]
+      this.getData();
+      this.updateSelectData();
+    });
+    
   }
-
-  getData() {
-    this.dataService.displayData().subscribe(data => {
-      this.dataString=data,
-      this.displayData=JSON.parse(this.dataString.replace(/'/g,"\""))
-      this.chart = new Chart('myChart', {
-        type: 'line',
-        data: {
-          labels: this.xAxis,
-          datasets: this.displayData
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          },
-          title: {
-            display: true,
-            text: this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType
-          }
+  updateSelectData(){
+    for (let i=0;i<this.dataToSelect.length;i++){
+      for(let j=0;j<this.dataToSelect[i]['type'].length;j++){
+        if (this.dataToSelect[i]['type'][j]=='wildtype'){
+          this.dataToSelect[i]['type'].splice(j,1)
         }
-      });
+      }
+    };
+  }
+  getData() {
+
+    this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType }).subscribe(data => {
+      this.dataString = data,
+        this.displayData = JSON.parse(this.dataString.replace(/'/g, "\""))
+        if (this.displayData[0]['label']!='Time'){
+      this.chart.options.title.display = true
+      this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
+      this.chart.data.labels = this.xAxis;
+      this.chart.data.datasets = this.displayData;
+      this.chart.update();
+        }
+        else{
+          this.chart.options.title.display = true
+          this.chart.data.labels = this.displayData[0]['data'];
+          this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
+          this.chart.data.datasets = this.displayData.slice(1,this.displayData.length)
+          this.chart.update();
+        }
     });
   }
 
+
+
+  createGraph() {
+    this.chart = new Chart('myChart', {
+      type: 'line',
+      data: {
+        labels: this.xAxis,
+        datasets: this.displayData
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+  }
   ngOnInit() {
     this.getDataBase()
-    this.getData()
-    
-    
-  }
+    this.createGraph();
 
-  changeGraphType() {
-    this.chart.options.title.text = this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType;
-    this.chart.update();
-  }
-
-  changeOption() {
-    this.chart.options.title.text = this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType;
-    this.chart.data.datasets = this.dataGraph[this.selectedOption-1];
-    this.chart.update();
   }
 
 
@@ -98,6 +115,7 @@ export class CoreComponent implements OnInit {
 
   addGraph() {
     !this.addgraph ? this.addgraph = true : this.addgraph = false;
+
   }
 
 }

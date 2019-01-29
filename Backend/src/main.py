@@ -57,6 +57,7 @@ def getData():
             data[i]["type"]=types
         else:
             data[i]["type"]=['test' + str(i)]
+    print(data)
     return(str(data))
 
 @app.route('/wildtype', methods=['GET'])
@@ -98,12 +99,15 @@ def learn():
     print(x)
     return (str(x))
 
-@app.route('/displayData', methods=['GET'])
+@app.route('/displayData', methods=['POST'])
 def display():
+    headers=request.get_json(force=True)
+    dossier=headers['donnee']
+    name=headers['type']
     displayData=[]
     conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
     cur = conn.cursor()
-    sql2="select datas from tsv where nom='knockdowns'"
+    sql2="select tsv.datas from tsv, dossier, contient where dossier.nom='"+dossier+"' and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv and tsv.nom='"+name+"'"
     cur.execute(sql2)
     records = cur.fetchall()
     datas=str(records[0])
@@ -124,6 +128,38 @@ def display():
             displayData[row%length]["data"].append(records[row])
     cur.close()
     conn.close()
+    return (str(displayData))
+
+@app.route('/displayTimeseries', methods=['POST'])
+def displayTimeseries():
+    headers=request.get_json(force=True)
+    dossier=headers['donnee']
+    name=headers['type']
+    displayData=[]
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    cur = conn.cursor()
+    sql2="select tsv.datas from tsv, dossier, contient where dossier.nom='"+dossier+"' and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv and tsv.nom='"+name+"'"
+    cur.execute(sql2)
+    records = cur.fetchall()
+    datas=str(records[0])
+    newdata=''
+    length=11
+    for j in range(2,len(datas)-2):
+        if datas[j]=="\\":
+            newdata+=' '
+        elif datas[j]=="n":
+            newdata+='t'
+        else:
+            newdata+=datas[j]
+    records=newdata.split(" t")
+    for row in range (243):
+        if row<length:
+            displayData.append({"label":str(records[row])[1:-1],"data":[]})
+        elif row>length:
+            displayData[(row-1)%length]["data"].append(records[row])
+    cur.close()
+    conn.close()
+    print(displayData)
     return (str(displayData))
 
 @app.route('/addFile', methods=['POST'])

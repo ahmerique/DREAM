@@ -15,6 +15,7 @@ export class DataService {
   private dataUrl3 = ' http://localhost:5000/addFile';
   private dataUrl4='http://localhost:5000/data';
   private dataUrl5='http://localhost:5000/displayData'
+  private dataUrl6='http://localhost:5000/displayTimeseries'
 
 
   data: any;
@@ -38,8 +39,14 @@ export class DataService {
   getDataBase(){
     return (this.http.get(this.dataUrl4, { responseType: 'text' }));
   }
-  displayData(){
-    return (this.http.get(this.dataUrl5, { responseType: 'text' }));
+  displayData(data){
+    console.log(data)
+    if(data['type']!="timeseries"){
+    return (this.http.post(this.dataUrl5,data, { responseType: 'text' }));
+    }
+    else{
+    return (this.http.post(this.dataUrl6,data, { responseType: 'text' }))
+    }
 
   }
 }

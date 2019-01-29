@@ -10,7 +10,7 @@ export class LearningComponent implements OnInit {
 
   constructor(private learningService: LearningService,private dataService: DataService) { }
   data = [{id:0,name:'', type:[]}];
-  table = [0];
+  table = [];
   result: boolean = false;
   learning: String;
   @Input() id: number;
