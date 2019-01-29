@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
-import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-core',
@@ -79,24 +78,6 @@ export class CoreComponent implements OnInit {
     this.chart.data.datasets = this.dataGraph[this.selectedOption-1];
     this.chart.update();
   }
-
-  getData() {
-    this.dataService.getData().subscribe(response_data => {
-      this.dataString = response_data;
-      this.dataTab = this.dataString.split('\t');
-      console.log(this.dataTab);
-    });
-  }
-
-  getData2() {
-    this.dataService.getData2().subscribe(data => {
-      this.dataString = data;
-      this.dataTab = this.dataString.split('\t');
-      console.log(this.dataTab);
-    });
-  }
-
-
 
 
   addFile() {
