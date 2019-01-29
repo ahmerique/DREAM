@@ -26,7 +26,6 @@ export class PredictionComponent implements OnInit {
     console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
-      console.log(data)
       this.dataTab = data.split(' ');
       this.perturbation=[]
       for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {

@@ -57,7 +57,6 @@ def getData():
             data[i]["type"]=types
         else:
             data[i]["type"]=['test' + str(i)]
-    print(str(data))
     return(str(data))
 
 @app.route('/wildtype', methods=['GET'])
@@ -65,10 +64,7 @@ def getData():
 def wildtype():
     hello=""
     conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
-
     cur = conn.cursor()
-
-
     sql2="select datas from tsv where nom='wildtype'"
     cur.execute(sql2)
     records = cur.fetchall()
@@ -102,6 +98,33 @@ def learn():
     print(x)
     return (str(x))
 
+@app.route('/displayData', methods=['GET'])
+def display():
+    displayData=[]
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    cur = conn.cursor()
+    sql2="select datas from tsv where nom='knockdowns'"
+    cur.execute(sql2)
+    records = cur.fetchall()
+    datas=str(records[0])
+    newdata=''
+    length=10
+    for j in range(2,len(datas)-2):
+        if datas[j]=="\\":
+            newdata+=' '
+        elif datas[j]=="n":
+            newdata+='t'
+        else:
+            newdata+=datas[j]
+    records=newdata.split(" t")
+    for row in range (len(records)-1):
+        if row<length:
+            displayData.append({"label":str(records[row])[1:-1],"data":[]})
+        else:
+            displayData[row%length]["data"].append(records[row])
+    cur.close()
+    conn.close()
+    return (str(displayData))
 
 @app.route('/addFile', methods=['POST'])
 

@@ -23,12 +23,13 @@ export class CoreComponent implements OnInit {
   selectedOption = 1;
   selectedGraphType = 'temporelle';
   chart: Chart;
-
+  displayData=[]
+  lengthData=10
   data1 = [{ label: 'G1', data: [1, 2, 3] }, { label: 'G2', data: [1, 3, 2] }, { label: 'G3', data: [3, 2, 1] }];
   data2 = [{ label: 'G1', data: [5, 3, 1] }, { label: 'G2', data: [1, 2, 3] }, { label: 'G3', data: [1, 3, 2] }];
   data3 = [{ label: 'G2', data: [5, 3, 1] }, { label: 'G3', data: [1, 10, 3] }, { label: 'G1', data: [1, 3, 2] }];
   dataGraph = [this.data1, this.data2, this.data3,this.data3,this.data3];
-  xAxis = [0, 1, 2];
+  xAxis = [0, 1, 2,3,4,5,6,7,8,9];
 
 
   options = [
@@ -44,28 +45,39 @@ export class CoreComponent implements OnInit {
       
     })
   }
+
+  getData() {
+    this.dataService.displayData().subscribe(data => {
+      this.dataString=data,
+      this.displayData=JSON.parse(this.dataString.replace(/'/g,"\""))
+      this.chart = new Chart('myChart', {
+        type: 'line',
+        data: {
+          labels: this.xAxis,
+          datasets: this.displayData
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          title: {
+            display: true,
+            text: this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType
+          }
+        }
+      });
+    });
+  }
+
   ngOnInit() {
     this.getDataBase()
-    this.chart = new Chart('myChart', {
-      type: 'line',
-      data: {
-        labels: this.xAxis,
-        datasets: this.dataGraph[0]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        },
-        title: {
-          display: true,
-          text: this.data[this.selectedOption-1].name + ' ' + this.selectedGraphType
-        }
-      }
-    });
+    this.getData()
+    
+    
   }
 
   changeGraphType() {

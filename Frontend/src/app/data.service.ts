@@ -13,7 +13,9 @@ export class DataService {
   private dataUrl = ' http://localhost:5000/wildtype';
   private dataUrl2 = ' http://localhost:5000/test2';
   private dataUrl3 = ' http://localhost:5000/addFile';
-  private dataUrl4='http://localhost:5000/data'
+  private dataUrl4='http://localhost:5000/data';
+  private dataUrl5='http://localhost:5000/displayData'
+
 
   data: any;
 
@@ -35,5 +37,9 @@ export class DataService {
   }
   getDataBase(){
     return (this.http.get(this.dataUrl4, { responseType: 'text' }));
+  }
+  displayData(){
+    return (this.http.get(this.dataUrl5, { responseType: 'text' }));
+
   }
 }
