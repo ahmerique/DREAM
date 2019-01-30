@@ -131,6 +131,7 @@ def display():
     return (str(displayData))
 
 @app.route('/displayTimeseries', methods=['POST'])
+#Route créée pour afficher les timeseries sur le graphe.
 def displayTimeseries():
     headers=request.get_json(force=True)
     dossier=headers['donnee']
@@ -162,25 +163,7 @@ def displayTimeseries():
     print(displayData)
     return (str(displayData))
 
-@app.route('/addFile', methods=['POST'])
 
-def upload():
-    if request.method == 'POST':
-            print("ok post")
-            x=request.files(force=True)
-            print(x)
-            # check if the post request has the file part
-            # if user does not select file, browser also
-            # submit a empty part without filename
-            return '''
-            <!doctype html>
-            <title>Upload new File</title>
-            <h1>Upload new File</h1>
-            <form method=post enctype=multipart/form-data>
-            <p><input type=file name=file>
-                <input type=submit value=Upload>
-            </form>
-            '''
 
 @app.route('/prediction', methods=['POST'])
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
