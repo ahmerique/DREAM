@@ -27,7 +27,8 @@ export class CoreComponent implements OnInit {
   chart: Chart;
   chart2: Chart;
   displayData = []
-
+  setColor2=['Aqua','Blue','Fuchsia','Green','Lime','Navy','Olive','Purple','Teal','Yellow']
+  setColor=["#FF0000","#A02831","C24040","#F6745A","#FFE8A5","#FDD784","#FF5900","#FF9300","Yellow","Orange"]
   lengthData = 10
 
   xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -72,10 +73,18 @@ export class CoreComponent implements OnInit {
       this.dataString = data,
         this.displayData = JSON.parse(this.dataString.replace(/'/g, "\""))
       for (let j = 0; j < this.displayData.length; j++) {
-        let colorline=this.getRandomColor();
+        let colorline=''
+        if(j<10){
+          colorline=this.setColor[j]
+        } 
+        else{
+          colorline=this.getRandomColor();
+        }
         this.displayData[j]['backgroundColor'] = ['rgba(255,0,0,0)'],
           this.displayData[j]['borderColor'] = [colorline]
-      }
+          this.displayData[j]['radius'] = 3
+
+        }
       if (this.displayData[0]['label'] != 'Time') {
 
         this.chart.options.title.display = true
