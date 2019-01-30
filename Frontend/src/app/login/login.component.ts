@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
         });
   }
 
-  forgotPassword(mail: string): void {
+  forgotPassword(email: string): void {
 
   }
 

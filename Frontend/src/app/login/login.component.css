@@ -42,7 +42,8 @@ p button {
   margin-left: 2%;
 }
 
-.invalid-feedback {
+.invalid-feedback,
+.alert {
   color: rgb(172, 0, 0);
   font-style: italic;
 }

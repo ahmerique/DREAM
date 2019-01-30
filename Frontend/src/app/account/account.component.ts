@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AccountComponent implements OnInit {
 
   _pseudo = 'Bioman';
-  _mail = 'Bioman@coucou.io';
+  _email = 'Bioman@coucou.io';
   _changePassword = false;
   _changeInfo = false;
 
@@ -31,7 +31,7 @@ export class AccountComponent implements OnInit {
 
   }
 
-  newInfo(newPseudo: string, newMail: string): void {
+  newInfo(newPseudo: string, newemail: string): void {
 
   }
 }

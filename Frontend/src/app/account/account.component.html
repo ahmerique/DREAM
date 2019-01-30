@@ -4,7 +4,7 @@
 
   <div class='center-left'>
     <p><em>Pseudo:</em> {{_pseudo}}</p>
-    <p><em>Mail:</em> {{_mail}}</p>
+    <p><em>email:</em> {{_email}}</p>
   </div>
   <br />
   <button [ngClass]="_changeInfo ? 'selected' : ''" (click)="onClick('info')">Modifier informations</button>
@@ -18,16 +18,16 @@
 
     <div id="left block" class="center-left">
       <p>Nouveau pseudo:</p>
-      <p>Nouveau mail:</p>
+      <p>Nouveau email:</p>
       <p>Mot de passe:</p>
-      <button (click)="newInfo(newPseudo.value,newMail.value,password.value)">
+      <button (click)="newInfo(newPseudo.value,newemail.value,password.value)">
         Enregistrer
       </button>
     </div>
 
     <div id="right block" class="center-left">
       <p><input #newPseudo /></p>
-      <p><input #newMail /></p>
+      <p><input #newemail /></p>
       <p><input #password /></p>
     </div>
   </div>
