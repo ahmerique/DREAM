@@ -75,14 +75,13 @@ def wildtype():
     print(datas)
     newdata=''
     for j in range(0,len(datas)):
-        if datas[j]=="\\":
-            newdata+=' '
-        elif datas[j]=="n":
-            newdata+='t'
+
+        if datas[j]=="\n":
+            newdata+='\t'
         else:
             newdata+=datas[j]
     print(newdata)
-    records=newdata.split(" t")
+    records=newdata.split("\t")
     print(records)
     for row in records:
         print(row)
