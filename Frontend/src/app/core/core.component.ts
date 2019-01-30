@@ -21,17 +21,21 @@ export class CoreComponent implements OnInit {
   dataTab = [];
   id: number;
   dataString: string = '';
+  dataString2: string = '';
+
   selectedOption = 1;
-  selectedGraphType: String;
+  selectedGraphType="timeseries";
   selectedGraphType2: String;
   chart: Chart;
   chart2: Chart;
   displayData = []
+  displayData2 = []
+
   setColor2=['Aqua','Blue','Fuchsia','Green','Lime','Navy','Olive','Purple','Teal','Yellow']
-  setColor=["#FF0000","#A02831","C24040","#F6745A","#FFE8A5","#FDD784","#FF5900","#FF9300","Yellow","Orange"]
+  setColor=["#FF0000","#A02831","#C24040","#F6745A","#FDD784","#FF5900","#FF9300","black","blue","green",'purple']
   lengthData = 10
 
-  xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  xAxis = [1, 2, 3, 4, 5, 6, 7, 8, 9,10];
 
 
   options = [
@@ -44,8 +48,8 @@ export class CoreComponent implements OnInit {
         this.data = JSON.parse(this.dataString.replace(/'/g, "\"")),
         console.log(this.data),
         this.dataToSelect = this.data
-      this.selectedGraphType = this.data[0]['type'][0]
       this.getData();
+      this.getData2();
       this.updateSelectData();
     });
 
@@ -68,7 +72,6 @@ export class CoreComponent implements OnInit {
     return color;
   }
   getData() {
-
     this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType }).subscribe(data => {
       this.dataString = data,
         this.displayData = JSON.parse(this.dataString.replace(/'/g, "\""))
@@ -80,29 +83,48 @@ export class CoreComponent implements OnInit {
         else{
           colorline=this.getRandomColor();
         }
+        
         this.displayData[j]['backgroundColor'] = ['rgba(255,0,0,0)'],
           this.displayData[j]['borderColor'] = [colorline]
           this.displayData[j]['radius'] = 3
-
         }
-      if (this.displayData[0]['label'] != 'Time') {
-
-        this.chart.options.title.display = true
-        this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
-        this.chart.data.labels = this.xAxis;
-        this.chart.data.datasets = this.displayData;
-        this.chart.update();
-      }
-      else {
         this.chart.options.title.display = true
         this.chart.data.labels = this.displayData[0]['data'];
         this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
         this.chart.data.datasets = this.displayData.slice(1, this.displayData.length)
         this.chart.update();
-      }
+
     });
   }
 
+  getData2() {
+    this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType2 }).subscribe(data => {
+        this.dataString2 = data,
+        this.displayData2 = JSON.parse(this.dataString2.replace(/'/g, "\""))
+      for (let j = 0; j < this.displayData2.length; j++) {
+        let colorline=''
+        if(j<10){
+          colorline=this.setColor[j]
+        } 
+        else{
+          colorline=this.getRandomColor();
+        }
+        this.displayData2[j]['backgroundColor'] = colorline,
+          this.displayData2[j]['borderColor'] = [colorline]
+          this.displayData2[j]['radius'] = 3
+
+        }
+      if (this.displayData2[0]['label'] != 'Time') {
+
+        this.chart2.options.title.display = true
+        this.chart2.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType2;
+        this.chart2.data.labels = this.xAxis;
+        this.chart2.data.datasets = this.displayData2;
+        this.chart2.update();
+        this.chart.options.title.display = true
+      }
+    });
+  }
 
   changeValueGraph() {
 
@@ -115,6 +137,8 @@ export class CoreComponent implements OnInit {
         var value = prompt("choose new value")
         if (parseFloat(value) >= 0) {
           this.displayData[number + 1]['data'][index] = value
+          this.chart2.data.datasets = this.displayData2.slice(1, this.displayData2.length)
+          this.chart2.update();
           this.chart.data.datasets = this.displayData.slice(1, this.displayData.length)
           this.chart.update();
         } else {
@@ -150,7 +174,22 @@ export class CoreComponent implements OnInit {
         }
       },
     });
-
+    this.chart2 = new Chart('myChart2', {
+      type: 'bar',
+      data: {
+        labels: this.xAxis,
+        datasets: this.displayData
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      },
+    });
   }
   ngOnInit() {
     this.getDataBase()

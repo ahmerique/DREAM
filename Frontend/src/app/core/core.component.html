@@ -11,7 +11,7 @@
       <select [(ngModel)]="selectedOption" name="first" (change)="getData()">
         <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
       </select>
-     <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
+      <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
       <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>-->
     </div>
 
@@ -23,28 +23,20 @@
 
     <br />
 
-    <div>
-      <h3>Affichage :</h3>
-      <select [(ngModel)]="selectedGraphType" (change)="getData()">
-        <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
-      </select>
-      <canvas id="myChart" (click)="changeValueGraph()"></canvas>
-     <!-- <button type="button" (click)="addGraph()">Ajouter une autre source de données</button>-->
+      <h3>Affichage : Timeseries</h3>
 
-    </div>
+      <canvas id="myChart" (click)="changeValueGraph()"></canvas>
+
 
     <br />
-    <!--
-    <div *ngIf=addgraph>
-      <h3>Affichage : </h3>
-      <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
-        <option *ngFor="let type of data[selectedOption-1].type">{{type}}</option>
-      </select>
-      <canvas id="myChart2"></canvas>
-
+    <h3>Affichage : </h3>
+    <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
+      <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
+    </select>
+    <div>
+      <canvas id="myChart2" (click)="changeValueGraph()"></canvas>
     </div>
-  -->
   </div>
 </div>
 
-<app-learning [id]=selectedOption-1 [dataChange]="displayData" ></app-learning>
+<app-learning [id]=selectedOption-1 [dataChange]="displayData"></app-learning>

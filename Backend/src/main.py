@@ -11,10 +11,8 @@ CORS(app)
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
 def result():
- text = open('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', 'r+')
- content = text.read()
- text.close()
- return content
+
+ return ("le back est plutot bon")
     
 @app.route('/test2', methods=['GET'])
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test1
@@ -70,16 +68,15 @@ def wildtype():
     hello=""
     datas=[]
 
-    r=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
+    files=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
 
-    datas.append(r.values)
+    datas=(files.values)
     print("datas")
-    print(datas[0][0])
-    for row in datas[0][0]:
+    print(datas[0])
+    for row in datas[0]:
         print(row)
         hello+=' '+str(row)
 
-    print(hello)
     return (hello)
 
 @app.route('/learning', methods=['POST'])
@@ -92,8 +89,8 @@ def learn():
         x='\''+str(0)+'\''
         print(x)
         print('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', 'r+')
-        r=pd.read_csv('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', sep='\t')
-        datas.append(r.values)
+        files=pd.read_csv('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', sep='\t')
+        datas.append(files.values)
     print(datas)
     return (str(headers))
 
@@ -103,7 +100,10 @@ def display():
     dossier=headers['donnee']
     name=headers['type']
     displayData=[]
+    files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
+    data2=files.values
     text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+
     content = text.read()
     text.close()
     datas=str(content)
@@ -115,11 +115,14 @@ def display():
         else:
             newdata+=datas[j]
     records=newdata.split("\t")
-    for row in range (len(records)-1):
-        if row<length:
-            displayData.append({"label":str(records[row])[1:-1],"data":[]})
-        else:
-            displayData[row%length]["data"].append(records[row])
+    print(records,data2)
+    for i in range(length):
+        displayData.append({"label":"G"+str(i),"data":[]})
+    for i in range(len(data2)):
+        for j in range(len(data2[i])):
+            displayData[j]["data"].append(data2[i][j])
+
+    print(displayData)
     return (str(displayData))
 
 @app.route('/displayTimeseries', methods=['POST'])
