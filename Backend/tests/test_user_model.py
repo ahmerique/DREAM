@@ -1,10 +1,10 @@
-# authentication/tests/test_user_model.py
+# Backend.src/tests/test_user_model.py
 
 import unittest
 
-from authentication import db
-from authentication.models import User
-from authentication.tests.base import BaseTestCase
+from Backend.src import db
+from Backend.src.models import User
+from Backend.tests.base import BaseTestCase
 
 
 class TestUserModel(BaseTestCase):

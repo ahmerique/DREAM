@@ -1,15 +1,15 @@
-# authentication/tests/base.py
+# Backend/tests/base.py
 
 from flask_testing import TestCase
 
-from authentication import app, db
+from Backend.src import app, db
 
 
 class BaseTestCase(TestCase):
     """ Base Tests """
 
     def create_app(self):
-        app.config.from_object('authentication.config.TestingConfig')
+        app.config.from_object('Backend.src.config.TestingConfig')
         return app
 
     def setUp(self):

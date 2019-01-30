@@ -3,7 +3,7 @@
 import datetime
 import jwt
 
-from authentication import app, db, bcrypt
+from Backend.src import app, db, bcrypt
 
 
 class User(db.Model):

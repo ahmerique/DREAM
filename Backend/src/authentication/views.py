@@ -3,8 +3,8 @@
 from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
-from authentication import bcrypt, db
-from authentication.models import User, BlacklistToken
+from Backend.src import bcrypt, db
+from Backend.src.models import User, BlacklistToken
 
 auth_blueprint = Blueprint('auth', __name__)
 

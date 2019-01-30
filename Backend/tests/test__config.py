@@ -1,16 +1,16 @@
-# authentication/tests/test_config.py
+# Backend.src/tests/test_config.py
 
 import unittest
 
 from flask import current_app
 from flask_testing import TestCase
 
-from authentication import app
+from Backend.src import app
 
 
 class TestDevelopmentConfig(TestCase):
     def create_app(self):
-        app.config.from_object('authentication.config.DevelopmentConfig')
+        app.config.from_object('Backend.src.config.DevelopmentConfig')
         return app
 
     def test_app_is_development(self):
@@ -18,24 +18,25 @@ class TestDevelopmentConfig(TestCase):
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(app.config['SQLALCHEMY_DATABASE_URI'] ==
-                        'postgresql://postgres:@localhost/postgres')
+                        'postgresql://postgres:postgres@localhost/postgres')
 
 
 class TestTestingConfig(TestCase):
     def create_app(self):
-        app.config.from_object('authentication.config.TestingConfig')
+        app.config.from_object('Backend.src.config.TestingConfig')
         return app
 
     def test_app_is_testing(self):
         self.assertFalse(app.config['SECRET_KEY'] is 'my_precious')
         self.assertTrue(app.config['DEBUG'])
-        self.assertTrue(app.config['SQLALCHEMY_DATABASE_URI'] ==
-                        'postgresql://postgres:@localhost/postgres_test')
+        self.assertTrue(
+            app.config['SQLALCHEMY_DATABASE_URI'] ==
+            'postgresql://postgres:postgres@localhost/postgres_test')
 
 
 class TestProductionConfig(TestCase):
     def create_app(self):
-        app.config.from_object('authentication.config.ProductionConfig')
+        app.config.from_object('Backend.src.config.ProductionConfig')
         return app
 
     def test_app_is_production(self):

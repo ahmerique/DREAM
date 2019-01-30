@@ -1,12 +1,12 @@
-# authentication/tests/test_auth.py
+# Backend.src/tests/test_auth.py
 
 import time
 import json
 import unittest
 
-from authentication import db
-from authentication.models import User, BlacklistToken
-from authentication.tests.base import BaseTestCase
+from Backend.src import db
+from Backend.src.models import User, BlacklistToken
+from Backend.tests.base import BaseTestCase
 
 
 def register_user(self, email, pseudo, password):
@@ -170,7 +170,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(resp_login.content_type == 'application/json')
             self.assertEqual(resp_login.status_code, 200)
             # invalid token logout
-            time.sleep(6)
+            time.sleep(16)
             response = self.client.post(
                 '/auth/logout',
                 headers=dict(
