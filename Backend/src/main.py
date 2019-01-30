@@ -1,15 +1,18 @@
 from flask import Flask, render_template, request
 import psycopg2
 from flask_cors import CORS
-
+import os
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
 def result():
-    return ("le back est plutôt bon")
-
+ text = open('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', 'r+')
+ content = text.read()
+ text.close()
+ return content
+    
 @app.route('/test2', methods=['GET'])
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test1
 
@@ -64,14 +67,14 @@ def getData():
 ##Fonction de recuperation des etats stables
 def wildtype():
     hello=""
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
-    cur = conn.cursor()
-    sql2="select datas from tsv where nom='wildtype'"
-    cur.execute(sql2)
-    records = cur.fetchall()
-    datas=str(records[0])
+    text = open('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', 'r+')
+    content = text.read()
+    text.close()
+    records = content
+    datas=str(records)
+    print(datas)
     newdata=''
-    for j in range(2,len(datas)-2):
+    for j in range(0,len(datas)):
         if datas[j]=="\\":
             newdata+=' '
         elif datas[j]=="n":
@@ -85,9 +88,7 @@ def wildtype():
         print(row)
         hello+=' '+row
     print(hello)
-    cur.close()
 
-    conn.close()
 
     return (hello)
 
@@ -105,29 +106,26 @@ def display():
     dossier=headers['donnee']
     name=headers['type']
     displayData=[]
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
-    cur = conn.cursor()
-    sql2="select tsv.datas from tsv, dossier, contient where dossier.nom='"+dossier+"' and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv and tsv.nom='"+name+"'"
-    cur.execute(sql2)
-    records = cur.fetchall()
-    datas=str(records[0])
+    print('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+    text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+    content = text.read()
+    text.close()
+    datas=str(content)
     newdata=''
     length=10
-    for j in range(2,len(datas)-2):
-        if datas[j]=="\\":
-            newdata+=' '
-        elif datas[j]=="n":
-            newdata+='t'
+    for j in range(0,len(datas)):
+        if datas[j]=="\n":
+            newdata+='\t'
         else:
             newdata+=datas[j]
-    records=newdata.split(" t")
+    records=newdata.split("\t")
+    print(records)
     for row in range (len(records)-1):
         if row<length:
             displayData.append({"label":str(records[row])[1:-1],"data":[]})
         else:
             displayData[row%length]["data"].append(records[row])
-    cur.close()
-    conn.close()
+    print(displayData)
     return (str(displayData))
 
 @app.route('/displayTimeseries', methods=['POST'])
@@ -137,29 +135,26 @@ def displayTimeseries():
     dossier=headers['donnee']
     name=headers['type']
     displayData=[]
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
-    cur = conn.cursor()
-    sql2="select tsv.datas from tsv, dossier, contient where dossier.nom='"+dossier+"' and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv and tsv.nom='"+name+"'"
-    cur.execute(sql2)
-    records = cur.fetchall()
-    datas=str(records[0])
+    print('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+    text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+    content = text.read()
+    text.close()
+    datas=str(content)
     newdata=''
     length=11
-    for j in range(2,len(datas)-2):
-        if datas[j]=="\\":
-            newdata+=' '
-        elif datas[j]=="n":
-            newdata+='t'
+    for j in range(0,len(datas)):
+        if datas[j]=="\n":
+            newdata+='\t'
         else:
             newdata+=datas[j]
-    records=newdata.split(" t")
+    print("newdata" + newdata)
+    records=newdata.split("\t")
+    print(records)
     for row in range (243):
         if row<length:
             displayData.append({"label":str(records[row])[1:-1],"data":[]})
         elif row>length:
             displayData[(row-1)%length]["data"].append(records[row])
-    cur.close()
-    conn.close()
     print(displayData)
     return (str(displayData))
 

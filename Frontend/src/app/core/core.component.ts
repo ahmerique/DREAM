@@ -65,6 +65,7 @@ export class CoreComponent implements OnInit {
       this.dataString = data,
         this.displayData = JSON.parse(this.dataString.replace(/'/g, "\""))
         if (this.displayData[0]['label']!='Time'){
+
       this.chart.options.title.display = true
       this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
       this.chart.data.labels = this.xAxis;
@@ -82,7 +83,16 @@ export class CoreComponent implements OnInit {
   }
 
 
-
+  test(){
+    let y=this.chart.chart.getElementAtEvent(event)[0]['_model']['y']
+    let index= this.chart.chart.getElementAtEvent(event)[0]['_index'];
+    let number=this.chart.chart.getElementAtEvent(event)[0]['_datasetIndex'];
+    console.log(this.chart.chart.getElementAtEvent(event))
+    console.log(this.displayData)
+    this.displayData[number]['data'][index]=0
+    this.chart.data.datasets = this.displayData
+    this.chart.update();
+  }
   createGraph() {
     this.chart = new Chart('myChart', {
       type: 'line',
@@ -98,7 +108,10 @@ export class CoreComponent implements OnInit {
             }
           }]
         }
-      }
+      },
+      onClick: () => {
+        console.log(this.chart.chart.getElementAtEvent(event));
+   }
     });
 
   }

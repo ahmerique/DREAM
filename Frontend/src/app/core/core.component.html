@@ -28,7 +28,7 @@
       <select [(ngModel)]="selectedGraphType" (change)="getData()">
         <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
       </select>
-      <canvas id="myChart"></canvas>
+      <canvas id="myChart" (click)="test()"></canvas>
      <!-- <button type="button" (click)="addGraph()">Ajouter une autre source de données</button>-->
 
     </div>
