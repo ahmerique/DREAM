@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
 import psycopg2
 from flask_cors import CORS
+import pandas as pd
 import os
+import ast
+
 app = Flask(__name__)
 CORS(app)
 
@@ -28,7 +31,6 @@ def config():
     records = cur.fetchall()
     for row in records[1:len(records)]:
         hello+='\t'.join(row)+'\t'
-    print(hello)
     cur.close()
 
     conn.close()
@@ -60,44 +62,40 @@ def getData():
             data[i]["type"]=types
         else:
             data[i]["type"]=['test' + str(i)]
-    print(data)
     return(str(data))
 
 @app.route('/wildtype', methods=['GET'])
 ##Fonction de recuperation des etats stables
 def wildtype():
     hello=""
-    text = open('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', 'r+')
-    content = text.read()
-    text.close()
-    records = content
-    datas=str(records)
-    print(datas)
-    newdata=''
-    for j in range(0,len(datas)):
+    datas=[]
 
-        if datas[j]=="\n":
-            newdata+='\t'
-        else:
-            newdata+=datas[j]
-    print(newdata)
-    records=newdata.split("\t")
-    print(records)
-    for row in records:
+    r=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
+
+    datas.append(r.values)
+    print("datas")
+    print(datas[0][0])
+    for row in datas[0][0]:
         print(row)
-        hello+=' '+row
+        hello+=' '+str(row)
+
     print(hello)
-
-
     return (hello)
 
 @app.route('/learning', methods=['POST'])
 #Route en cas de demande d'apprentissage, le POST contient un json recapitulant les differentes informations: {'name': 'Silico10', 'data': '{"0":"knockout"}', 'learning': 'RandomForest'}
 # la fonction renvoie les données utilisées et stocke 
 def learn():
-    x=request.get_json(force=True)
-    print(x)
-    return (str(x))
+    headers=request.get_json(force=True)
+    datas=[]
+    for i in range(len(ast.literal_eval(headers['data']))):
+        x='\''+str(0)+'\''
+        print(x)
+        print('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', 'r+')
+        r=pd.read_csv('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', sep='\t')
+        datas.append(r.values)
+    print(datas)
+    return (str(headers))
 
 @app.route('/displayData', methods=['POST'])
 def display():
@@ -105,7 +103,6 @@ def display():
     dossier=headers['donnee']
     name=headers['type']
     displayData=[]
-    print('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
     text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
     content = text.read()
     text.close()
@@ -118,13 +115,11 @@ def display():
         else:
             newdata+=datas[j]
     records=newdata.split("\t")
-    print(records)
     for row in range (len(records)-1):
         if row<length:
             displayData.append({"label":str(records[row])[1:-1],"data":[]})
         else:
             displayData[row%length]["data"].append(records[row])
-    print(displayData)
     return (str(displayData))
 
 @app.route('/displayTimeseries', methods=['POST'])
@@ -134,7 +129,6 @@ def displayTimeseries():
     dossier=headers['donnee']
     name=headers['type']
     displayData=[]
-    print('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
     text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
     content = text.read()
     text.close()
@@ -146,15 +140,12 @@ def displayTimeseries():
             newdata+='\t'
         else:
             newdata+=datas[j]
-    print("newdata" + newdata)
     records=newdata.split("\t")
-    print(records)
     for row in range (243):
         if row<length:
             displayData.append({"label":str(records[row])[1:-1],"data":[]})
         elif row>length:
             displayData[(row-1)%length]["data"].append(records[row])
-    print(displayData)
     return (str(displayData))
 
 
@@ -182,13 +173,9 @@ def predict():
             newdata+='t'
         else:
             newdata+=datas[j]
-    print(newdata)
     records=newdata.split(" t")
-    print(records)
     for row in records:
-        print(row)
         hello+=' '+row
-    print(hello)
     cur.close()
 
     conn.close()

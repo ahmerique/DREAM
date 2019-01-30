@@ -40,8 +40,8 @@ export class PredictionComponent implements OnInit {
       console.log(data)
       this.dataTab = data.split(' ');
       this.wildtype=[]
-      for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {
-        this.wildtype.push({name:'G'+(i-this.lengthData).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      for (let i = 1; i < this.lengthData+1; i++) {
+        this.wildtype.push({name:'G'+(i).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
   }
