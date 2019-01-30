@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { data } from '../datatest';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
 
@@ -17,32 +16,129 @@ export class CoreComponent implements OnInit {
   selectedDevice: String;
   addfile = false;
   addgraph = false;
-  data = data;
+  data = [{ id: 0, name: '', type: [] }];
+  dataToSelect = [{ id: 0, name: '', type: [] }];
   dataTab = [];
   id: number;
-  dataString: String = '';
-  selectedOption = 0;
-  selectedGraphType = 'temporelle';
+  dataString: string = '';
+  selectedOption = 1;
+  selectedGraphType: String;
+  selectedGraphType2: String;
   chart: Chart;
+  chart2: Chart;
+  displayData = []
+  setColor2=['Aqua','Blue','Fuchsia','Green','Lime','Navy','Olive','Purple','Teal','Yellow']
+  setColor=["#FF0000","#A02831","C24040","#F6745A","#FFE8A5","#FDD784","#FF5900","#FF9300","Yellow","Orange"]
+  lengthData = 10
 
-  data1 = [{ label: 'G1', data: [1, 2, 3] }, { label: 'G2', data: [1, 3, 2] }, { label: 'G3', data: [3, 2, 1] }];
-  data2 = [{ label: 'G1', data: [5, 3, 1] }, { label: 'G2', data: [1, 2, 3] }, { label: 'G3', data: [1, 3, 2] }];
-  data3 = [{ label: 'G2', data: [5, 3, 1] }, { label: 'G3', data: [1, 10, 3] }, { label: 'G1', data: [1, 3, 2] }];
-  dataGraph = [this.data1, this.data2, this.data3];
-  xAxis = [0, 1, 2];
+  xAxis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 
   options = [
     { name: 'option1', value: 1 },
     { name: 'option2', value: 2 }
   ];
+  getDataBase() {
+    this.dataService.getDataBase().subscribe(data => {
+      this.dataString = data,
+        this.data = JSON.parse(this.dataString.replace(/'/g, "\"")),
+        console.log(this.data),
+        this.dataToSelect = this.data
+      this.selectedGraphType = this.data[0]['type'][0]
+      this.getData();
+      this.updateSelectData();
+    });
 
-  ngOnInit() {
+  }
+  updateSelectData() {
+    for (let i = 0; i < this.dataToSelect.length; i++) {
+      for (let j = 0; j < this.dataToSelect[i]['type'].length; j++) {
+        if (this.dataToSelect[i]['type'][j] == 'wildtype') {
+          this.dataToSelect[i]['type'].splice(j, 1)
+        }
+      }
+    };
+  }
+  getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  getData() {
+
+    this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType }).subscribe(data => {
+      this.dataString = data,
+        this.displayData = JSON.parse(this.dataString.replace(/'/g, "\""))
+      for (let j = 0; j < this.displayData.length; j++) {
+        let colorline=''
+        if(j<10){
+          colorline=this.setColor[j]
+        } 
+        else{
+          colorline=this.getRandomColor();
+        }
+        this.displayData[j]['backgroundColor'] = ['rgba(255,0,0,0)'],
+          this.displayData[j]['borderColor'] = [colorline]
+          this.displayData[j]['radius'] = 3
+
+        }
+      if (this.displayData[0]['label'] != 'Time') {
+
+        this.chart.options.title.display = true
+        this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
+        this.chart.data.labels = this.xAxis;
+        this.chart.data.datasets = this.displayData;
+        this.chart.update();
+      }
+      else {
+        this.chart.options.title.display = true
+        this.chart.data.labels = this.displayData[0]['data'];
+        this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
+        this.chart.data.datasets = this.displayData.slice(1, this.displayData.length)
+        this.chart.update();
+      }
+    });
+  }
+
+
+  changeValueGraph() {
+
+    if (!!this.chart.chart.getElementAtEvent(event)[0]) {
+      console.log(this.displayData)
+      if (this.displayData[0]['label'] == 'Time') {
+        let y = this.chart.chart.getElementAtEvent(event)[0]['_model']['y']
+        let index = this.chart.chart.getElementAtEvent(event)[0]['_index'];
+        let number = this.chart.chart.getElementAtEvent(event)[0]['_datasetIndex'];
+        var value = prompt("choose new value")
+        if (parseFloat(value) >= 0) {
+          this.displayData[number + 1]['data'][index] = value
+          this.chart.data.datasets = this.displayData.slice(1, this.displayData.length)
+          this.chart.update();
+        } else {
+          console.log("you need a value")
+        }
+
+
+      }
+      else {
+        console.log("you can't change data")
+      }
+    }
+    else {
+      console.log("click on a data")
+    }
+  }
+
+  createGraph() {
+
     this.chart = new Chart('myChart', {
       type: 'line',
       data: {
         labels: this.xAxis,
-        datasets: this.dataGraph[0]
+        datasets: this.displayData
       },
       options: {
         scales: {
@@ -51,43 +147,16 @@ export class CoreComponent implements OnInit {
               beginAtZero: true
             }
           }]
-        },
-        title: {
-          display: true,
-          text: this.data[this.selectedOption].name + ' ' + this.selectedGraphType
         }
-      }
+      },
     });
+
   }
+  ngOnInit() {
+    this.getDataBase()
+    this.createGraph();
 
-  changeGraphType() {
-    this.chart.options.title.text = this.data[this.selectedOption].name + ' ' + this.selectedGraphType;
-    this.chart.update();
   }
-
-  changeOption() {
-    this.chart.options.title.text = this.data[this.selectedOption].name + ' ' + this.selectedGraphType;
-    this.chart.data.datasets = this.dataGraph[this.selectedOption];
-    this.chart.update();
-  }
-
-  getData() {
-    this.dataService.getData().subscribe(response_data => {
-      this.dataString = response_data;
-      this.dataTab = this.dataString.split('\t');
-      console.log(this.dataTab);
-    });
-  }
-
-  getData2() {
-    this.dataService.getData2().subscribe(data => {
-      this.dataString = data;
-      this.dataTab = this.dataString.split('\t');
-      console.log(this.dataTab);
-    });
-  }
-
-
 
 
   addFile() {
@@ -96,6 +165,7 @@ export class CoreComponent implements OnInit {
 
   addGraph() {
     !this.addgraph ? this.addgraph = true : this.addgraph = false;
+
   }
 
 }
