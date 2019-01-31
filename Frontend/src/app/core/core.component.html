@@ -33,8 +33,11 @@
     <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
       <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
     </select>
+    <select [(ngModel)]="idofdata" (change)="getData2()">
+      <option *ngFor="let number of listData2">{{number}}</option>
+    </select> 
     <div>
-      <canvas id="myChart2" (click)="changeValueGraph()"></canvas>
+      <canvas id="myChart2"></canvas>
     </div>
   </div>
 </div>
