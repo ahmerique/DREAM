@@ -10,6 +10,8 @@
     float:right;
     background-color: #ddd;
     height:300px;
+    background-color: #FFE8A5;
+
 }
 .clearfix::after {
     content: "";

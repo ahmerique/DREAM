@@ -5,10 +5,9 @@
     <p>texte explicant quelles sont les données et ce que l'on souhaite en faire </p>
   </div>
   <div class="right">
-
     <div>
       <h2>Fichier : </h2>
-      <select [(ngModel)]="selectedOption" name="first" (change)="getData()">
+      <select [(ngModel)]="selectedOption" name="first" (change)="getData();getData2()">
         <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
       </select>
       <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
@@ -24,7 +23,9 @@
     <br />
 
       <h3>Affichage : Timeseries</h3>
-
+    <button (click)="straightLine()">droite</button>
+    <button (click)="curveLine()">courbe</button>
+    <button (click)="dots()">Nuage de points</button>
       <canvas id="myChart" (click)="changeValueGraph()"></canvas>
 
 
@@ -34,7 +35,7 @@
       <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
     </select>
     <select [(ngModel)]="idofdata" (change)="getData2()">
-      <option *ngFor="let number of listData2">{{number}}</option>
+      <option *ngFor="let number of listData2">G{{number}}</option>
     </select> 
     <div>
       <canvas id="myChart2"></canvas>

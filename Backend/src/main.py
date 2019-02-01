@@ -99,32 +99,64 @@ def display():
     headers=request.get_json(force=True)
     dossier=headers['donnee']
     name=headers['type']
-    displayData=[]
-    files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
-    data2=files.values
-    text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+    if name!='knockouts':
+        displayData=[]
+        files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
+        data2=files.values
+        text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
 
-    content = text.read()
-    text.close()
-    datas=str(content)
-    newdata=''
-    length=10
-    for j in range(0,len(datas)):
-        if datas[j]=="\n":
-            newdata+='\t'
-        else:
-            newdata+=datas[j]
-    records=newdata.split("\t")
-    print(records,data2)
-    for i in range(length):
-        displayData.append({"label":"G"+str(i),"data":[]})
-    for i in range(len(data2)):
-        for j in range(len(data2[i])):
-            displayData[j]["data"].append(data2[i][j])
+        content = text.read()
+        text.close()
+        datas=str(content)
+        newdata=''
+        length=10
+        for j in range(0,len(datas)):
+            if datas[j]=="\n":
+                newdata+='\t'
+            else:
+                newdata+=datas[j]
+        records=newdata.split("\t")
+        print(records,data2)
+        for i in range(length):
+            displayData.append({"label":"G"+str(i+1),"data":[]})
+        for i in range(len(data2)):
+            for j in range(len(data2[i])):
+                displayData[j]["data"].append(data2[i][j])
 
-    print(displayData)
-    return (str(displayData))
+        print(displayData)
+        return (str(displayData))
+    else:
+        displayData=[]
+        print("knockout")
+        data=[]
+        files2=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
+        data=(files2.values)
+        files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
+        data2=files.values
+        text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+        print(data)
+        content = text.read()
+        text.close()
+        datas=str(content)
+        newdata=''
+        length=10
+        for j in range(0,len(datas)):
+            if datas[j]=="\n":
+                newdata+='\t'
+            else:
+                newdata+=datas[j]
+        records=newdata.split("\t")
+        for i in range(2*length):
+            displayData.append({"label":"G"+str(i+1),"data":[]})
+        for i in range(len(data2)):
+            for j in range(len(data2[i])):
+                displayData[(j*2)]["data"].append(data2[i][j])
 
+        for i in range(len(data[0])):
+            print(data[0][i])
+            displayData[(i*2)+1]["data"].append(data[0][i])
+        print(displayData)
+        return (str(displayData))
 @app.route('/displayTimeseries', methods=['POST'])
 #Route créée pour afficher les timeseries sur le graphe.
 def displayTimeseries():
