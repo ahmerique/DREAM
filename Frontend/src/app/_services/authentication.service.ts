@@ -37,7 +37,7 @@ export class AuthenticationService {
   }
 
   checkPassword(password: string) {
-    return this.http.post<any>(API_URL + '/auth/checkpassword', { 'password': password }); { }
+    return this.http.post<any>(API_URL + '/auth/checkpassword', { 'password': password });
   }
 
   deleteAccount(password: string) {
@@ -60,7 +60,21 @@ export class AuthenticationService {
     return this.http.get<any>(API_URL + '/auth/status');
   }
 
-  getHistory() {
-    return;
+  addQueryHistory() {
+    return this.http.post<any>(API_URL + '/auth/addsearchquery', { 'tsv': 'coucou', 'model': 'coucou2', 'results': 'coucou3' });
   }
+
+  getQueryHistory() {
+    return this.http.get<any>(API_URL + '/auth/searchquery');
+  }
+
+  postQueryHistory(query_id) {
+    return this.http.post<any>(API_URL + '/auth/searchquery', { 'query_id': query_id });
+  }
+
+  deleteQueryHistory(query_id) {
+    return this.http.post<any>(API_URL + '/auth/deletesearchquery', { 'query_id': query_id });
+  }
+
+
 }

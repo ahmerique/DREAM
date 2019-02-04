@@ -8,15 +8,14 @@ from Backend.src import app, db, bcrypt
 
 class User(db.Model):
     """ User Model for storing user related details """
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     pseudo = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    search_queries = db.relationship(
-        'search_query', backref='user', lazy='true')
+    search_queries = db.relationship('Search_query', backref='user')
 
     def __init__(self, email, pseudo, password):
         self.email = email
@@ -99,7 +98,7 @@ class Search_query(db.Model):
     __tablename__ = 'search_query'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     query_date = db.Column(db.DateTime, nullable=False)
     tsv = db.Column(db.Text, nullable=False)
     model = db.Column(db.String(500), nullable=False)

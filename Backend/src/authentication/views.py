@@ -11,7 +11,7 @@ auth_blueprint = Blueprint('auth', __name__)
 #TOOLS
 
 
-def _getUserID(self):
+def _getUser(self):
     # get the auth token
     auth_header = request.headers.get('Authorization')
     if auth_header:
@@ -28,11 +28,19 @@ def _getUserID(self):
     if auth_token:
         resp = User.decode_auth_token(auth_token)
         if not isinstance(resp, str):
-            #resp = user_id
-            return resp, 200
-
-        responseObject = {'status': 'fail', 'message': resp}
-        return responseObject, 401
+            try:
+                # fetch the user data
+                user = User.query.filter_by(id=resp).first()
+                return user, 200
+            except Exception as e:
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'User does not exist'
+                }
+                return make_response(jsonify(responseObject)), 404
+        else:
+            responseObject = {'status': 'fail', 'message': resp}
+            return responseObject, 401
     else:
         responseObject = {
             'status': 'fail',
@@ -173,16 +181,15 @@ class UserAPI(MethodView):
     """
 
     def get(self):
-        resp, returnCode = _getUserID(self)
+        resp, returnCode = _getUser(self)
         if returnCode == 200:
-            user = User.query.filter_by(id=resp).first()
             responseObject = {
                 'status': 'success',
                 'data': {
-                    'user_id': user.id,
-                    'email': user.email,
-                    'pseudo': user.pseudo,
-                    'registered_on': user.registered_on
+                    'user_id': resp.id,
+                    'email': resp.email,
+                    'pseudo': resp.pseudo,
+                    'registered_on': resp.registered_on
                 }
             }
             return make_response(jsonify(responseObject)), returnCode
@@ -226,7 +233,7 @@ class LogoutAPI(MethodView):
                 'status': 'fail',
                 'message': 'Provide a valid auth token.'
             }
-            return make_response(jsonify(responseObject)), 403
+            return make_response(jsonify(responseObject)), 401
 
 
 class CheckPasswordAPI(MethodView):
@@ -258,8 +265,9 @@ class CheckTokenAPI(MethodView):
                     'message': 'valid token.'
                 }
                 return make_response(jsonify(responseObject)), 200
-            responseObject = {'status': 'fail', 'message': resp}
-            return make_response(jsonify(responseObject)), 401
+            else:
+                responseObject = {'status': 'fail', 'message': resp}
+                return make_response(jsonify(responseObject)), 401
         else:
             responseObject = {
                 'status': 'fail',
@@ -270,12 +278,11 @@ class CheckTokenAPI(MethodView):
 
 class DeleteAccountAPI(MethodView):
     def post(self):
-        responseObjectUser, returnCodeUser = _getUserID(self)
+        responseObjectUser, returnCodeUser = _getUser(self)
         responseObjectPassword, returnCodePassword = _checkPassword(self)
         if (returnCodePassword == 200):
             if (returnCodeUser == 200):
                 # get auth token
-                user = User.query.filter_by(id=responseObjectUser).first()
                 auth_header = request.headers.get('Authorization')
                 auth_token = auth_header.split(" ")[1]
 
@@ -288,7 +295,7 @@ class DeleteAccountAPI(MethodView):
                     db.session.commit()
                     try:
                         # delete the user
-                        db.session.delete(user)
+                        db.session.delete(responseObjectUser)
                         db.session.commit()
                         responseObject = {
                             'status': 'success',
@@ -309,13 +316,14 @@ class DeleteAccountAPI(MethodView):
                 jsonify(responseObjectPassword)), returnCodePassword
 
 
-class AddSearchQuery(MethodView):
+class AddSearchQueryAPI(MethodView):
     def post(self):
-        responseObjectUser, returnCodeUser = _getUserID(self)
+        post_data = request.get_json()
+        responseObjectUser, returnCodeUser = _getUser(self)
         if returnCodeUser == 200:
             try:
                 query = Search_query(
-                    user_id=responseObjectUser,
+                    user_id=responseObjectUser.id,
                     tsv=post_data.get('tsv'),
                     model=post_data.get('model'),
                     results=post_data.get('results'))
@@ -339,6 +347,79 @@ class AddSearchQuery(MethodView):
             return make_response(jsonify(responseObjectUser)), returnCodeUser
 
 
+class SearchQueryAPI(MethodView):
+    def get(self):
+        get_data = request.get_json()
+        responseObjectUser, returnCodeUser = _getUser(self)
+        if returnCodeUser == 200:
+            # get the user's queries
+            try:
+                queries = Search_query.query.filter_by(
+                    user_id=responseObjectUser.id).all()
+                data = []
+                for query in queries:
+                    temp = {
+                        'query_id': query.id,
+                        'query_date': query.query_date,
+                        'tsv': query.tsv,
+                        'model': query.model
+                    }
+                    data.append(temp)
+                responseObject = {'status': 'success', 'data': data}
+                return make_response(jsonify(responseObject)), 201
+            except Exception as e:
+                responseObject = {'status': 'fail', 'message': e.args}
+                return make_response(jsonify(responseObject)), 500
+        else:
+            return make_response(jsonify(responseObjectUser)), returnCodeUser
+
+    def post(self):
+        post_data = request.get_json()
+        responseObjectUser, returnCodeUser = _getUser(self)
+        if returnCodeUser == 200:
+            # get the user's queries
+            try:
+                query = Search_query.query.filter_by(
+                    user_id=responseObjectUser.id,
+                    id=post_data.get('query_id')).first()
+                responseObject = {'status': 'success', 'data': query.results}
+                return make_response(jsonify(responseObject)), 201
+            except Exception as e:
+                responseObject = {'status': 'fail', 'message': e.args}
+                return make_response(jsonify(responseObject)), 500
+        else:
+            return make_response(jsonify(responseObjectUser)), returnCodeUser
+
+
+class DeleteSearchQueryAPI(MethodView):
+    def post(self):
+        post_data = request.get_json()
+        responseObjectUser, returnCodeUser = _getUser(self)
+        if returnCodeUser == 200:
+            # get the user's queries
+            try:
+                query = Search_query.query.filter_by(
+                    user_id=responseObjectUser.id,
+                    id=post_data.get('query_id')).first()
+                try:
+                    # delete the query
+                    db.session.delete(query)
+                    db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Query successfully deleted'
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                except Exception as e:
+                    responseObject = {'status': 'fail', 'message': e.args}
+                    return make_response(jsonify(responseObject)), 500
+            except Exception as e:
+                responseObject = {'status': 'fail', 'message': e.args}
+                return make_response(jsonify(responseObject)), 500
+        else:
+            return make_response(jsonify(responseObjectUser)), returnCodeUser
+
+
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
@@ -347,6 +428,9 @@ logout_view = LogoutAPI.as_view('logout_api')
 checkPassword_view = CheckPasswordAPI.as_view('checkPassword_api')
 deleteAccount_view = DeleteAccountAPI.as_view('deleteAccount_api')
 checkToken_view = CheckTokenAPI.as_view('checkToken_api')
+addSearchQuery_view = AddSearchQueryAPI.as_view('addSearchQuery_api')
+searchQuery_view = SearchQueryAPI.as_view('searchQuery_api')
+deleteSearchQuery_view = DeleteSearchQueryAPI.as_view('deleteSearchQuery_api')
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
@@ -363,3 +447,11 @@ auth_blueprint.add_url_rule(
     '/auth/status', view_func=user_view, methods=['GET'])
 auth_blueprint.add_url_rule(
     '/auth/checktoken', view_func=checkToken_view, methods=['GET'])
+auth_blueprint.add_url_rule(
+    '/auth/addsearchquery', view_func=addSearchQuery_view, methods=['POST'])
+auth_blueprint.add_url_rule(
+    '/auth/searchquery', view_func=searchQuery_view, methods=['GET', 'POST'])
+auth_blueprint.add_url_rule(
+    '/auth/deletesearchquery',
+    view_func=deleteSearchQuery_view,
+    methods=['POST'])

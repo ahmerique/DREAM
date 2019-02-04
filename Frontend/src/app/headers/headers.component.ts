@@ -54,4 +54,14 @@ export class HeadersComponent implements OnInit, AfterViewInit {
     }
   }
 
+  test() {
+    this.authenticationService.addQueryHistory().subscribe(
+      data => {
+        console.log(data.message);
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
 }
