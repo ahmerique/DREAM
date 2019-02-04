@@ -11,7 +11,6 @@ import { Component } from '@angular/core';
 })
 export class DataService {
   private dataUrl = ' http://localhost:5000/wildtype';
-  private dataUrl2 = ' http://localhost:5000/test2';
   private dataUrl3 = ' http://localhost:5000/addFile';
   private dataUrl4='http://localhost:5000/data';
   private dataUrl5='http://localhost:5000/displayData'
@@ -27,10 +26,7 @@ export class DataService {
     return (this.http.get(this.dataUrl, { responseType: 'text' }));
   }
 
-  getData2() {
-    // fonction test pour renvoyer des données depuis la base de données
-    return (this.http.get(this.dataUrl2, { responseType: 'text' }));
-  }
+
   sendData(file){
 
     return (this.http.post(this.dataUrl3, file,{ responseType: 'text' }));

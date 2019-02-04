@@ -26,10 +26,8 @@ app.register_blueprint(auth_blueprint)
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
 def result():
- text = open('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', 'r+')
- content = text.read()
- text.close()
- return content
+
+ return ("le back est plutot bon")
     
 @app.route('/test2', methods=['GET'])
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test1
@@ -84,16 +82,15 @@ def wildtype():
     hello=""
     datas=[]
 
-    r=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
+    files=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
 
-    datas.append(r.values)
+    datas=(files.values)
     print("datas")
-    print(datas[0][0])
-    for row in datas[0][0]:
+    print(datas[0])
+    for row in datas[0]:
         print(row)
         hello+=' '+str(row)
 
-    print(hello)
     return (hello)
 
 
@@ -107,8 +104,8 @@ def learn():
         x='\''+str(0)+'\''
         print(x)
         print('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', 'r+')
-        r=pd.read_csv('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', sep='\t')
-        datas.append(r.values)
+        files=pd.read_csv('../data/'+headers['name']+'/'+headers['name']+'_'+ast.literal_eval(headers['data'])[str(i)]+'.tsv', sep='\t')
+        datas.append(files.values)
     print(datas)
     return (str(headers))
 
@@ -117,26 +114,64 @@ def display():
     headers=request.get_json(force=True)
     dossier=headers['donnee']
     name=headers['type']
-    displayData=[]
-    text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
-    content = text.read()
-    text.close()
-    datas=str(content)
-    newdata=''
-    length=10
-    for j in range(0,len(datas)):
-        if datas[j]=="\n":
-            newdata+='\t'
-        else:
-            newdata+=datas[j]
-    records=newdata.split("\t")
-    for row in range (len(records)-1):
-        if row<length:
-            displayData.append({"label":str(records[row])[1:-1],"data":[]})
-        else:
-            displayData[row%length]["data"].append(records[row])
-    return (str(displayData))
+    if name!='knockouts':
+        displayData=[]
+        files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
+        data2=files.values
+        text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
 
+        content = text.read()
+        text.close()
+        datas=str(content)
+        newdata=''
+        length=10
+        for j in range(0,len(datas)):
+            if datas[j]=="\n":
+                newdata+='\t'
+            else:
+                newdata+=datas[j]
+        records=newdata.split("\t")
+        print(records,data2)
+        for i in range(length):
+            displayData.append({"label":"G"+str(i+1),"data":[]})
+        for i in range(len(data2)):
+            for j in range(len(data2[i])):
+                displayData[j]["data"].append(data2[i][j])
+
+        print(displayData)
+        return (str(displayData))
+    else:
+        displayData=[]
+        print("knockout")
+        data=[]
+        files2=pd.read_csv('../data/insilico_size10_1/insilico_size10_1_wildtype.tsv', sep='\t')
+        data=(files2.values)
+        files=pd.read_csv('../data/'+dossier+'/'+dossier+'_'+name+'.tsv',sep='\t')
+        data2=files.values
+        text = open('../data/'+dossier+'/'+dossier+'_'+name+'.tsv', 'r+')
+        print(data)
+        content = text.read()
+        text.close()
+        datas=str(content)
+        newdata=''
+        length=10
+        for j in range(0,len(datas)):
+            if datas[j]=="\n":
+                newdata+='\t'
+            else:
+                newdata+=datas[j]
+        records=newdata.split("\t")
+        for i in range(2*length):
+            displayData.append({"label":"G"+str(i+1),"data":[]})
+        for i in range(len(data2)):
+            for j in range(len(data2[i])):
+                displayData[(j*2)]["data"].append(data2[i][j])
+
+        for i in range(len(data[0])):
+            print(data[0][i])
+            displayData[(i*2)+1]["data"].append(data[0][i])
+        print(displayData)
+        return (str(displayData))
 @app.route('/displayTimeseries', methods=['POST'])
 #Route créée pour afficher les timeseries sur le graphe.
 def displayTimeseries():
