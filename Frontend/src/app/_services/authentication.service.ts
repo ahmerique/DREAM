@@ -35,4 +35,32 @@ export class AuthenticationService {
         return log;
       }));
   }
+
+  checkPassword(password: string) {
+    return this.http.post<any>(API_URL + '/auth/checkpassword', { 'password': password }); { }
+  }
+
+  deleteAccount(password: string) {
+    return this.http.post<any>(API_URL + '/auth/deleteaccount', { 'password': password })
+      .pipe(map(log => {
+        localStorage.removeItem('currentUser');
+        return log;
+      }));
+  }
+
+  checkToken() {
+    return this.http.get<any>(API_URL + '/auth/checktoken').pipe(
+      map((res) => {
+        if (res.status === 'success') { return true; }
+        return false;
+      }));
+  }
+
+  getUser() {
+    return this.http.get<any>(API_URL + '/auth/status');
+  }
+
+  getHistory() {
+    return;
+  }
 }

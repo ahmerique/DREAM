@@ -8,13 +8,15 @@ from Backend.src import app, db, bcrypt
 
 class User(db.Model):
     """ User Model for storing user related details """
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     pseudo = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    search_queries = db.relationship(
+        'search_query', backref='user', lazy='true')
 
     def __init__(self, email, pseudo, password):
         self.email = email
@@ -32,7 +34,7 @@ class User(db.Model):
             payload = {
                 'exp':
                 datetime.datetime.utcnow() + datetime.timedelta(
-                    days=0, seconds=15),
+                    days=0, hours=4),
                 'iat':
                 datetime.datetime.utcnow(),
                 'sub':
@@ -67,7 +69,7 @@ class BlacklistToken(db.Model):
     """
     Token Model for storing JWT tokens
     """
-    __tablename__ = 'blacklist_tokens'
+    __tablename__ = 'blacklist_token'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)
@@ -88,3 +90,24 @@ class BlacklistToken(db.Model):
             return True
         else:
             return False
+
+
+class Search_query(db.Model):
+    """
+    Token Model for storing user's history
+    """
+    __tablename__ = 'search_query'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    query_date = db.Column(db.DateTime, nullable=False)
+    tsv = db.Column(db.Text, nullable=False)
+    model = db.Column(db.String(500), nullable=False)
+    results = db.Column(db.Text, nullable=False)
+
+    def __init__(self, user_id, tsv, model, results):
+        self.user_id = user_id
+        self.query_date = datetime.datetime.now()
+        self.tsv = tsv
+        self.model = model
+        self.results = results

@@ -47,3 +47,7 @@ p button {
   color: rgb(172, 0, 0);
   font-style: italic;
 }
+
+.is-invalid {
+  background-color: rgb(250, 179, 179);
+}

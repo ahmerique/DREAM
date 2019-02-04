@@ -39,9 +39,8 @@ export class HeadersComponent implements OnInit, AfterViewInit {
           this.router.navigate(['/login']);
         },
         error => {
-          this.router.navigate(['/login']);
+          console.log(error);
         });
-
   }
 
   @HostListener('window:scroll', ['$event'])

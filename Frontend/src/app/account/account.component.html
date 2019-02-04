@@ -11,10 +11,26 @@
   <button [ngClass]="_changePassword ? 'selected' : ''" (click)="onClick('password')">Modifier mot de passe</button>
 
   <br />
-  <button>Supprimer votre compte</button>
+  <button (click)="onClick('deleteAccount')">Supprimer votre compte</button>
+
+  <div *ngIf=" _deleteAccount===true">
+    <div id="left block" class="center-left">
+      <p>Mot de passe:</p>
+    </div>
+
+    <div id="right block" class="center-left">
+      <p><input #deleteAccountPassword type="password" /></p>
+    </div>
+
+    <br />
+    <button (click)="deleteAccount(deleteAccountPassword.value)">
+      Valider la suppression de compte
+    </button>
+
+  </div>
 
 
-  <div *ngIf="_changeInfo==true">
+  <div *ngIf=" _changeInfo==true">
 
     <div id="left block" class="center-left">
       <p>Nouveau pseudo:</p>
@@ -28,7 +44,7 @@
     <div id="right block" class="center-left">
       <p><input #newPseudo /></p>
       <p><input #newemail /></p>
-      <p><input #password /></p>
+      <p><input #password type="password" /></p>
     </div>
   </div>
 
