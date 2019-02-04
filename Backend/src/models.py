@@ -16,6 +16,7 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     search_queries = db.relationship('Search_query', backref='user')
+    folders = db.relationship('Folder', backref='user')
 
     def __init__(self, email, pseudo, password):
         self.email = email
@@ -110,3 +111,35 @@ class Search_query(db.Model):
         self.tsv = tsv
         self.model = model
         self.results = results
+
+
+class Folder(db.Model):
+    """
+    Token Model for storing user's history
+    """
+    __tablename__ = 'folder'
+
+    folder_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    tsvs = db.relationship('Tsv', backref='folder')
+
+    def __init__(self, user_id, name):
+        self.user_id = user_id
+        self.name = name
+
+
+class Tsv(db.Model):
+    """
+    Token Model for storing user's history
+    """
+    __tablename__ = 'tsv'
+
+    tsv_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    folder_id = db.Column(
+        db.Integer, db.ForeignKey('folder.folder_id'), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+
+    def __init__(self, folder_id, name):
+        self.folder_id = folder_id
+        self.name = name

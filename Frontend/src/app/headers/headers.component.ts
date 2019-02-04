@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit }
 import { AuthenticationService } from '../_services';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-headers',
