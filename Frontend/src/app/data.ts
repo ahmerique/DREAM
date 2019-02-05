@@ -1,3 +1,3 @@
 export class Data {
-    name: string;
+  name: string;
 }

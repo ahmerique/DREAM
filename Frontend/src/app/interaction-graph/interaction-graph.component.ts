@@ -9,16 +9,15 @@ import * as d3 from 'd3';
 export class InteractionGraphComponent implements OnInit {
 
   constructor() { }
-  model:boolean=false;
+  model = false;
   ngOnInit() {
 	  this.traceGraph();
   }
-  Modele(){
-    if(!this.model){
-    this.model=true;
-    }
-    else{
-      this.model=false;
+  Modele() {
+    if (!this.model) {
+      this.model = true;
+    } else {
+      this.model = false;
 
     }
   }

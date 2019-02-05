@@ -41,3 +41,13 @@ button:active {
 p button {
   margin-left: 2%;
 }
+
+.invalid-feedback,
+.alert {
+  color: rgb(172, 0, 0);
+  font-style: italic;
+}
+
+.is-invalid {
+  background-color: rgb(250, 179, 179);
+}
