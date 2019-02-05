@@ -61,11 +61,33 @@ export class AccountComponent implements OnInit {
   }
 
 
-  newPassword(oldPassword: string, newPassword: string, confirmPassword: string): void {
+  changePassword(oldPassword: string, newPassword: string, confirmPassword: string): void {
+    this.authenticationService.changeAccountPassword(oldPassword, newPassword)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log('Password changed');
+          this.router.navigate(['/account']);
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
   }
 
-  newInfo(newPseudo: string, newemail: string): void {
+  changeInfo(newPseudo: string, newEmail: string, password: string): void {
+    this.authenticationService.changeAccountInfo(newPseudo, newEmail, password)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log('account info changed');
+          this.router.navigate(['/account']);
+        },
+        error => {
+          console.log(error);
+        }
+      );
 
   }
 

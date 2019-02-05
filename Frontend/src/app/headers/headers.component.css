@@ -67,3 +67,13 @@ img {
   background-color: rgb(80, 80, 80);
   padding: 2%
 }
+
+.no-style {
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.no-style:visited {
+  color: rgb(255, 255, 255);
+}

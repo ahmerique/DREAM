@@ -76,5 +76,13 @@ export class AuthenticationService {
     return this.http.post<any>(API_URL + '/auth/deletesearchquery', { 'query_id': query_id });
   }
 
+  changeAccountInfo(new_pseudo, new_email, password) {
+    return this.http.post<any>(API_URL + '/account/changeinfo', { 'new_pseudo': new_pseudo, 'new_email': new_email, 'password': password });
+  }
+
+  changeAccountPassword(password, new_password) {
+    return this.http.post<any>(API_URL + '/account/changepassword', { 'new_password': new_password, 'password': password });
+  }
+
 
 }

@@ -3,7 +3,7 @@
 from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
-from Backend.src import bcrypt, db
+from Backend.src import app, bcrypt, db
 from Backend.src.models import User, BlacklistToken, Search_query
 
 auth_blueprint = Blueprint('auth', __name__)
@@ -109,8 +109,11 @@ class RegisterAPI(MethodView):
         # get the post data
         post_data = request.get_json()
         # check if user already exists
-        user = User.query.filter_by(email=post_data.get('email')).first()
-        if not user:
+        userMail = User.query.filter_by(email=post_data.get('email')).first()
+        userPseudo = User.query.filter_by(
+            pseudo=post_data.get('pseudo')).first()
+
+        if not (userMail or userPseudo):
             try:
                 user = User(
                     email=post_data.get('email'),
@@ -128,17 +131,14 @@ class RegisterAPI(MethodView):
                 }
                 return make_response(jsonify(responseObject)), 201
             except Exception as e:
-                responseObject = {
-                    'status': 'fail',
-                    'message': 'Some error occurred. Please try again.'
-                }
-                return make_response(jsonify(responseObject)), 401
+                responseObject = {'status': 'fail', 'message': e.args}
+                return make_response(jsonify(responseObject)), 500
         else:
             responseObject = {
                 'status': 'fail',
                 'message': 'User already exists. Please Log in.',
             }
-            return make_response(jsonify(responseObject)), 202
+            return make_response(jsonify(responseObject)), 500
 
 
 class LoginAPI(MethodView):
@@ -171,7 +171,7 @@ class LoginAPI(MethodView):
                 return make_response(jsonify(responseObject)), 404
         except Exception as e:
             print(e)
-            responseObject = {'status': 'fail', 'message': 'Try again'}
+            responseObject = {'status': 'fail', 'message': e.args}
             return make_response(jsonify(responseObject)), 500
 
 
@@ -420,6 +420,83 @@ class DeleteSearchQueryAPI(MethodView):
             return make_response(jsonify(responseObjectUser)), returnCodeUser
 
 
+class changeInfoAPI(MethodView):
+    def post(self):
+        # get the post data
+        post_data = request.get_json()
+
+        # check password
+        responseObjectPassword, returnCodePassword = _checkPassword(self)
+        if returnCodePassword == 200:
+            # get current user if possible
+            responseObjectUser, returnCodeUser = _getUser(self)
+            if returnCodeUser == 200:
+                new_pseudo = post_data.get('new_pseudo')
+                new_email = post_data.get('new_email')
+                if new_pseudo == '':
+                    new_pseudo = responseObjectUser.pseudo
+                if new_email == '':
+                    new_email = responseObjectUser.email
+                try:
+                    # change user info
+                    responseObjectUser.email = new_email
+                    responseObjectUser.pseudo = new_pseudo
+                    db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'user info successfully modified'
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                except Exception as e:
+                    responseObject = {'status': 'fail', 'message': e.args}
+                    return make_response(jsonify(responseObject)), 500
+            else:
+                return make_response(
+                    jsonify(responseObjectPassword)), returnCodePassword
+        else:
+            return make_response(
+                jsonify(responseObjectPassword)), returnCodePassword
+
+
+class changePasswordAPI(MethodView):
+    def post(self):
+        # get the post data
+        post_data = request.get_json()
+
+        # check password
+        responseObjectPassword, returnCodePassword = _checkPassword(self)
+        if returnCodePassword == 200:
+            # get current user if possible
+            responseObjectUser, returnCodeUser = _getUser(self)
+            if returnCodeUser == 200:
+                new_password = post_data.get('new_password')
+                if new_password == '':
+                    responseObject = {
+                        'status': 'fail',
+                        'message':
+                        'empty password, please insert correct password'
+                    }
+                    return make_response(jsonify(responseObject)), 500
+                try:
+                    # change user info
+                    responseObjectUser.password = bcrypt.generate_password_hash(new_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+                    db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'user password successfully modified'
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                except Exception as e:
+                    responseObject = {'status': 'fail', 'message': e.args}
+                    return make_response(jsonify(responseObject)), 500
+            else:
+                return make_response(
+                    jsonify(responseObjectPassword)), returnCodePassword
+        else:
+            return make_response(
+                jsonify(responseObjectPassword)), returnCodePassword
+
+
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
@@ -431,6 +508,8 @@ checkToken_view = CheckTokenAPI.as_view('checkToken_api')
 addSearchQuery_view = AddSearchQueryAPI.as_view('addSearchQuery_api')
 searchQuery_view = SearchQueryAPI.as_view('searchQuery_api')
 deleteSearchQuery_view = DeleteSearchQueryAPI.as_view('deleteSearchQuery_api')
+changeInfo_view = changeInfoAPI.as_view('changeInfo_api')
+changePassword_view = changePasswordAPI.as_view('changePassword_api')
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
@@ -455,3 +534,7 @@ auth_blueprint.add_url_rule(
     '/auth/deletesearchquery',
     view_func=deleteSearchQuery_view,
     methods=['POST'])
+auth_blueprint.add_url_rule(
+    '/account/changeinfo', view_func=changeInfo_view, methods=['POST'])
+auth_blueprint.add_url_rule(
+    '/account/changepassword', view_func=changePassword_view, methods=['POST'])
