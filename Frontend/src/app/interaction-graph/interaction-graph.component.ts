@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
   selector: 'app-interaction-graph',
   templateUrl: './interaction-graph.component.html',
-  styleUrls: ['./interaction-graph.component.css']
+  styleUrls: ['./interaction-graph.component.css'],
 })
 export class InteractionGraphComponent implements OnInit {
 
   constructor() { }
+  @Input() linksSend: any[];
   model = false;
   ngOnInit() {
 	  this.traceGraph();
@@ -23,23 +24,9 @@ export class InteractionGraphComponent implements OnInit {
   }
 
   traceGraph() {
-
-var links = [{'source': 1, 'target': 2, 'type': 'unknown'},
- {'source': 2, 'target': 4, 'type': 'unknown'},
- {'source': 2, 'target': 7, 'type': 'unknown'},
- {'source': 2, 'target': 8, 'type': 'unknown'},
- {'source': 3, 'target': 4, 'type': 'unknown'},
- {'source': 3, 'target': 5, 'type': 'unknown'},
- {'source': 4, 'target': 5, 'type': 'unknown'},
- {'source': 5, 'target': 2, 'type': 'unknown'},
- {'source': 5, 'target': 3, 'type': 'unknown'},
- {'source': 6, 'target': 7, 'type': 'unknown'},
- {'source': 7, 'target': 6, 'type': 'unknown'},
- {'source': 9, 'target': 5, 'type': 'unknown'},
- {'source': 10, 'target': 3, 'type': 'unknown'}];
-
-
-var nodes = {};
+    let links = this.linksSend;
+    console.log(this.linksSend);
+    var nodes = {};
 
     // Compute the distinct nodes from the links.
     links.forEach(function (link) {
@@ -51,9 +38,9 @@ var nodes = {};
         });
     });
 
-var w = 800,
+    var w = 800,
     h = 400,
-	markerWidth = 5,
+	  markerWidth = 5,
     markerHeight = 5,
     cRadius = 15, // play with the cRadius value
     refX = cRadius + 12,

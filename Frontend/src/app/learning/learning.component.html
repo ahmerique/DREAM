@@ -20,7 +20,7 @@
         <option value="RandomForest">Random Forest</option>
       </select>
     </div>
-    <button (click)="Result()">Lancer l'apprentissage</button>
+    <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
   </div>
   <div class="right">
     <h2>Explication</h2>
@@ -30,5 +30,5 @@
 </div>
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber'></app-prediction>
-  <app-interaction-graph></app-interaction-graph>
+  <app-interaction-graph [linksSend]='links'></app-interaction-graph>
 </div>

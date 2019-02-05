@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { LearningService } from '../learning.service';
 import { DataService } from '../data.service';
 @Component({
@@ -15,6 +15,7 @@ export class LearningComponent implements OnInit {
   learning: String;
   @Input() id: number;
   @Input() dataChange:any;
+  links = [];
   selectedType = {};
   selectedLearning: string;
   dataString: String;
@@ -24,6 +25,7 @@ export class LearningComponent implements OnInit {
   ngOnInit() {
     this.getDataBase();
   }
+
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
       this.dataString = data,
@@ -33,7 +35,19 @@ export class LearningComponent implements OnInit {
     })
   }
   Result() {
-    console.log(this.id)
+    this.links = [{'source': 1, 'target': 2, 'type': 'unknown'},
+     {'source': 2, 'target': 4, 'type': 'unknown'},
+     {'source': 2, 'target': 7, 'type': 'unknown'},
+     {'source': 2, 'target': 8, 'type': 'unknown'},
+     {'source': 3, 'target': 4, 'type': 'unknown'},
+     {'source': 3, 'target': 5, 'type': 'unknown'},
+     {'source': 4, 'target': 5, 'type': 'unknown'},
+     {'source': 5, 'target': 2, 'type': 'unknown'},
+     {'source': 5, 'target': 3, 'type': 'unknown'},
+     {'source': 6, 'target': 7, 'type': 'unknown'},
+     {'source': 7, 'target': 6, 'type': 'unknown'},
+     {'source': 9, 'target': 5, 'type': 'unknown'},
+     {'source': 10, 'target': 3, 'type': 'unknown'}];
     let dataSent = {}
     let timeseries=[]
     for (let j=0;j<this.dataChange.length;j++){
