@@ -21,22 +21,22 @@ export class InteractionGraphComponent implements OnInit {
 
     }
   }
-  
+
   traceGraph() {
-	  
-	      var links = [{'source': 1, 'target': 2, 'type': 'licensing'},
- {'source': 2, 'target': 4, 'type': 'licensing'},
- {'source': 2, 'target': 7, 'type': 'licensing'},
- {'source': 2, 'target': 8, 'type': 'licensing'},
- {'source': 3, 'target': 4, 'type': 'licensing'},
- {'source': 3, 'target': 5, 'type': 'licensing'},
- {'source': 4, 'target': 5, 'type': 'licensing'},
- {'source': 5, 'target': 2, 'type': 'licensing'},
- {'source': 5, 'target': 3, 'type': 'licensing'},
- {'source': 6, 'target': 7, 'type': 'licensing'},
- {'source': 7, 'target': 6, 'type': 'licensing'},
- {'source': 9, 'target': 5, 'type': 'licensing'},
- {'source': 10, 'target': 3, 'type': 'licensing'}];
+
+var links = [{'source': 1, 'target': 2, 'type': 'unknown'},
+ {'source': 2, 'target': 4, 'type': 'unknown'},
+ {'source': 2, 'target': 7, 'type': 'unknown'},
+ {'source': 2, 'target': 8, 'type': 'unknown'},
+ {'source': 3, 'target': 4, 'type': 'unknown'},
+ {'source': 3, 'target': 5, 'type': 'unknown'},
+ {'source': 4, 'target': 5, 'type': 'unknown'},
+ {'source': 5, 'target': 2, 'type': 'unknown'},
+ {'source': 5, 'target': 3, 'type': 'unknown'},
+ {'source': 6, 'target': 7, 'type': 'unknown'},
+ {'source': 7, 'target': 6, 'type': 'unknown'},
+ {'source': 9, 'target': 5, 'type': 'unknown'},
+ {'source': 10, 'target': 3, 'type': 'unknown'}];
 
 
 var nodes = {};
@@ -59,7 +59,7 @@ var w = 800,
     refX = cRadius + 12,
     refY = -Math.sqrt(cRadius),
     drSub = cRadius + refY;
-	
+
 var force = d3.layout.force()
         .nodes(d3.values(nodes))
         .links(links)
@@ -81,9 +81,9 @@ var svg = d3.select("#graph").append("svg:svg")
 										d3.selectAll("marker").attr("opacity", 0.9);
 										d3.selectAll("rect").style("stroke-width", "1px" )});
 
-		
+
 var pointe = svg.append("svg:defs").selectAll("marker")
-        .data(["licensing"])
+        .data(["unknown"])
         .enter().append("svg:marker")
 		.style("fill", "#34495e")
         .attr("id", String)
@@ -95,20 +95,20 @@ var pointe = svg.append("svg:defs").selectAll("marker")
         .attr("orient", "auto")
         .append("svg:path")
         .attr("d", "M0,-5L10,0L0,5");
-		
-		
+
+
 var path = svg.append("svg:g").selectAll("path")
         .data(force.links())
         .enter().append("svg:path")
 		.style("fill", "none").style("stroke", "#34495e").style("stroke-width", "1.5px").style("opacity", "0.9")
-        .attr("class", function (d) {
-        return "link " + d.type;
-    })
+        //.attr("class", function (d) {
+        //return "link " + d.type;
+    //})
         .attr("marker-end", function (d) {
         return "url(#" + d.type + ")";
     });
-	
-	
+
+
     var circle = svg.append("svg:g").selectAll("circle")
         .data(force.nodes())
         .enter().append("svg:circle")
@@ -121,26 +121,26 @@ var path = svg.append("svg:g").selectAll("path")
 		//.on('dblclick', function () { d3.selectAll("marker").attr("opacity", 1);})
         .call(force.drag);
 
-		
+
 	var legende = svg.append("svg:g")
 	legende.selectAll("rect")
 		.data(force.nodes())
 		.enter().append("svg:rect")
 		.style("fill", "#dfe6e9").style("stroke","#34495e").style("stroke-width", "1px").style("opacity", "0.95")
 		.attr("x", function(d,i) { if (force.nodes().length<20) {
-			return 5 
+			return 5
 		} else {
 			if (i<force.nodes().length/2) {
-				return 5 
-			} else { 
-				return 40 
+				return 5
+			} else {
+				return 40
 			}
 		}})
 		.attr("y", function(d,i) { if (force.nodes().length<20) {
-			return 1+h/force.nodes().length*i 
+			return 1+h/force.nodes().length*i
 		} else {
 			if (i<force.nodes().length/2) {
-				return 1+(2*(h-(2*h/force.nodes().length))/force.nodes().length)*i; 
+				return 1+(2*(h-(2*h/force.nodes().length))/force.nodes().length)*i;
 			} else {
 				return 1+(2*(h-(2*h/force.nodes().length))/force.nodes().length)*(i-force.nodes().length/2)
 		}}})
@@ -152,23 +152,23 @@ var path = svg.append("svg:g").selectAll("path")
 		.on('click', function () { d3.selectAll("marker").attr("opacity", 0.1);
 									d3.selectAll("rect").style("stroke-width", "1px" );
 									d3.select(this).style("stroke-width", "2px" );});
-		
+
 	legende.selectAll("text").data(force.nodes())
 	.enter().append("svg:text")
 	.attr("x", function(d,i) { if (force.nodes().length<20) {
-	return 9 
+	return 9
 	} else {
 		if (i<force.nodes().length/2) {
-			return 9 
+			return 9
 		} else {
-			return 44 
+			return 44
 		}
 	}})
 	.attr("y", function(d,i) { if (force.nodes().length<20) {
 	return 7+h/(2*force.nodes().length)+h/force.nodes().length*i
 	} else {
 		if (i<force.nodes().length/2) {
-			return (2*(h-(2*h/force.nodes().length))/force.nodes().length)*i+((2*h/force.nodes().length))/2; 
+			return (2*(h-(2*h/force.nodes().length))/force.nodes().length)*i+((2*h/force.nodes().length))/2;
 		} else {
 			return (2*(h-(2*h/force.nodes().length))/force.nodes().length)*(i-force.nodes().length/2)+((2*h/force.nodes().length))/2
 		}
@@ -180,7 +180,7 @@ var path = svg.append("svg:g").selectAll("path")
     var text = svg.append("svg:g").selectAll("g")
         .data(force.nodes())
         .enter().append("svg:g");
-		
+
     text.append("svg:text")
 	//.style("font", "Courier").style("font-size", "10px").style("pointer-events", none).style("opacity",0.9)
         .attr("x", "-.6em")
@@ -188,7 +188,7 @@ var path = svg.append("svg:g").selectAll("path")
         .text(function (d) {
         return d.name;
     });
-	
+
   const linkedByIndex = {};
   links.forEach(d => {
     linkedByIndex[`${d.source},${d.target}`] = 1;
@@ -232,7 +232,7 @@ var path = svg.append("svg:g").selectAll("path")
             return "translate(" + Math.max(cRadius*2 ,Math.min(w-cRadius*2, d.x)) + "," + Math.max(cRadius*2, Math.min(h-cRadius*2, d.y)) + ")";
         });
     }
-	  
+
   }
-  
+
 }
