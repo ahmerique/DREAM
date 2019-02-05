@@ -38,8 +38,8 @@ export class InteractionGraphComponent implements OnInit {
         });
     });
 
-    var w = 800,
-    h = 400,
+    var w = 1000,
+    h = 600,
 	  markerWidth = 5,
     markerHeight = 5,
     cRadius = 15, // play with the cRadius value
