@@ -54,6 +54,7 @@ export class SignupComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.loading = false;
           this.router.navigate(['/login']);
         },
         error => {

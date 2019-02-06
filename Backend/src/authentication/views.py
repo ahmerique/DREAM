@@ -476,7 +476,7 @@ class changePasswordAPI(MethodView):
                         'message':
                         'empty password, please insert correct password'
                     }
-                    return make_response(jsonify(responseObject)), 500
+                    return make_response(jsonify(responseObject)), 404
                 try:
                     # change user info
                     responseObjectUser.password = bcrypt.generate_password_hash(new_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
