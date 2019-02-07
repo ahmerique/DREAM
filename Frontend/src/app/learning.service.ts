@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
 export class LearningService {
   private dataUrl = ' http://localhost:5000/learning';
   private dataUrl2 = ' http://localhost:5000/prediction';
-
+  private dataUrl3 = ' http://localhost:5000/graph'
   data: any;
 
   constructor(    private http: HttpClient) { }
@@ -26,5 +26,9 @@ export class LearningService {
     // appelle la fonction prediction du back pour renvoyer des données en cas de perturabtion du modele
     return(this.http.post(this.dataUrl2,json, { responseType: 'text' }));
 
+  }
+  createGraph(json){
+    console.log(('create'))
+    return(this.http.post(this.dataUrl3,json, { responseType: 'text' }));
   }
 }

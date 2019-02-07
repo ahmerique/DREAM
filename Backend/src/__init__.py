@@ -117,6 +117,32 @@ def learn():
     print(datas)
     return (str(headers))
 
+@app.route('/graph', methods=['POST'])
+def graph():
+    headers = request.get_json(force=True)
+    if True:#Creer une condition pour choisir la methode
+        df_knockouts = pd.read_csv(
+            'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+            'knockouts' + '.tsv',
+            sep='\t')
+        df_knockdowns = pd.read_csv(
+            'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+            'knockdowns' + '.tsv',
+            sep='\t')
+        df_wildtype = pd.read_csv(
+            'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+            'wildtype' + '.tsv',
+            sep='\t')
+        M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
+        print(M)
+    retour=[]
+
+    for i in range(len(M[0])):
+        for j in range(len(M[0])):
+            if abs(M[i][j])==1:
+                retour.append({ 'source': i+1, 'target': j+1, 'type': 'unknown' })
+    print(retour)
+    return (str(retour))
 
 @app.route('/displayData', methods=['POST'])
 def display():

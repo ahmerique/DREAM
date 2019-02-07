@@ -142,3 +142,5 @@ def Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2):
     result=implementation1(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
     result=secondPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result)
     return thirdPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result)
+
+### Graphe d'interaction : 
