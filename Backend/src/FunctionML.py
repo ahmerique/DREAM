@@ -1,14 +1,18 @@
-from statistics import mean
+import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
+from sklearn import ensemble
+from sklearn import metrics
+from statistics import mean
 
-def etudeRelationSigne(Exp_ko,Exp_wt,v):##v=.35 pour un resultat moyen de .78/.80
-    m = len(Exp_ko)
+def etudeRelationSigne(df_knockouts,df_wildtype,v=.12):
+    m = len(df_knockouts.values)
     mat = np.zeros((m,m))
 
     for i in range(m):
         for j in range(m):
             if i != j:
-                mat[i][j] =(round(Exp_ko[i][j] - Exp_wt[1][0][j], 3))/Exp_wt[1][0][j]
+                mat[i][j] =(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))
                 if -v < mat[i][j] < v : 
                     mat[i][j] = 0.
                 elif mat[i][j]>0:
@@ -17,9 +21,45 @@ def etudeRelationSigne(Exp_ko,Exp_wt,v):##v=.35 pour un resultat moyen de .78/.8
                     mat[i][j] = -1.
     return mat
 
-def etudeVariationKO(Exp_ko,Exp_wt):
-    m = len(Exp_ko)
-    mat=etudeRelationSigne(Exp_ko,Exp_wt,.35).T
+def creationDict(df_knockouts,df_wildtype,v):
+    dict={}
+    for i in range(len(df_knockouts.values)):
+        dict[i+1]={}
+    relation=etudeRelationSigne(df_knockouts,df_wildtype,v)  
+    for i in range(len(relation)):
+        newrel=[]
+        for j in range(len(relation)):
+            if relation[i][j]==1:
+                newrel.append(j+1)
+            if relation[i][j]==-1:
+                newrel.append(-j-1)
+        dict[i+1][i+1]=(newrel)
+        for l in range(len(newrel)):
+            dict[abs(newrel[l])][i+1]=(newrel)
+    return dict
+
+def etudedict(df_knockouts,df_knockdowns,df_wildtype,v=.13):
+    m = len(df_knockouts.values)
+    mat = np.zeros((m,m))
+    dict1=creationDict(df_knockouts,df_wildtype,v)
+    for i in range (len(dict1)):
+        list1=dict1[i+1][i+1]
+        list2=[]
+        for j in range(len(list1)):
+                mat[i][abs(list1[j])-1]=np.sign(list1[j]+.01)
+        for key in dict1[i+1]:
+            if (i+1) in dict1[i+1][key]:
+                for j in dict1[i+1][key]:
+                    if j!=(i+1):
+                        if j in list2:
+                            mat[i][abs(j)-1]=np.sign(j+0.1)
+                        else:
+                            list2.append(j)
+    return mat
+
+def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
+    m = len(df_knockouts.values)
+    mat=etudedict(df_knockouts,df_knockdowns,df_wildtype).T
     retour=[]
     for i in range(m):
         if (max(mat[i])-min(mat[i])==1):
@@ -38,60 +78,67 @@ def etudeVariationKO(Exp_ko,Exp_wt):
             retour.append(0)
     return retour
 
-def implementation2KO(Exp_ko,Exp_wt,serie,G1,G2):
-    variation=etudeVariationKO(Exp_ko,Exp_wt)
-    answer=[-1 for i in range(len(serie.values))]
-    answer[G1]=0
-    answer[G2]=0
+def implementation1(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
+    variation=etudeVariation(df_knockouts,df_knockdowns,df_wildtype)
+    answer=[-1 for i in range(len(df_knockouts.values))]
+    if var1[0]=='o':
+        answer[int(var1[1:])-1]=0
+    else:
+        answer[int(var1[1:])-1]=df_knockdowns.values[int(var1[1:])-1][int(var1[1:])-1]
+    if var2[0]=='o':
+        answer[int(var2[1:])-1]=0
+    else:
+        answer[int(var2[1:])-1]=df_knockdowns.values[int(var2[1:])-1][int(var2[1:])-1]
     i=0
-    for i in range(len(serie.values)):
-        if relation(Exp_ko,Exp_wt,i,G1) and variation[i]==1:
-            if relation(Exp_ko,Exp_wt,i,G2):
-                answer[i]=max(Exp_ko[G1][i],Exp_ko[G2][i])
-            else:
-                answer[i]=(Exp_ko[G1][i])
-        elif relation(Exp_ko,Exp_wt,i,G1) and variation[i]==-1:
-            if relation(Exp_ko,Exp_wt,i,G2):
-                answer[i]=min(Exp_ko[G1][i],Exp_ko[G2][i])
-            else:
-                answer[i]=(Exp_ko[G1][i])
-        elif relation(Exp_ko,Exp_wt,i,G2) and (variation[i]==-1 or variation[i]==1):
-                answer[i]=(Exp_ko[G2][i])
+    for i in range(len(df_knockouts.values)):
+        if answer[i]==-1:
+            if relation(df_knockouts,df_knockdowns,df_wildtype,i,int(var1[1:])-1) and variation[i]==1:
+                answer[i]=max(getValue(df_knockouts,df_knockdowns,df_wildtype,var1,i),getValue(df_knockouts,df_knockdowns,df_wildtype,var2,i))
+            elif relation(df_knockouts,df_knockdowns,df_wildtype,i,int(var1[1:])-1) and variation[i]==-1:
+                answer[i]=min(getValue(df_knockouts,df_knockdowns,df_wildtype,var1,i),getValue(df_knockouts,df_knockdowns,df_wildtype,var2,i))
+            elif relation(df_knockouts,df_knockdowns,df_wildtype,i,int(var2[1:])-1) and (variation[i]==-1 or variation[i]==1):
+                answer[i]=getValue(df_knockouts,df_knockdowns,df_wildtype,var2,i)
     return (answer)
 
-def relation(Exp_ko,Exp_wt,G1,G2):
-    mat=etudeRelationSigne(Exp_ko,Exp_wt,.35)
-    if abs(mat[G1][G2])==1:
+def getValue(df_knockouts,df_knockdowns,df_wildtype,var,i):
+    if var[0]=='o':
+        return df_knockouts.values[int(var[1:])-1][i]
+    else:
+        return df_knockdowns.values[int(var[1:])-1][i]
+    
+def relation(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
+    mat=etudedict(df_knockouts,df_knockdowns,df_wildtype)
+    if abs(mat[var1][var2])==1:
         return True
     return False
 
-def secondPartImplementKO(Exp_ko,Exp_wt,serie,G1,G2,result):
-    for j in range(len(serie.values)):
+def secondPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result):
+    for j in range(len(df_knockouts.values)):
         value=[]
-        if(abs(etudeVariationKO(Exp_ko,Exp_wt)[j]))==1 and result[j]!=0:
-            for i in range(len(serie.values)):
-                if (result[i]!=-1 and Exp_wt[0][0][i]-result[i]>.35*result[i]):
-                    if relation(Exp_ko,Exp_wt,j,i):
-                        value.append(Exp_ko[i][j])
+        if(abs(etudeVariation(df_knockouts,df_knockdowns,df_wildtype)[j]))==1 and result[j]==-1:
+            for i in range(len(df_knockouts.values)):
+                if (result[i]!=-1 and result[i]<df_wildtype.values[0][i]-.1):
+                    if result[i]>=df_knockdowns.values[i][j] or df_knockdowns.values[i][j]-result[i]>result[i]:
+                        if relation(df_knockouts,df_knockdowns,df_wildtype,j,i):
+                            value.append(df_knockdowns.values[i][j])
+                    elif relation(df_knockouts,df_knockdowns,df_wildtype,j,i):
+                        value.append(df_knockouts.values[i][j])
             if (len(value)!=0):
                 if result[j]==-1:
-                    if etudeVariationKO(Exp_ko,Exp_wt)[j]==1:
-                        result[j]=mean(value)
+                    if etudeVariation(df_knockouts,df_knockdowns,df_wildtype)[j]==1:
+                        result[j]=max(value)
                     else:
-                        result[j]=mean(value)
-                else:
-                    result[j]=mean([result[j],mean(value)])
+                        result[j]=min(value)
+
     return  result
 
-def thirdPartImplementKO(Exp_ko,Exp_wt,serie,G1,G2,result):
-    for j in range(len(serie.values)):
+def thirdPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result):
+    for j in range(len(df_knockouts.values)):
         if result[j]==-1:
-                result[j]=mean([Exp_ko[G1][j],Exp_ko[G2][j]])
+            result[j]=mean([getValue(df_knockouts,df_knockdowns,df_wildtype,G1,j),getValue(df_knockouts,df_knockdowns,df_wildtype,G2,j)])
     return result
 
-def Global2KO(Exp_ko,Exp_wt,serie,G1,G2):
-    result=implementation2KO(Exp_ko,Exp_wt,serie,G1-1,G2-1)
-    secondPartImplementKO(Exp_ko,Exp_wt,serie,G1-1,G2-1,result)
-    result=thirdPartImplementKO(Exp_ko,Exp_wt,serie,G1-1,G2-1,result)
-    return result
-
+def Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2):
+    result=implementation1(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
+    result=secondPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result)
+    return thirdPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result)

@@ -49,7 +49,7 @@ def getData():
         name=row[1][2:-2]
         data.append({"id":id,"name":name})
     for i in range(len(data)):
-        sql="select tsv.nom from tsv, dossier, contient where dossier.id_dossier="+str(i+1) +"and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv"
+        sql="select tsv.nom from tsv, dossier, contient where dossier.id_dossier="+str(i+1) +"and dossier.id_dossier=contient.id_dossier and contient.id_tsv=tsv.id_tsv order by ASC"
         cur.execute(sql)
         records = cur.fetchall()
         if len(records)!=0:

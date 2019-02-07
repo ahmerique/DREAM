@@ -14,6 +14,7 @@ export class PredictionComponent implements OnInit {
   dataTab = []
   @Input() dataSend: String;
   @Input() lengthData: number;
+  @Input() id:number
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String
@@ -21,7 +22,8 @@ export class PredictionComponent implements OnInit {
   Show() {
     let perturbation = {
       pert1: this.selectedOption1,
-      pert2: this.selectedOption2
+      pert2: this.selectedOption2,
+      id:this.id
     }
     console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation

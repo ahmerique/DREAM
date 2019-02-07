@@ -1,6 +1,6 @@
 import os
 import psycopg2
-
+from . import FunctionML
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -8,7 +8,6 @@ from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 import os
 import ast
-
 app = Flask(__name__)
 CORS(app)
 
@@ -66,7 +65,7 @@ def getData():
         name = row[1][2:-2]
         data.append({"id": id, "name": name})
     for i in range(len(data)):
-        sql = "select tsv.name from tsv where tsv.folder_id=" + str(i + 1)
+        sql = "select tsv.name from tsv where tsv.folder_id=" + str(i + 1) +" order by tsv.name"
         cur.execute(sql)
         records = cur.fetchall()
         if len(records) != 0:
@@ -86,9 +85,7 @@ def wildtype():
     hello = ""
     datas = []
 
-    files = pd.read_csv(
-        'Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',
-        sep='\t')
+    files = pd.read_csv('Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',sep='\t')
 
     datas = (files.values)
     print("datas")
@@ -226,30 +223,36 @@ def displayTimeseries():
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
 def predict():
-    x = request.get_json(force=True)
-    hello = ""
     conn = psycopg2.connect(
-        host="localhost", database="postgres", user="postgres", password="")
+    host="localhost", database="postgres", user="postgres", password="")
 
     cur = conn.cursor()
-
-    sql2 = "select datas from tsv where nom='knockdowns'"
+    headers=request.get_json(force=True)
+    if headers['pert1'][5]!='o':
+        G1= 'd'+headers['pert1'][-1]
+    else:
+        G1= 'o'+headers['pert1'][-1]
+    if headers['pert2'][5]!='o':
+        G2= 'd'+headers['pert2'][-1]
+    else:
+        G2= 'o'+headers['pert2'][-1]
+    id=int(headers['id'])
+    sql2 = "select name from folder where folder_id="+str(id+1)
     cur.execute(sql2)
-    records = cur.fetchall()
-    datas = str(records[0])
-    newdata = ''
-    for j in range(2, len(datas) - 2):
-        if datas[j] == "\\":
-            newdata += ' '
-        elif datas[j] == "n":
-            newdata += 't'
-        else:
-            newdata += datas[j]
-    records = newdata.split(" t")
-    for row in records:
-        hello += ' ' + row
-    cur.close()
+    dossier= cur.fetchall()
+    dossier=str(dossier)[3:-4]
+    print(dossier)
+    hello=""
+    datas=[]
+    print('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv')
+    df_knockouts = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv', sep='\t')
+    df_knockdowns = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockdowns.tsv', sep='\t')
+    df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
+    print(G1,G2)
+    datas = FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
 
-    conn.close()
+    for row in datas:
+        print(row)
+        hello+=' '+str(row)
 
     return (hello)
