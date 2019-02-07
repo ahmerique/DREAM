@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <div *ngIf="connected">
   <div class="Website-title">
-    <a class="no-style" routerLink="/">Welcome to DREAM4!</a>
+    <a class="no-style" routerLink="/">Bienvenue au Centrale Genetic Lab!</a>
+    <p class="CGL-Description">L'outil disruptif de Machine Learning de données génétiques</p>
   </div>
 
   <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
@@ -20,7 +20,9 @@
 
 <div *ngIf="!connected">
   <div class="Website-title">
-    <a class="no-style" routerLink="/guest">Welcome to DREAM4!</a>
+    <script> console.log('coucou')</script>
+    <a class="no-style" routerLink="/guest">Bienvenue au Centrale Genetic Lab!</a>
+    <p class="CGL-description">L'outil disruptif de Machine Learning de données génétiques</p>
   </div>
 
   <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">

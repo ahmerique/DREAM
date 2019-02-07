@@ -77,3 +77,7 @@ img {
 .no-style:visited {
   color: rgb(255, 255, 255);
 }
+
+.CGL-description {
+  font-size: 20px
+}

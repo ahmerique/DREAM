@@ -23,9 +23,11 @@
     <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
   </div>
   <div class="right">
-    <h2>Explication</h2>
-    <p>Explication de la possibilité de choisir un ou plusieurs jeux de données.</p>
-    <p>Explication du principe de la méthode selectionnée (texte changeant en fonction de la methode)</p>
+    <h2>2. Sélection des données et du modèle</h2>
+    <p>Dans un premier temps, il faut sélectionner le(s) jeu(x) de données génétiques que tu souhaites analyser par la suite.</p>
+    <p>Il est important de prendre un nombre de données suffisant pour que la machine apprenne correctement. Plus il y a de données, au mieux elle affinera son modèle.</p>
+    <p>Tu dois également choisir le modèle d'apprentissage que tu vas appliquer à ces données. Chaque algorithme a ces forces et ces faiblesses. Ils peuvent donner des résultats très différents !</p>
+    <p>Quand tu as fait tes choix, lance l'apprentissage pour visualiser tes résultats !</p>
   </div>
 </div>
 <div *ngIf="result">
