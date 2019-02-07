@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { AuthenticationService } from '../_services';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { AuthenticationService, MessageService } from '../_services';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-headers',
@@ -9,9 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./headers.component.css']
 })
 
-export class HeadersComponent implements OnInit, AfterViewInit {
+export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   error = '';
+  connected: boolean;
+  subscription: Subscription;
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
 
@@ -20,10 +23,36 @@ export class HeadersComponent implements OnInit, AfterViewInit {
 
   constructor(
     private authenticationService: AuthenticationService,
+    private messageService: MessageService,
     private router: Router,
-  ) { }
+  ) {
+    this.subscription = this.messageService.getMessage().subscribe(message => {
+      console.log(message);
+      if (message.text === 'login') {
+        this.connected = true;
+      } else if (message.text === 'logout') {
+        this.connected = false;
+      }
+    });
+  }
 
-  ngOnInit() {
+
+  ngOnInit(): void {
+    this.authenticationService.checkToken()
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.connected = true;
+        },
+        error => {
+          console.log('connected as a guest');
+          this.connected = false;
+        });
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -35,6 +64,7 @@ export class HeadersComponent implements OnInit, AfterViewInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.connected = false;
           this.router.navigate(['/login']);
         },
         error => {

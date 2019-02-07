@@ -1,15 +1,13 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
-// import { ConsoleReporter } from 'jasmine';
 
 @Component({
-  selector: 'app-core',
-  templateUrl: './core.component.html',
-  styleUrls: ['./core.component.css']
+  selector: 'app-guest',
+  templateUrl: './guest.component.html',
+  styleUrls: ['./guest.component.css']
 })
-
-export class CoreComponent implements OnInit {
+export class GuestComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
   hauteur = 200;

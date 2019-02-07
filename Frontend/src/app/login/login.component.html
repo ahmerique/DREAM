@@ -31,15 +31,16 @@
     </div>
 
     <div id="right block" class="center-left">
-      <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" /></p>
-      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password /></p>
+      <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="on" /></p>
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
+          autocomplete="off" /></p>
     </div>
 
   </form>
 
   <div id='forgotpassword' *ngIf='forgot_password===true'>
     <p>email:
-      <input #email />
+      <input #email autocomplete="on" />
       <button (click)="forgotPassword(email.value)">Envoyer</button>
     </p>
   </div>
