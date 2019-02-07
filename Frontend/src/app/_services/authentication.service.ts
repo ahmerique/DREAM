@@ -7,6 +7,7 @@ import { API_URL } from '../env';
 
 export class AuthenticationService {
 
+
   constructor(
     private http: HttpClient,
   ) { }
@@ -49,11 +50,7 @@ export class AuthenticationService {
   }
 
   checkToken() {
-    return this.http.get<any>(API_URL + '/auth/checktoken').pipe(
-      map((res) => {
-        if (res.status === 'success') { return true; }
-        return false;
-      }));
+    return this.http.get<any>(API_URL + '/auth/checktoken');
   }
 
   getUser() {
@@ -83,6 +80,5 @@ export class AuthenticationService {
   changeAccountPassword(password, new_password) {
     return this.http.post<any>(API_URL + '/account/changepassword', { 'new_password': new_password, 'password': password });
   }
-
 
 }

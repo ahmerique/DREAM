@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { GuestComponent } from './guest/guest.component';
 
 
 
@@ -35,7 +36,8 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
     HistoryComponent,
     MainPageComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    GuestComponent
   ],
   imports: [
     BrowserModule,

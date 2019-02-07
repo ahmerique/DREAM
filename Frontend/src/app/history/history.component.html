@@ -1,7 +1,9 @@
-<h1>
-  Derniers modèles:
-</h1>
 <div class="center">
+
+  <h1>
+    Derniers modèles
+  </h1>
+
   <div *ngFor=" let oldQuery of _history">
     <div class="center-left">
       <p>date: <em>{{oldQuery.query_date}} </em>&nbsp;&nbsp; <button (click)="deleteQuery(oldQuery.query_id)">x</button></p>

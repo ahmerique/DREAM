@@ -13,6 +13,8 @@ import { ConfirmPasswordValidator } from '../_helpers/password.validator';
 })
 export class AccountComponent implements OnInit {
 
+
+
   _pseudo = '';
   _email = '';
   _changePassword = false;
@@ -23,10 +25,14 @@ export class AccountComponent implements OnInit {
   changePasswordForm: FormGroup;
   changeInfoForm: FormGroup;
   deleteForm: FormGroup;
-  loading = false;
-  submitted = false;
-  returnUrl: string;
-  error = '';
+  _loading = false;
+  _submitted = false;
+  _error = '';
+
+  _changePasswordDone = false;
+  _changeInfoDone = false;
+
+
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -94,75 +100,86 @@ export class AccountComponent implements OnInit {
   }
 
 
+  ///////////////////// CHANGE PASSWORD ////////////////////////////////////////////////////////////////////////
+
+
   // convenience getter for easy access to form fields
   get fPassword() { return this.changePasswordForm.controls; }
 
   changePassword() {
 
-    this.submitted = true;
+    this._submitted = true;
 
     // stop here if form is invalid
     if (this.changePasswordForm.invalid) {
       return;
     }
 
-    this.loading = true;
+    this._loading = true;
 
     this.authenticationService.changeAccountPassword(this.fPassword.oldPassword.value, this.fPassword.password.value)
       .pipe(first())
       .subscribe(
         data => {
           console.log('Password changed');
-          this.loading = false;
-          this.router.navigate(['/account']);
+          this._loading = false;
+          this._changePasswordDone = true;
         },
         error => {
-          this.error = error;
-          this.loading = false;
+          this._error = error;
+          this._loading = false;
         }
       );
   }
+
+
+  //////////////////// CHANGE INFO ////////////////////////////////////////////////////////////////////////////
+
 
   // convenience getter for easy access to form fields
   get fInfo() { return this.changeInfoForm.controls; }
 
   changeInfo(): void {
 
-    this.submitted = true;
+    this._submitted = true;
 
     // stop here if form is invalid
     if (this.changeInfoForm.invalid) {
       return;
     }
 
-    this.loading = true;
+    this._loading = true;
 
     this.authenticationService.changeAccountInfo(this.fInfo.pseudo.value, this.fInfo.email.value, this.fInfo.password.value)
       .pipe(first())
       .subscribe(
         data => {
           console.log('account info changed');
-          this.loading = false;
-          this.router.navigate(['/account']);
+          this._loading = false;
+          this._changeInfoDone = true;
         },
         error => {
-          this.error = error;
-          this.loading = false;
+          this._error = error;
+          this._loading = false;
         }
       );
 
   }
 
+
+  //////////////////// DELETE ACCOUNT//////////////////////////////////////////////////////////////////////////////////////////
+
+
   deleteAccount() {
 
-    this.submitted = true;
+    this._submitted = true;
 
     // stop here if form is invalid
     if (this.changeInfoForm.invalid) {
       return;
     }
 
-    this.loading = true;
+    this._loading = true;
 
     this.authenticationService.deleteAccount(this.deleteForm.controls.password.value)
       .pipe(first())
@@ -172,8 +189,8 @@ export class AccountComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error => {
-          this.error = error;
-          this.loading = false;
+          this._error = error;
+          this._loading = false;
         }
       );
   }

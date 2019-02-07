@@ -1,15 +1,13 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
-// import { ConsoleReporter } from 'jasmine';
 
 @Component({
-  selector: 'app-core',
-  templateUrl: './core.component.html',
-  styleUrls: ['./core.component.css']
+  selector: 'app-guest',
+  templateUrl: './guest.component.html',
+  styleUrls: ['./guest.component.css']
 })
-
-export class CoreComponent implements OnInit {
+export class GuestComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
   hauteur = 200;
@@ -204,14 +202,9 @@ export class CoreComponent implements OnInit {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;
     }
-<<<<<<< HEAD
-    this.chart.options.elements.line.tension = 0.01
-    this.chart.update();  }
-=======
     this.chart.options.elements.line.tension = 0;
     this.chart.update();
   }
->>>>>>> 275025770dd55aa52077b6f76ab3900ef1ed794b
   curveLine() {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;
