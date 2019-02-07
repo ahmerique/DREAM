@@ -4,10 +4,10 @@ from flask_cors import CORS
 import pandas as pd
 import os
 import ast
-
+import numpy as np
 app = Flask(__name__)
 CORS(app)
-
+import FunctionML 
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
 def result():
@@ -189,30 +189,20 @@ def displayTimeseries():
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
 def predict():
-    x=request.get_json(force=True)
+    headers=request.get_json(force=True)
+    G1=int(headers['pert1'][-1])
+    G2=int(headers['pert2'][-1])
+
     hello=""
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    datas=[]
+    ko = pd.read_csv("D:/Documents/insilico_size10_1/insilico_size10_1_knockouts.tsv", sep = "\t", )
+    wt = pd.read_csv("D:/Documents/insilico_size10_1/insilico_size10_1_wildtype.tsv", sep = "\t", )
 
-    cur = conn.cursor()
+    Exp_wt = [wt.values for i in range(10)]
+    datas = FunctionML.Global2KO(ko.values,Exp_wt,ko,G1,G2)
 
-
-    sql2="select datas from tsv where nom='knockdowns'"
-    cur.execute(sql2)
-    records = cur.fetchall()
-    datas=str(records[0])
-    newdata=''
-    for j in range(2,len(datas)-2):
-        if datas[j]=="\\":
-            newdata+=' '
-        elif datas[j]=="n":
-            newdata+='t'
-        else:
-            newdata+=datas[j]
-    records=newdata.split(" t")
-    for row in records:
-        hello+=' '+row
-    cur.close()
-
-    conn.close()
+    for row in datas:
+        print(row)
+        hello+=' '+str(row)
 
     return (hello)

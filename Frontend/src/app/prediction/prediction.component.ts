@@ -28,8 +28,8 @@ export class PredictionComponent implements OnInit {
     this.learningService.prediction(perturbation).subscribe(data => {
       this.dataTab = data.split(' ');
       this.perturbation=[]
-      for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {
-        this.perturbation.push({name:'G'+(i-this.lengthData).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      for (let i = 1; i < this.lengthData+1; i++) {
+        this.perturbation.push({name:'G'+(i).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
     this.show = true
