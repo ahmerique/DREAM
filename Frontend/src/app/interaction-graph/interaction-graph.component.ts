@@ -63,7 +63,7 @@ var force = d3.layout.force()
 var svg = d3.select("#graph").append("svg:svg")
         .attr("width", w)
         .attr("height", h)
-		.on("dblclick", function() { d3.selectAll("circle").attr("opacity", fade(0.9));
+		.on("click", function() { d3.selectAll("circle").attr("opacity", fade(0.9));
 										d3.selectAll("path").attr("opacity", fade(0.9));
 										d3.selectAll("marker").attr("opacity", 0.9);
 										d3.selectAll("rect").style("stroke-width", "1px" )});
@@ -101,8 +101,8 @@ var path = svg.append("svg:g").selectAll("path")
         .enter().append("svg:circle")
 		.style("fill", "#dfe6e9").style("stroke", "#34495e").style("stroke-width", "1px").style("opacity", 0.95)
         .attr("r", cRadius)
-		.on('click.fade', fade(0.1))
-		.on('click', function () { d3.selectAll("marker").attr("opacity", 0.1);
+		.on('dblclick.fade', fade(0.1))
+		.on('dblclick', function () { d3.selectAll("marker").attr("opacity", 0.1);
 									d3.selectAll("rect").style("stroke-width", "1px");})
 		//.on('dblclick.fade', fade(0.9))
 		//.on('dblclick', function () { d3.selectAll("marker").attr("opacity", 1);})
@@ -135,8 +135,8 @@ var path = svg.append("svg:g").selectAll("path")
 		.attr("height", function (d, i) { if (force.nodes().length<20) { return h/force.nodes().length-3 } else { return (2*h/force.nodes().length)-3 }})
 		.attr("rx", 5)
 		.attr("ry", 5)
-		.on('click.fade', fade(0.1))
-		.on('click', function () { d3.selectAll("marker").attr("opacity", 0.1);
+		.on('dblclick.fade', fade(0.1))
+		.on('dblclick', function () { d3.selectAll("marker").attr("opacity", 0.1);
 									d3.selectAll("rect").style("stroke-width", "1px" );
 									d3.select(this).style("stroke-width", "2px" );});
 
@@ -172,6 +172,7 @@ var path = svg.append("svg:g").selectAll("path")
 	//.style("font", "Courier").style("font-size", "10px").style("pointer-events", none).style("opacity",0.9)
         .attr("x", "-.6em")
         .attr("y", ".3em")
+        .style("font-size", "10px")
         .text(function (d) {
         return d.name;
     });
