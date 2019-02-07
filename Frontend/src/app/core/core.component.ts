@@ -204,9 +204,11 @@ export class CoreComponent implements OnInit {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;
     }
-    this.chart.options.elements.line.tension = 0;
-    this.chart.update();
+    this.chart.options.elements.line.tension = 0.01
+    this.chart.update();  
   }
+
+
   curveLine() {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;

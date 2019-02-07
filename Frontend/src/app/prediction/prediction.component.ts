@@ -14,6 +14,7 @@ export class PredictionComponent implements OnInit {
   dataTab = []
   @Input() dataSend: String;
   @Input() lengthData: number;
+  @Input() id:number
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String
@@ -21,15 +22,16 @@ export class PredictionComponent implements OnInit {
   Show() {
     let perturbation = {
       pert1: this.selectedOption1,
-      pert2: this.selectedOption2
+      pert2: this.selectedOption2,
+      id:this.id
     }
     console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
       this.dataTab = data.split(' ');
       this.perturbation=[]
-      for (let i = this.lengthData+1; i < 2*this.lengthData+1; i++) {
-        this.perturbation.push({name:'G'+(i-this.lengthData).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      for (let i = 1; i < this.lengthData+1; i++) {
+        this.perturbation.push({name:'G'+(i).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
       }
     });
     this.show = true
