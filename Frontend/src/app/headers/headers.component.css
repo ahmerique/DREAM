@@ -8,7 +8,8 @@
   /* Full width */
 }
 
-#navbar a {
+#navbar a,
+#navbar div {
   float: left;
   display: block;
   text-align: center;
@@ -17,17 +18,23 @@
   font-size: 1em;
   padding: 0.3em 1em;
   height: 2em;
+  cursor: pointer;
+  cursor: hand;
+
 }
 
-#navbar a:hover {
+#navbar a:hover,
+#navbar div:hover {
   background-color: #999;
 }
 
-#navbar a:active {
+#navbar a:active,
+#navbar div:active {
   color: rgb(114, 114, 114);
 }
 
-#navbar a.selected {
+#navbar a.selected,
+#navbar div.selected {
   background-color: rgb(80, 80, 80);
   color: rgb(255, 255, 255)
 }
@@ -40,7 +47,8 @@ img {
 
 }
 
-#navbar a.right {
+#navbar a.right,
+#navbar div.right {
   float: right;
 }
 
@@ -58,4 +66,14 @@ img {
   color: rgb(255, 255, 255);
   background-color: rgb(80, 80, 80);
   padding: 2%
+}
+
+.no-style {
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.no-style:visited {
+  color: rgb(255, 255, 255);
 }

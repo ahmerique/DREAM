@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../_services';
 
 @Component({
   selector: 'app-history',
@@ -7,15 +8,45 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryComponent implements OnInit {
 
-  _history = ['modèle 1', 'modèle 2'];
+  _history = [];
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService,
+  ) { }
 
   ngOnInit() {
+    this.authenticationService.getQueryHistory().subscribe(
+      data => {
+        this._history = data.data;
+      },
+      error => {
+        console.log(error);
+      });
   }
 
-  loadModel(oldModel): void {
-
+  loadQuery(query_id): void {
+    this.authenticationService.postQueryHistory(query_id).subscribe(
+      data => {
+        console.log(data.data);
+      },
+      error => {
+        console.log(error);
+      });
   }
 
+  deleteQuery(query_id): void {
+    this.authenticationService.deleteQueryHistory(query_id).subscribe(
+      data => {
+        console.log(data.message);
+        this.authenticationService.getQueryHistory().subscribe(
+          data2 => {
+            this._history = data2.data;
+          },
+          error => {
+            console.log(error);
+          });
+      },
+      error => {
+        console.log(error);
+      });
+  }
 }

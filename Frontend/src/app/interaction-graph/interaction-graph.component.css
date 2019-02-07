@@ -6,7 +6,7 @@
     width:25%;
     float:right;
     background-color: #ddd;
-    height:250px;
+    height:800px;
 }
 .clearfix::after {
     content: "";

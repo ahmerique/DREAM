@@ -4,29 +4,43 @@
 
 <div class="center">
 
-  <div id="left block" class="center-left">
-    <p>Pseudo:</p>
-    <p>Mot de passe:</p>
-    <button (click)="login(pseudo.value,password.value)">
-      Se connecter
-    </button>
-    <br /><br />
-    <p>
-      Pas encore de compte?
-      <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Inscris-toi!</a>
-    </p>
-    <p class='text_interaction' (click)='forgot_password=true'>J'ai oublié mon mot de passe ou mon pseudo.</p>
-  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-  <div id="right block" class="center-left">
-    <p><input #pseudo /></p>
-    <p><input #password type="password" /></p>
-  </div>
+    <div id="left block" class="center-left">
+
+      <p>Pseudo:</p>
+      <p>Mot de passe:</p>
+      <button (click)="onSubmit()" type="submit" [disabled]="loading">
+        Se connecter
+      </button> <br />
+      <div *ngIf="error" class="alert">{{error}}</div> <br />
+
+      <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
+        <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+      </div>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+
+      <p>
+        Pas encore de compte?
+        <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Inscris-toi!</a>
+      </p>
+      <p class='text_interaction' (click)='forgot_password=true'>J'ai oublié mon mot de passe ou mon pseudo.</p>
+
+    </div>
+
+    <div id="right block" class="center-left">
+      <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" /></p>
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password /></p>
+    </div>
+
+  </form>
 
   <div id='forgotpassword' *ngIf='forgot_password===true'>
-    <p>Mail:
-      <input #mail />
-      <button (click)="forgotPassword(mail.value)">Envoyer</button>
+    <p>email:
+      <input #email />
+      <button (click)="forgotPassword(email.value)">Envoyer</button>
     </p>
   </div>
 

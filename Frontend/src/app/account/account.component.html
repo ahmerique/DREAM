@@ -4,50 +4,102 @@
 
   <div class='center-left'>
     <p><em>Pseudo:</em> {{_pseudo}}</p>
-    <p><em>Mail:</em> {{_mail}}</p>
+    <p><em>email:</em> {{_email}}</p>
   </div>
   <br />
   <button [ngClass]="_changeInfo ? 'selected' : ''" (click)="onClick('info')">Modifier informations</button>
   <button [ngClass]="_changePassword ? 'selected' : ''" (click)="onClick('password')">Modifier mot de passe</button>
 
   <br />
-  <button>Supprimer votre compte</button>
+  <button (click)="onClick('deleteAccount')">Supprimer votre compte</button>
+
+  <form *ngIf="_deleteAccount" [formGroup]="deleteForm" (ngSubmit)="deleteAccount()">
+
+    <div id="left block" class="center-left">
+      <p>Mot de passe:</p>
+    </div>
+
+    <div id="right block" class="center-left">
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && this.deleteForm.controls.password.errors }"
+          autocomplete="off" type="password" /></p>
+    </div>
+
+    <br />
+    <button (click)="deleteAccount()" [disabled]="loading">
+      Valider la suppression de compte
+    </button>
+
+    <!-- errors -->
+    <div *ngIf="error" class="alert">{{error}}</div> <br />
+    <div *ngIf="submitted && fInfo.password.errors" class="invalid-feedback">
+      <div *ngIf="fInfo.password.errors.required">Password is required</div>
+    </div>
+
+  </form>
 
 
-  <div *ngIf="_changeInfo==true">
+  <form *ngIf="_changeInfo" [formGroup]="changeInfoForm" (ngSubmit)="changeInfo()">
 
     <div id="left block" class="center-left">
       <p>Nouveau pseudo:</p>
-      <p>Nouveau mail:</p>
+      <p>Nouveau email:</p>
       <p>Mot de passe:</p>
-      <button (click)="newInfo(newPseudo.value,newMail.value,password.value)">
+      <button (click)="changeInfo()" [disabled]="loading">
         Enregistrer
       </button>
     </div>
 
     <div id="right block" class="center-left">
-      <p><input #newPseudo /></p>
-      <p><input #newMail /></p>
-      <p><input #password /></p>
+      <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && fInfo.pseudo.errors }" autocomplete="off" /></p>
+      <p> <input formControlName="email" [ngClass]="{ 'is-invalid': submitted && fInfo.email.errors }" autocomplete="off" /></p>
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && fInfo.password.errors }"
+          autocomplete="off" type="password" /></p>
     </div>
-  </div>
 
-  <div *ngIf="_changePassword==true">
+    <!-- errors -->
+    <div *ngIf="error" class="alert">{{error}}</div> <br />
+    <div *ngIf="submitted && fInfo.password.errors" class="invalid-feedback">
+      <div *ngIf="fInfo.password.errors.required">Password is required</div>
+    </div>
+
+  </form>
+
+  <form *ngIf="_changePassword" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
 
     <div id="left block" class="center-left">
       <p>Ancien mot de passe:</p>
       <p>Nouveau mot de passe:</p>
       <p>confirmer le mot de passe:</p>
-      <button (click)="newPassword(oldPassword.value,newPassword.value,confirmPassword.value)">
+      <button (click)="changePassword()" [disabled]="loading">
         Enregistrer
       </button>
     </div>
 
     <div id="right block" class="center-left">
-      <p><input #oldPassword type="password" /></p>
-      <p><input #newPassword type="password" /></p>
-      <p><Input #confirmPassword type="password" /></p>
+      <p> <input formControlName="oldPassword" [ngClass]="{ 'is-invalid': submitted && fPassword.oldPassword.errors }"
+          autocomplete="off" type="password" /></p>
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && fPassword.password.errors }" type="password"
+          autocomplete="off" /></p>
+      <p> <input formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && fPassword.confirmPassword.errors }"
+          autocomplete="off" type=password /></p>
     </div>
 
-  </div>
+    <!-- errors -->
+    <div *ngIf="error" class="alert">{{error}}</div> <br />
+    <div *ngIf="submitted && fPassword.oldPassword.errors" class="invalid-feedback">
+      <div *ngIf="fPassword.oldPassword.errors.required">Old password is required</div>
+    </div>
+    <div *ngIf="submitted && fPassword.password.errors" class="invalid-feedback">
+      <div *ngIf="fPassword.password.errors.required">Password is required</div>
+    </div>
+    <div *ngIf="submitted && fPassword.confirmPassword.errors" class="invalid-feedback">
+      <div *ngIf="fPassword.confirmPassword.errors.required">Confirm password is required</div>
+    </div>
+    <div class="invalid-feedback" *ngIf="submitted && changePasswordForm.errors?.doesMatchPassword">Passwords does not
+      match</div>
+
+  </form>
+
+
+
 </div>
