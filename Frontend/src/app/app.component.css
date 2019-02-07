@@ -10,3 +10,7 @@
   margin-top: 35px;
   /* Add a top margin to avoid content overlay */
 }
+
+.bottom {
+  margin-top: 15em;
+}
