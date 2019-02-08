@@ -8,7 +8,7 @@
     float:right;
     background-color: #ddd;
     height:800px;
-    background-color: #FFE8A5;
+    background-color: #b2d3e6;
     font-size:20px;
     text-align: justify;
     padding-left:1%;
@@ -28,12 +28,12 @@ button{
     font-family: 'Montserrat';
     border-radius: 5px;
     border:0 none;
-    background-color: #ccc;
+    background-color: #b2d3e6;
     cursor: pointer;
 
 }
 button:hover{
-        background-color: #aaa;
+        background-color: #68a7ca;
     }
     h2{
         font-family: 'Montserrat';

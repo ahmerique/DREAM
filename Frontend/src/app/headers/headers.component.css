@@ -1,7 +1,7 @@
 /* The navigation bar */
 #navbar {
   overflow: hidden;
-  background-color: #FFE8A5;
+  background-color: #b2d3e6;
   /* Position the navbar at the top of the page */
   width: 100%;
   height: 2em;
@@ -25,7 +25,7 @@
 
 #navbar a:hover,
 #navbar div:hover {
-  background-color: #FFBF00;
+  background-color: #68a7ca;
 }
 
 #navbar a:active,
@@ -35,7 +35,7 @@
 
 #navbar a.selected,
 #navbar div.selected {
-  background-color: #68A7CA;
+  background-color: #8dbdd8;
   color: rgb(255, 255, 255)
 }
 
@@ -46,7 +46,12 @@ img {
   margin-top: 0.25em;
 
 }
-
+.logo{
+  height: 150px;
+  float: left;
+  margin-right: 0.25em;
+  margin-top: 0.25em;
+}
 #navbar a.right,
 #navbar div.right {
   float: right;
