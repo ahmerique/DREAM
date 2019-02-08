@@ -84,6 +84,8 @@ img {
   text-decoration: none;
   cursor: pointer;
   cursor: hand;
+  font-size: 2em;
+
 }
 
 .no-style:visited {
@@ -91,5 +93,4 @@ img {
 }
 
 .CGL-description {
-  font-size: 20px
 }
