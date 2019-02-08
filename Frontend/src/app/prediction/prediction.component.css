@@ -62,3 +62,10 @@ button:hover{
     font-family: 'Montserrat';
     font-size:30px;
 }
+.line{
+  border-style: solid;
+  border-width: 1.5px;
+  border-color:#4390bc;
+  width:80%;
+  margin-left: 10%;
+}

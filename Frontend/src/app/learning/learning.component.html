@@ -33,6 +33,8 @@
     <p>Quand tu as fait tes choix, lance l'apprentissage pour visualiser tes résultats !</p>
   </div>
 </div>
+<br/><div class="line"></div><br/>
+
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id></app-prediction>
   <app-interaction-graph [linksSend]='links'></app-interaction-graph>
