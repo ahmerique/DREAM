@@ -26,3 +26,10 @@ h2{
     clear: both;
     display: table;
   }
+  .line{
+    border-style: solid;
+    border-width: 1px;
+    border-color:#4390bc;
+    width:80%;
+    margin-left: 10%;
+}

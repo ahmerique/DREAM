@@ -41,3 +41,10 @@ button{
 button:hover{
         background-color: #68a7ca;
     }
+    .line{
+        border-style: solid;
+        border-width: 1px;
+        border-color:#4390bc;
+        width:80%;
+        margin-left: 10%;
+    }
