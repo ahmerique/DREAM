@@ -50,7 +50,13 @@ img {
   height: 150px;
   float: left;
   margin-right: 0.25em;
-  margin-top: 0.25em;
+  margin-top:0;
+}
+.logo2{
+  height: 150px;
+  float: right;
+  margin-right: 0.25em;
+  margin-top:0;
 }
 #navbar a.right,
 #navbar div.right {
@@ -70,7 +76,8 @@ img {
   font-size: 2em;
   color: rgb(255, 255, 255);
   background-color: #4390bc;
-  padding: 2%
+  padding: 2%;
+  height:150px;
 }
 
 .no-style {

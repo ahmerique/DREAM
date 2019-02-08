@@ -14,6 +14,11 @@ body{
     padding-left:1%;
     padding-right: 2%;
 }
+.img{
+    width:25%;
+    height:25%;
+
+}
 .right{
     height:200px;
     height: 100%;
