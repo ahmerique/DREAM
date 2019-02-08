@@ -17,7 +17,7 @@ body {
   border-radius: 35px;
   font-family: 'Montserrat';
   font-weight: Lighter;
-  font-size: 25px;
+  font-size: 20px;
   text-align: justify;
   padding-left:1%;
   padding-right: 2%;}
@@ -40,7 +40,7 @@ body {
 
 h2{
   font-family: 'Montserrat';
-  font-size: 35px;
+  font-size: 30px;
   color: #333;
   display: inline;
   opacity: 1;
