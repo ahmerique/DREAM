@@ -3,10 +3,16 @@
     float:left;
 }
 .right{
-    width:25%;
+    font-family: 'Montserrat Light';
+    width:20%;
     float:right;
     background-color: #ddd;
     height:800px;
+    background-color: #FFE8A5;
+    font-size:20px;
+    text-align: justify;
+    padding-left:1%;
+    padding-right: 1%;
 }
 .clearfix::after {
     content: "";
@@ -28,4 +34,8 @@ button{
 }
 button:hover{
         background-color: #aaa;
+    }
+    h2{
+        font-family: 'Montserrat';
+        font-size:30px;
     }

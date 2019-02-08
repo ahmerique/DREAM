@@ -1,14 +1,22 @@
 .left{
+    height:500px;
     width:25%;
     float:left;
-    background-color: #ddd;
-    font-family:'Montserrat';
-}
+    background-color: #FFE8A5;
+    font-family: 'Montserrat Light';
+    font-size: 20px;
+    text-align: justify;
+    padding-left:1%;
+    padding-right: 1%;}
 .right{
-    width:75%;
+    width:70%;
     float:right;
     font-family:'Montserrat';
 
+}
+h2{
+    font-family: 'Montserrat';
+    font-size:30px;
 }
 .clearfix::after {
     content: "";

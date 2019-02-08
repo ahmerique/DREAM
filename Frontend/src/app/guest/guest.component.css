@@ -8,19 +8,21 @@ body {
   font-family: 'Montserrat';
 }
 
-.left {
-  height: 1300px;
-  width: 25%;
-  float: left;
+.left{
+  height:1300px;
+  width:25%;
+  float:left;
   background-color: #FFE8A5;
-  font-family: 'Montserrat';
-
-}
+  font-family: 'Montserrat Light';
+  font-size: 25px;
+  text-align: justify;
+  padding-left:1%;
+  padding-right: 2%;}
 
 .right {
   height: 200px;
   height: 100%;
-  width: 75%;
+  width: 70%;
   float: right;
   text-align: left;
   font-family: 'Montserrat';
@@ -33,7 +35,10 @@ body {
   display: table;
 }
 
-h2 {
+h2{
+  font-family: 'Montserrat';
+  font-size: 35px;
+  color: #333;
   display: inline;
 }
 

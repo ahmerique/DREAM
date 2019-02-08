@@ -1,11 +1,15 @@
 .left{
-    width:25%;
-    float:left;
-    background-color: #ddd;
-    height:300px;
-}
+  height:400px;
+  width:25%;
+  float:left;
+  background-color: #FFE8A5;
+  font-family: 'Montserrat Light';
+  font-size: 20px;
+  text-align: justify;
+  padding-left:1%;
+  padding-right: 1%;}
 .right{
-    width:75%;
+    width:70%;
     float:right;
 }
 body{
@@ -48,3 +52,7 @@ button:hover{
   th{
     background: #eee;
   }
+  h2{
+    font-family: 'Montserrat';
+    font-size:30px;
+} 
