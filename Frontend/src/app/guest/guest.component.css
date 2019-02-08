@@ -12,8 +12,11 @@ body {
   height:1300px;
   width:25%;
   float:left;
-  background-color: #b2d3e6;
-  font-family: 'Montserrat Light';
+  background-color: rgba(178,211,230,0.4);
+  padding-top:15px;
+  border-radius: 35px;
+  font-family: 'Montserrat';
+  font-weight: Lighter;
   font-size: 25px;
   text-align: justify;
   padding-left:1%;
