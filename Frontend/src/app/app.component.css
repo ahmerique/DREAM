@@ -8,6 +8,8 @@
 
 .main {
   margin-top: 35px;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
   /* Add a top margin to avoid content overlay */
 }
 
