@@ -243,6 +243,7 @@ export class LearningComponent implements OnInit {
         learning: this.selectedLearning
       }
     }
+    this.result = false;
 
     this.learningService.learn(dataSent).subscribe(data => {
       this.dataString = data;
