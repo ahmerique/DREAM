@@ -46,18 +46,21 @@ img {
   margin-top: 0.25em;
 
 }
-.logo{
+
+.logo {
   height: 150px;
   float: left;
   margin-right: 0.25em;
-  margin-top:0;
+  margin-top: 0;
 }
-.logo2{
+
+.logo2 {
   height: 150px;
   float: right;
   margin-right: 0.25em;
-  margin-top:0;
+  margin-top: 0;
 }
+
 #navbar a.right,
 #navbar div.right {
   float: right;
@@ -77,19 +80,19 @@ img {
   color: rgb(255, 255, 255);
   background-color: #4390bc;
   padding: 2%;
-  height:150px;
+  height: 150px;
 }
 
 .no-style {
   text-decoration: none;
   cursor: pointer;
   cursor: hand;
+  font-size: 2em;
+
 }
 
 .no-style:visited {
   color: rgb(255, 255, 255);
 }
 
-.CGL-description {
-  font-size: 20px
-}
+.CGL-description {}
