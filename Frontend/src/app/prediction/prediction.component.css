@@ -2,7 +2,9 @@
   height:400px;
   width:25%;
   float:left;
-  background-color: #b2d3e6;
+  background-color: rgba(178,211,230,0.4);
+  padding-top:15px;
+  border-radius: 35px;
   font-family: 'Montserrat Light';
   font-size: 20px;
   text-align: justify;
@@ -41,16 +43,18 @@ button:hover{
         background-color: #68a7ca;
     }
   td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #d8e9f3;
     text-align: left;
     padding: 8px;
   }
   
   tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #bbb;
   }
   th{
-    background: #eee;
+    background: #8dbdd8;
+    color:#fff;
+
   }
   h2{
     font-family: 'Montserrat';

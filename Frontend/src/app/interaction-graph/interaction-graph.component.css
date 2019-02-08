@@ -6,10 +6,10 @@
     font-family: 'Montserrat Light';
     width:20%;
     float:right;
-    background-color: #ddd;
     height:800px;
-    background-color: #b2d3e6;
-    font-size:20px;
+    background-color: rgba(178,211,230,0.4);
+    padding-top:15px;
+    border-radius: 35px;    font-size:20px;
     text-align: justify;
     padding-left:1%;
     padding-right: 1%;

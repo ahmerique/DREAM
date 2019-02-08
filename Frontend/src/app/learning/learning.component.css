@@ -8,9 +8,10 @@
     font-family: 'Montserrat Light';
     width:35%;
     float:right;
-    background-color: #ddd;
     height:500px;
-    background-color: #b2d3e6;
+    background-color: rgba(178,211,230,0.4);
+    padding-top:15px;
+    border-radius: 35px;
     font-size:20px;
     text-align: justify;
     padding-left:1%;
