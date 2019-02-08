@@ -5,7 +5,8 @@
 
 }
 .right{
-    font-family: 'Montserrat Light';
+    font-family: 'Montserrat';
+    font-weight: Lighter;
     width:35%;
     float:right;
     background-color: #ddd;
@@ -25,7 +26,7 @@ h2{
     display: table;
   }
   select{
-    font-family: 'Montserrat'; 
+    font-family: 'Montserrat';
 }
 button{
     height: 25px;
