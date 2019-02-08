@@ -3,7 +3,8 @@
     float:left;
 }
 .right{
-    font-family: 'Montserrat Light';
+    font-family: 'Montserrat';
+    font-weight: Lighter;
     width:20%;
     float:right;
     height:800px;
