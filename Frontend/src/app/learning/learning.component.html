@@ -36,6 +36,6 @@
 <br/><div class="line"></div><br/>
 
 <div *ngIf="result">
-  <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id></app-prediction>
+  <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning></app-prediction>
   <app-interaction-graph [linksSend]='links'></app-interaction-graph>
 </div>

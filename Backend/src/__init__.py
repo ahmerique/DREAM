@@ -1,6 +1,7 @@
 import os
 import psycopg2
 from . import FunctionML
+from . import MLPRegressor
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -263,19 +264,22 @@ def predict():
     else:
         G2= 'o'+headers['pert2'][-1]
     id=int(headers['id'])
+
     sql2 = "select name from folder where folder_id="+str(id+1)
     cur.execute(sql2)
     dossier= cur.fetchall()
     dossier=str(dossier)[3:-4]
-    print(dossier)
     hello=""
     datas=[]
     print('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv')
     df_knockouts = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv', sep='\t')
     df_knockdowns = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockdowns.tsv', sep='\t')
     df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
-    print(G1,G2)
-    datas = FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
+    df_timeseries = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv', sep='\t')
+    if headers['method']=='Reseau_neurone':
+        datas=MLPRegressor.doubleKO(df_timeseries,df_wildtype,G1,G2)[0]
+    else:
+        datas= FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
 
     for row in datas:
         print(row)
