@@ -3,7 +3,6 @@
   overflow: hidden;
   background-color: #b2d3e6;
   /* Position the navbar at the top of the page */
-  width: 100%;
   height: 2em;
   /* Full width */
 }
@@ -46,18 +45,21 @@ img {
   margin-top: 0.25em;
 
 }
-.logo{
+
+.logo {
   height: 150px;
   float: left;
   margin-right: 0.25em;
-  margin-top:0;
+  margin-top: 0;
 }
-.logo2{
+
+.logo2 {
   height: 150px;
   float: right;
   margin-right: 0.25em;
-  margin-top:0;
+  margin-top: 0;
 }
+
 #navbar a.right,
 #navbar div.right {
   float: right;
@@ -66,9 +68,9 @@ img {
 .sticky {
   position: fixed;
   top: 0;
+  width: 100%;
   overflow: hidden;
   z-index: 10;
-  width: 100%;
 }
 
 .Website-title {
@@ -77,7 +79,6 @@ img {
   color: rgb(255, 255, 255);
   background-color: #4390bc;
   padding: 2%;
-  height:150px;
 }
 
 .no-style {
