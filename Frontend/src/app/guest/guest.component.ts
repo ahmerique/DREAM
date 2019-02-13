@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
+import { range } from 'rxjs';
+// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-guest',
   templateUrl: './guest.component.html',
   styleUrls: ['./guest.component.css']
 })
+
 export class GuestComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
@@ -30,7 +33,8 @@ export class GuestComponent implements OnInit {
   setColor2 = ['Aqua', 'Blue', 'Fuchsia', 'Green', 'Lime', 'Navy', 'Olive', 'Purple', 'Teal', 'Yellow'];
   setColor = ['#FF0000', '#A02831', '#C24040', '#F6745A', '#FDD784', '#FF5900', '#FF9300', 'black', 'blue', 'green', 'purple'];
   lengthData = 10;
-
+  flagG=true
+  tabId:number;
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
       this.data = JSON.parse(data.replace(/'/g, '"'));
@@ -59,9 +63,24 @@ export class GuestComponent implements OnInit {
     }
     return color;
   }
-
+  getDataName(){
+    for (let i=0;i<this.data.length;i++){
+      if (this.data[i]['id']==this.selectedOption){
+        return this.data[i]['name']
+      }
+    }
+    return 'erreur qui ne devrait pas arriver'
+  }
+  getDataId(){
+    for (let i=0;i<this.data.length;i++){
+      if (this.data[i]['id']==this.selectedOption){
+        return i
+      }
+    }
+    return 0
+  }
   getData() {
-    this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType }).subscribe(data => {
+    this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType }).subscribe(data => {
       this.displayData = JSON.parse(data.replace(/'/g, '"'));
       for (let j = 0; j < this.displayData.length; j++) {
         let colorline = '';
@@ -72,24 +91,33 @@ export class GuestComponent implements OnInit {
       }
       this.chart.options.title.display = true;
       this.chart.data.labels = this.displayData[0]['data'];
-      this.chart.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType;
+      this.chart.options.title.text = this.getDataName()+ ' ' + this.selectedGraphType;
       this.chart.data.datasets = this.displayData.slice(1, this.displayData.length);
       this.chart.update();
     });
   }
-
+  debug(){
+    console.log(this.tabId)
+  }
   getData2() {
-    this.dataService.displayData({ donnee: this.data[this.selectedOption - 1]['name'], type: this.selectedGraphType2 }).subscribe(data => {
+    this.tabId=this.selectedOption-1
+    this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType2 }).subscribe(data => {
       this.listData2 = [];
       this.displayData2 = JSON.parse(data.replace(/'/g, '"'));
-      console.log(this.displayData2);
+      this.tabId=this.getDataId();
       for (let j = 0; j < this.displayData2[0]['data'].length; j++) {
         this.listData2.push(j + 1);
       }
       console.log(this.listData2);
+      if (!(!(parseInt(this.idofdata)))){
+        this.idofdata='G'+(this.idofdata)
+      }
       if (!(this.listData2.includes(parseInt(this.idofdata.substr(1))))) {
         this.idofdata = 'G1';
       }
+
+      (this.selectedGraphType2 == 'wildtype' || this.selectedGraphType2 == 'multifactorial')?this.flagG=false : this.flagG=true
+
       console.log(this.idofdata);
       if (this.selectedGraphType2 !== 'knockouts') {
         for (let j = 0; j < this.displayData2.length; j++) {
@@ -102,7 +130,7 @@ export class GuestComponent implements OnInit {
           this.displayData2[j]['label'] = 'G' + (j + 1).toString();
         }
         this.chart2.options.title.display = true;
-        this.chart2.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType2;
+        this.chart2.options.title.text = this.getDataName() + ' ' + this.selectedGraphType2;
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
       } else {
@@ -125,9 +153,12 @@ export class GuestComponent implements OnInit {
           }
         }
         this.chart2.options.title.display = true;
-        this.chart2.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType2;
+        this.chart2.options.title.text = this.getDataName() + ' ' + this.selectedGraphType2;
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
+        if (!this.flagG){
+          this.idofdata=(this.idofdata).substr(1)
+        }
       }
     });
   }
@@ -202,9 +233,11 @@ export class GuestComponent implements OnInit {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;
     }
-    this.chart.options.elements.line.tension = 0.01;
-    this.chart.update();
+    this.chart.options.elements.line.tension = 0.01
+    this.chart.update();  
   }
+
+
   curveLine() {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;

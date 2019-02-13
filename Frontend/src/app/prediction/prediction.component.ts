@@ -16,10 +16,19 @@ export class PredictionComponent implements OnInit {
   @Input() lengthData: number;
   @Input() id:number
   @Input() method: String;
+  @Input() data;
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String
 
+  getDataId(){
+    for (let i=0;i<this.data.length;i++){
+      if (this.data[i]['id']==this.id){
+        return this.data[i]['id']
+      }
+    }
+    return 'erreur qui ne devrait pas arriver'
+  }
   Show() {
     let perturbation = {
       pert1: this.selectedOption1,
