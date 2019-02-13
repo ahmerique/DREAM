@@ -23,6 +23,7 @@ export class LearningComponent implements OnInit {
   dataSend: String;
   dataTab: any;
   lengthNumber: number = 10;//nombre de données dans la table utilisée
+  learningList=[]
   ngOnInit() {
     this.getDataBase();
   }
@@ -36,7 +37,7 @@ export class LearningComponent implements OnInit {
     })
   }
   debug(){
-    console.log(this.tabId)
+    console.log(this.selectedType[0])
   }
   updateSelectData() {
     for (let i = 0; i < this.data.length; i++) {
@@ -85,6 +86,47 @@ export class LearningComponent implements OnInit {
 
     });
 
+  }
+
+  updateLearning(){
+    let listSelected=[]
+    this.learningList=[]
+    for (let j=0;j<Object.keys(this.selectedType).length;j++){
+      listSelected+=this.selectedType[Object.keys(this.selectedType)[j]]
+    }
+    if (listSelected.includes("knockouts")){
+      this.learningList.push('Ecart relatif')
+      this.learningList.push('Ecart absolu')
+      this.learningList.push('Ecart relatif et absolu')
+
+    }
+    if (listSelected.includes("timeseries")){
+      this.learningList.push('Reseau de Neurones')
+      this.learningList.push('XGBoost')
+      this.learningList.push('Random Forest')
+
+    }
+    if (listSelected.includes("multifactorial")){
+      this.learningList.push('ML Disruptif')
+
+    }
+    if (listSelected.includes("knockdowns")){
+      this.learningList.push('Ecart absolu')
+      this.learningList.push('Ecart relatif')
+
+    }
+    this.learningList = this.cleanArray(this.learningList)
+
+  }
+  cleanArray(array) {
+    var i, j, len = array.length, out = [], obj = {};
+    for (i = 0; i < len; i++) {
+      obj[array[i]] = 0;
+    }
+    for (j in obj) {
+      out.push(j);
+    }
+    return out;
   }
   getDataName(){
     for (let i=0;i<this.data.length;i++){

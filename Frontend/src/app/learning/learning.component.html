@@ -5,20 +5,20 @@
       <h3>Données : </h3>
 
       <div *ngFor="let x of table">
-        <select [(ngModel)]="selectedType[x]">
+        <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
           <option *ngFor="let type of data[tabId].type" value={{type}}>{{type}}</option>
         </select>
         <br />
 
       </div>
-      <button (click)="addData()">+</button><button (click)="deleteData(x)">-</button>
+      <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
 
     </div>
+    <button (click)='debug()'>Debug</button>
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
-        <option value="Reseau_neurone">Réseau de neurones</option>
-        <option value="RandomForest">Random Forest</option>
+          <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
       </select>
     </div>
     <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
