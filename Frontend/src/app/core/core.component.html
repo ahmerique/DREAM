@@ -1,5 +1,3 @@
-
-
 <div class="clearfix">
 
   <div class="left">
@@ -26,7 +24,8 @@
 
     <div *ngIf="addfile">
       <fieldset>
-        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
+        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile"
+          onchange="document.getElementById('input_text_file').value = this.value" />
       </fieldset>
     </div>
 
@@ -44,13 +43,14 @@
     <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
       <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
     </select>
-    <select [(ngModel)]="idofdata" (change)="getData2()">
-      <option *ngFor="let number of listData2">G{{number}}</option>
-    </select>
+      <select [(ngModel)]="idofdata" (change)="getData2()">
+        <option *ngFor="let number of listData2">    <div *ngIf='flagG'>G{{number}} </div><div *ngIf='!flagG'> {{number}} </div></option>
+      </select>
     <div>
       <canvas id="myChart2"></canvas>
     </div>
   </div>
 </div>
-<br/><div class="line"></div><br/>
+<br />
+<div class="line"></div><br />
 <app-learning [id]=selectedOption-1 [dataChange]="displayData"></app-learning>

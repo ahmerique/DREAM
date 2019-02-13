@@ -32,6 +32,7 @@ export class CoreComponent implements OnInit {
   setColor2 = ['Aqua', 'Blue', 'Fuchsia', 'Green', 'Lime', 'Navy', 'Olive', 'Purple', 'Teal', 'Yellow'];
   setColor = ['#FF0000', '#A02831', '#C24040', '#F6745A', '#FDD784', '#FF5900', '#FF9300', 'black', 'blue', 'green', 'purple'];
   lengthData = 10;
+  flagG=true
 
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
@@ -89,9 +90,15 @@ export class CoreComponent implements OnInit {
         this.listData2.push(j + 1);
       }
       console.log(this.listData2);
+      if (!(!(parseInt(this.idofdata)))){
+        this.idofdata='G'+(this.idofdata)
+      }
       if (!(this.listData2.includes(parseInt(this.idofdata.substr(1))))) {
         this.idofdata = 'G1';
       }
+
+      (this.selectedGraphType2 == 'wildtype' || this.selectedGraphType2 == 'multifactorial')?this.flagG=false : this.flagG=true
+
       console.log(this.idofdata);
       if (this.selectedGraphType2 !== 'knockouts') {
         for (let j = 0; j < this.displayData2.length; j++) {
@@ -130,6 +137,9 @@ export class CoreComponent implements OnInit {
         this.chart2.options.title.text = this.data[this.selectedOption - 1].name + ' ' + this.selectedGraphType2;
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
+        if (!this.flagG){
+          this.idofdata=(this.idofdata).substr(1)
+        }
       }
     });
   }
