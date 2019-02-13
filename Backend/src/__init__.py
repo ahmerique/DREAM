@@ -57,7 +57,7 @@ def getData():
     conn = psycopg2.connect(
         host="localhost", database="postgres", user="postgres", password="")
     cur = conn.cursor()
-    sql2 = "select folder_id,name from folder"
+    sql2 = "select folder_id,name from folder order by name"
     cur.execute(sql2)
     records = cur.fetchall()
     for row in records:
@@ -69,6 +69,7 @@ def getData():
         sql = "select tsv.name from tsv where tsv.folder_id=" + str(i + 1) +" order by tsv.name"
         cur.execute(sql)
         records = cur.fetchall()
+        print(records)
         if len(records) != 0:
             types = []
             for j in range(len(records)):
@@ -79,7 +80,12 @@ def getData():
             data[i]["type"] = ['test' + str(i)]
     return (str(data))
 
-
+def getDataId(data,id):
+    for i in range(len(data)):
+        if (data[i]['id']==id):
+            return i
+    return 0
+  
 @app.route('/wildtype', methods=['GET'])
 ##Fonction de recuperation des etats stables
 def wildtype():
