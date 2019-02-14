@@ -24,7 +24,7 @@ export class PredictionComponent implements OnInit {
   getDataId(){
     for (let i=0;i<this.data.length;i++){
       if (this.data[i]['id']==this.id){
-        return this.data[i]['id']
+        return i
       }
     }
     return 'erreur qui ne devrait pas arriver'
@@ -49,8 +49,7 @@ export class PredictionComponent implements OnInit {
   }
 
   getData() {
-    this.dataService.getData().subscribe(data => {
-      console.log(data)
+    this.dataService.getData({id:this.id}).subscribe(data => {
       this.dataTab = data.split(' ');
       this.wildtype=[]
       for (let i = 1; i < this.lengthData+1; i++) {
@@ -60,6 +59,8 @@ export class PredictionComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
     this.getData();
     for (let i = 0; i < this.lengthData; i++) {
       this.perturbation.push({name:'G'+(i+1).toString()})

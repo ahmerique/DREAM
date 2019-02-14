@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { LearningService } from '../learning.service';
 import { DataService } from '../data.service';
+import { AuthenticationService, MessageService } from '../_services';
+
 @Component({
   selector: 'app-learning',
   templateUrl: './learning.component.html',
@@ -8,7 +10,8 @@ import { DataService } from '../data.service';
 })
 export class LearningComponent implements OnInit {
 
-  constructor(private learningService: LearningService, private dataService: DataService) { }
+  constructor(private learningService: LearningService,    private authenticationService: AuthenticationService,
+    private dataService: DataService) { }
   data = [{ id: 0, name: '', type: [] }];
   table = [];
   result: boolean = false;
@@ -159,5 +162,21 @@ export class LearningComponent implements OnInit {
 
     });
   }
+
+  saveData(){
+    let json={ 'tsv': this.data[this.tabId].name, 
+    'model': this.selectedLearning,
+     'results':JSON.stringify([this.links,this.data,this.lengthNumber,this.id,this.dataString])
+     }
+
+    this.authenticationService.addQueryHistory2(json).subscribe(
+      data => {
+        console.log(data.message);
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
 
 }

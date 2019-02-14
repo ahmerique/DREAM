@@ -21,7 +21,7 @@
           <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
       </select>
     </div>
-    <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
+    <button (click)="Result();">Lancer l'apprentissage</button>
   </div>
   <div class="right">
     <h2>2. Sélection des données et du modèle</h2>
@@ -39,4 +39,5 @@
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
   <app-interaction-graph [linksSend]='links'></app-interaction-graph>
+  <br/><button (click)=saveData()>Sauvegarder le modèle</button>
 </div>

@@ -12,6 +12,7 @@ export class InteractionGraphComponent implements OnInit {
   @Input() linksSend: any[];
   model = false;
   ngOnInit() {
+    console.log(this.linksSend)
 	  this.traceGraph();
   }
   Modele() {
@@ -24,8 +25,9 @@ export class InteractionGraphComponent implements OnInit {
   }
 
   traceGraph() {
-    let links = this.linksSend;
     console.log(this.linksSend);
+
+    let links = this.linksSend;
     var nodes = {};
 
     // Compute the distinct nodes from the links.

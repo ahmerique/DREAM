@@ -86,21 +86,26 @@ def getDataId(data,id):
             return i
     return 0
   
-@app.route('/wildtype', methods=['GET'])
+@app.route('/wildtype', methods=['POST','GET'])
 ##Fonction de recuperation des etats stables
 def wildtype():
     hello = ""
     datas = []
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    cur = conn.cursor()
+    headers=request.get_json(force=True)
+    id=int(headers['id'])
 
-    files = pd.read_csv('Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',sep='\t')
+    sql2 = "select name from folder where folder_id="+str(id)
+    cur.execute(sql2)
+    dossier= cur.fetchall()
+    dossier=str(dossier)[3:-4]
+    df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
 
-    datas = (files.values)
-    print("datas")
-    print(datas[0])
+    datas = (df_wildtype.values)
     for row in datas[0]:
         print(row)
         hello += ' ' + str(row)
-
     return (hello)
 
 
@@ -271,7 +276,7 @@ def predict():
         G2= 'o'+headers['pert2'][-1]
     id=int(headers['id'])
 
-    sql2 = "select name from folder where folder_id="+str(id+1)
+    sql2 = "select name from folder where folder_id="+str(id)
     cur.execute(sql2)
     dossier= cur.fetchall()
     dossier=str(dossier)[3:-4]

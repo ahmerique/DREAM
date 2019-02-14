@@ -20,10 +20,10 @@ export class DataService {
   data: any;
 
   constructor(    private http: HttpClient) { }
-  getData() {
+  getData(json) {
     // fonction test pour renvoyer des données depuis la base de données
     console.log("getdata")
-    return (this.http.get(this.dataUrl, { responseType: 'text' }));
+    return (this.http.post(this.dataUrl,json, { responseType: 'text' }));
   }
 
 

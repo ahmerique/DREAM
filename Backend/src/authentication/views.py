@@ -362,7 +362,8 @@ class SearchQueryAPI(MethodView):
                         'query_id': query.id,
                         'query_date': query.query_date,
                         'tsv': query.tsv,
-                        'model': query.model
+                        'model': query.model,
+                        'results':query.results
                     }
                     data.append(temp)
                 responseObject = {'status': 'success', 'data': data}

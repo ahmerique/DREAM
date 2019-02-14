@@ -9,9 +9,15 @@
       <p>date: <em>{{oldQuery.query_date}} </em>&nbsp;&nbsp; <button (click)="deleteQuery(oldQuery.query_id)">x</button></p>
       <p>tsv: <em>{{oldQuery.tsv}}</em></p>
       <p>model: <em>{{oldQuery.model}}</em></p>
+
     </div>
     <br />
-    <button class="center" title="load model" (click)="loadQuery(oldQuery.query_id )">Charger modèle</button><br />
+    <button class="center" title="load model" (click)="loadQuery(oldQuery)">Charger modèle</button><br />
     <br />
+  </div>
+  <div *ngIf=displayFlag>
+      
+    <app-prediction [dataSend]='dataString' [lengthData]=lengthNumber [id]=id [method]=selectedLearning [data]=data></app-prediction>
+      <app-interaction-graph [linksSend]=links></app-interaction-graph>
   </div>
 </div>

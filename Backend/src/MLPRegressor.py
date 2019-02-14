@@ -8,9 +8,6 @@ import csv
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 
-df_timeseries = pd.read_csv("Backend/data/insilico_size10_1/insilico_size10_1_timeseries.tsv", sep = "\t", )
-
-df_wildtype = pd.read_csv("Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv", sep = "\t", )
 
 def train(X,y,test,reg):
     list = []
