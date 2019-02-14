@@ -9,5 +9,27 @@
       </div>
       <div class = "right">
         <h2>Modele Réel</h2>
+        Matrice d'interaction trouvée:
+        <br/>
+        <table *ngFor="let row of matrice">
+            <td *ngFor="let cells of row">
+                <div *ngIf='cells=="vp" ||cells=="vn"' class='green'>
+                {{cells}}
+  
+                </div>
+                <div *ngIf='cells=="fp" ||cells=="fn"'class='red'>
+                   
+                    {{cells}}
+  
+                    </div>
+                  </td><br/>
+        </table>
+        Legende:<br/>
+        vp: Vrai Positif <br/>
+        fp: Faux Positif<br/>
+        vn: Vrai Négatif<br/>
+        fn: Faux Negatif
+
       </div>
+      
     </div>

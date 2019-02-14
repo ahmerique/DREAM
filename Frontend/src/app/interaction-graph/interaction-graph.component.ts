@@ -10,16 +10,19 @@ export class InteractionGraphComponent implements OnInit {
 
   constructor() { }
   @Input() linksSend: any[];
-  model = false;
+  @Input() model;
+  @Input() gold;
+
+  realModel = false;
   ngOnInit() {
     console.log(this.linksSend)
 	  this.traceGraph();
   }
   Modele() {
-    if (!this.model) {
-      this.model = true;
+    if (!this.realModel) {
+      this.realModel = true;
     } else {
-      this.model = false;
+      this.realModel = false;
 
     }
   }

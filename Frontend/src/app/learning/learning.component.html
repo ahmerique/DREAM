@@ -38,6 +38,6 @@
 
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
-  <app-interaction-graph [linksSend]='links'></app-interaction-graph>
+  <app-interaction-graph [linksSend]='links' [model]=model [gold]=gold></app-interaction-graph>
   <br/><button (click)=saveData()>Sauvegarder le modèle</button>
 </div>

@@ -15,6 +15,6 @@
 </div>
 <br/><div class="line"></div><br/>
 <button (click)="Modele()">Modèle réel</button>
-<div *ngIf=model>
-  <app-model></app-model>
+<div *ngIf=realModel>
+  <app-model [model]=model [gold]=gold></app-model>
 </div>

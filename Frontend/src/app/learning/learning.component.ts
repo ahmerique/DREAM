@@ -28,6 +28,9 @@ export class LearningComponent implements OnInit {
   parameters = false;
   lengthNumber: number = 10;//nombre de données dans la table utilisée
   learningList = []
+  model=''
+  gold=''
+
   ngOnInit() {
     this.getDataBase();
   }
@@ -94,7 +97,9 @@ export class LearningComponent implements OnInit {
 
         console.log(this.dataString);
         this.Learn(dataSent);
-        console.log(this.learning);
+        this.getRealModel(dataSent);
+        this.getGold(dataSent);
+
 
       });
     }
@@ -170,6 +175,20 @@ export class LearningComponent implements OnInit {
         this.links = JSON.parse((data.replace(/'/g, '"')));
       this.result = true;
 
+    });
+  }
+  getRealModel(dataSent){
+
+    this.learningService.getRealModel(dataSent).subscribe(data => {
+      console.log(data)
+        this.model = data;
+    });
+  }
+  getGold(dataSent){
+
+    this.learningService.getGold(dataSent).subscribe(data => {
+      console.log(data)
+        this.gold = data;
     });
   }
 
