@@ -30,8 +30,20 @@ export class HistoryComponent implements OnInit {
       });
   }
 
+  hide(){
+    console.log(this.displayFlag)
+    this.SoldQuery={}
+    this.links=[]
+    this.displayFlag=false;
+  
+    this.data = [{ id: 0, name: '', type: [] }];
+
+    this.lengthNumber = 10;//nombre de données dans la table utilisée
+    
+  }
+
+
   loadQuery(oldQuery): void {
-    this.displayFlag=false
 
     this.SoldQuery=oldQuery
     this.SoldQuery['results']=(this.SoldQuery['results'])

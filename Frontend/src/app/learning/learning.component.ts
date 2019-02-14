@@ -10,7 +10,7 @@ import { AuthenticationService, MessageService } from '../_services';
 })
 export class LearningComponent implements OnInit {
 
-  constructor(private learningService: LearningService,    private authenticationService: AuthenticationService,
+  constructor(private learningService: LearningService, private authenticationService: AuthenticationService,
     private dataService: DataService) { }
   data = [{ id: 0, name: '', type: [] }];
   table = [];
@@ -18,15 +18,16 @@ export class LearningComponent implements OnInit {
   learning: String;
   @Input() id: number;
   @Input() dataChange: any;
-  @Input() tabId:number;
+  @Input() tabId: number;
   links = [];
   selectedType = {};
   selectedLearning: string;
   dataString: String;
   dataSend: String;
   dataTab: any;
+  parameters = false;
   lengthNumber: number = 10;//nombre de données dans la table utilisée
-  learningList=[]
+  learningList = []
   ngOnInit() {
     this.getDataBase();
   }
@@ -39,7 +40,7 @@ export class LearningComponent implements OnInit {
 
     })
   }
-  debug(){
+  debug() {
     console.log(this.selectedType[0])
   }
   updateSelectData() {
@@ -53,67 +54,76 @@ export class LearningComponent implements OnInit {
   }
 
   Result() {
-    
-    let dataSent = {}
-    let timeseries = []
-    for (let j = 0; j < this.dataChange.length; j++) {
-      timeseries.push({
-        data: this.dataChange[j]['data'],
-        label: this.dataChange[j]['label']
-      })
+    console.log((this.selectedLearning))
+    if (!(this.selectedLearning)) {
+      this.parameters = true
+      this.result = false;
+
     }
-    if (JSON.stringify(this.selectedType).includes("timeseries")) {
-      dataSent = {
-        name: this.getDataName(),
-        data: JSON.stringify(this.selectedType),
-        learning: this.selectedLearning,
-        timeseries: JSON.stringify(timeseries)
-      }
-    }
-    
     else {
-      dataSent = {
-        name: this.getDataName(),
-        data: JSON.stringify(this.selectedType),
-        learning: this.selectedLearning
+      this.parameters = false
+
+      let dataSent = {}
+      let timeseries = []
+      for (let j = 0; j < this.dataChange.length; j++) {
+        timeseries.push({
+          data: this.dataChange[j]['data'],
+          label: this.dataChange[j]['label']
+        })
       }
+      if (JSON.stringify(this.selectedType).includes("timeseries")) {
+        dataSent = {
+          name: this.getDataName(),
+          data: JSON.stringify(this.selectedType),
+          learning: this.selectedLearning,
+          timeseries: JSON.stringify(timeseries)
+        }
+      }
+
+      else {
+        dataSent = {
+          name: this.getDataName(),
+          data: JSON.stringify(this.selectedType),
+          learning: this.selectedLearning
+        }
+      }
+      this.result = false;
+
+      this.learningService.learn(dataSent).subscribe(data => {
+        this.dataString = data;
+
+        console.log(this.dataString);
+        this.Learn(dataSent);
+        console.log(this.learning);
+
+      });
     }
-    this.result = false;
-
-    this.learningService.learn(dataSent).subscribe(data => {
-      this.dataString = data;
-
-      console.log(this.dataString);
-      this.Learn(dataSent);
-      console.log(this.learning);
-
-    });
-
   }
 
-  updateLearning(){
-    let listSelected=[]
-    this.learningList=[]
-    for (let j=0;j<Object.keys(this.selectedType).length;j++){
-      listSelected+=this.selectedType[Object.keys(this.selectedType)[j]]
+  updateLearning() {
+    let listSelected = []
+    this.learningList = []
+    this.selectedLearning=''
+    for (let j = 0; j < Object.keys(this.selectedType).length; j++) {
+      listSelected += this.selectedType[Object.keys(this.selectedType)[j]]
     }
-    if (listSelected.includes("knockouts")){
+    if (listSelected.includes("knockouts")) {
       this.learningList.push('Ecart relatif')
       this.learningList.push('Ecart absolu')
       this.learningList.push('Ecart relatif et absolu')
 
     }
-    if (listSelected.includes("timeseries")){
+    if (listSelected.includes("timeseries")) {
       this.learningList.push('Reseau de Neurones')
       this.learningList.push('XGBoost')
       this.learningList.push('Random Forest')
 
     }
-    if (listSelected.includes("multifactorial")){
+    if (listSelected.includes("multifactorial")) {
       this.learningList.push('ML Disruptif')
 
     }
-    if (listSelected.includes("knockdowns")){
+    if (listSelected.includes("knockdowns")) {
       this.learningList.push('Ecart absolu')
       this.learningList.push('Ecart relatif')
 
@@ -131,17 +141,17 @@ export class LearningComponent implements OnInit {
     }
     return out;
   }
-  getDataName(){
-    for (let i=0;i<this.data.length;i++){
-      if (this.data[i]['id']==this.id){
+  getDataName() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]['id'] == this.id) {
         return this.data[i]['name']
       }
     }
     return 'erreur qui ne devrait pas arriver'
   }
-  getDataId(){
-    for (let i=0;i<this.data.length;i++){
-      if (this.data[i]['id']==this.id){
+  getDataId() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]['id'] == this.id) {
         return i
       }
     }
@@ -157,17 +167,18 @@ export class LearningComponent implements OnInit {
   Learn(dataSent) {
     this.learningService.createGraph(dataSent).subscribe(data => {
       console.log(data),
-      this.links = JSON.parse((data.replace(/'/g, '"')));
+        this.links = JSON.parse((data.replace(/'/g, '"')));
       this.result = true;
 
     });
   }
 
-  saveData(){
-    let json={ 'tsv': this.data[this.tabId].name, 
-    'model': this.selectedLearning,
-     'results':JSON.stringify([this.links,this.data,this.lengthNumber,this.id,this.dataString])
-     }
+  saveData() {
+    let json = {
+      'tsv': this.data[this.tabId].name,
+      'model': this.selectedLearning,
+      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString])
+    }
 
     this.authenticationService.addQueryHistory2(json).subscribe(
       data => {

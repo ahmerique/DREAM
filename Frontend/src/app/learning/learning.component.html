@@ -14,7 +14,6 @@
       <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
 
     </div>
-    <button (click)='debug()'>Debug</button>
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
@@ -22,6 +21,7 @@
       </select>
     </div>
     <button (click)="Result();">Lancer l'apprentissage</button>
+    <div *ngIf="parameters">Il faut selectionner des données et une méthode d'apprentissage</div>
   </div>
   <div class="right">
     <h2>2. Sélection des données et du modèle</h2>
