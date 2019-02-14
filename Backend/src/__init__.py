@@ -141,17 +141,7 @@ def graph():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'wildtype' + '.tsv',
             sep='\t')
-<<<<<<< HEAD
         M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
-=======
-        df_timeseries = pd.read_csv(
-                'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
-                'timeseries' + '.tsv',
-                sep='\t')
-        #M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
-        M=XGBoost.get_relation_matrix_from_coef_matrix(XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
-        print(M)
->>>>>>> 21ac9ae2f9dd7c7faeb6d84fa3b6797a80416f82
     retour=[]
 
     for i in range(len(M[0])):
