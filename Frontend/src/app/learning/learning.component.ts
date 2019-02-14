@@ -12,6 +12,7 @@ export class LearningComponent implements OnInit {
 
   constructor(private learningService: LearningService, private authenticationService: AuthenticationService,
     private dataService: DataService) { }
+  loading: boolean = false;
   data = [{ id: 0, name: '', type: [] }];
   table = [];
   result: boolean = false;
@@ -90,8 +91,8 @@ export class LearningComponent implements OnInit {
       this.result = false;
 
       this.learningService.learn(dataSent).subscribe(data => {
+        this.loading = true;
         this.dataString = data;
-
         console.log(this.dataString);
         this.Learn(dataSent);
         console.log(this.learning);
@@ -168,6 +169,7 @@ export class LearningComponent implements OnInit {
     this.learningService.createGraph(dataSent).subscribe(data => {
       console.log(data),
         this.links = JSON.parse((data.replace(/'/g, '"')));
+      this.loading = false;
       this.result = true;
 
     });

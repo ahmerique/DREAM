@@ -35,7 +35,9 @@
   </div>
 </div>
 <br/><div class="line"></div><br/>
-
+<div *ngIf="loading == true">
+<img src="assets/img/loading_fire.gif" *ngIf="loading == true">
+</div>
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
   <app-interaction-graph [linksSend]='links'></app-interaction-graph>
