@@ -9,7 +9,7 @@ def init_timeseries(df_timeseries):
     return df_timeseries.drop(["Time"], axis=1).values
 
 def get_echant_from_timeseries(df_timeseries, n_echant=0):
-    X = init_df_timeseries(df_timeseries)
+    X = init_timeseries(df_timeseries)
     if n_echant == 0:
         return X
     elif 21*n_echant <= len(X):
@@ -46,17 +46,6 @@ def extract_Xi_and_Yi_from_echant(echant, gene_label, shift=-1):
         else:
             Xi=np.transpose(list(np.transpose(echant)[0:(gene_label-1)])+list(np.transpose(echant)[gene_label:]))[1:]
             Yi=np.transpose(np.transpose(echant)[gene_label-1])[0:-1]
-        return {"Xi": Xi, "Yi": Yi}
-    elif shift == 0:
-        if gene_label == n_gene:
-            Xi=np.transpose(np.transpose(echant)[0:-1])
-            Yi=np.transpose(np.transpose(echant)[-1])
-        elif gene_label == 1:
-            Xi=np.transpose(np.transpose(echant)[1:])
-            Yi=np.transpose(np.transpose(echant)[0])
-        else:
-            Xi=np.transpose(list(np.transpose(echant)[0:(gene_label-1)])+list(np.transpose(echant)[gene_label:]))
-            Yi=np.transpose(np.transpose(echant)[gene_label-1])
         return {"Xi": Xi, "Yi": Yi}
     elif shift == 1:
         #echant = list(echant) + list(df_wildtype_10_1.values)*21
@@ -108,6 +97,15 @@ def get_coef_matrix_from_XGBoost_coef(df_timeseries, params={'n_estimators': 500
                     M_coefs[i][k]+=int(coefs[i][j][k]*100)
     return M_coefs
 
+def get_relation_matrix_from_coef_matrix(M):
+    for i in range(len(M)):
+        for j in range(len(M[i])):
+            if M[i][j] > 30:
+                M[i][j] = 1
+            else:
+                M[i][j] = 0
+    return M
+
 
 #Etats stables
 
@@ -119,8 +117,8 @@ def train_XGBoost_from_timeseries(df_timeseries, params={'n_estimators': 500, 'm
         models[gene_label-1] = trained_model
     return models
 
-def get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
-    models = train_XGBoost_from_timeseries(df_timeseries, params)
+def get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, models, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    #models = train_XGBoost_from_timeseries(df_timeseries, param)
     Y = [0 for i in range(len(X))]
     for i in range(len(X)):
         if i == 0:
@@ -134,12 +132,25 @@ def get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, params={'n_estim
         Y[i] = Y[i][0]
     return Y
 
-def get_double_knockouts(df_timeseries, df_wildtype, itera, i, j):
-    X = df_wildtype
-    X[i-1] = 0
-    X[j-1] = 0
+def get_double_knockouts(df_timeseries, df_wildtype, itera, var1, var2, models):
+    X = df_wildtype.values[0]
+    if var1[0]=='o':
+        X[int(var1[1:])-1]=0
+    else:
+        X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    if var2[0]=='o':
+        X[int(var2[1:])-1]=0
+    else:
+        X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+
     for k in range(itera):
-        X = get_XGBoost_next_point_from_df_timeseries(df_timeseries, X)
-        X[i-1] = 0
-        X[j-1] = 0
+        X = get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, models)
+        if var1[0]=='o':
+            X[int(var1[1:])-1]=0
+        else:
+            X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+        if var2[0]=='o':
+            X[int(var2[1:])-1]=0
+        else:
+            X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
     return X

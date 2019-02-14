@@ -2,6 +2,7 @@ import os
 import psycopg2
 from . import FunctionML
 from . import MLPRegressor
+from . import XGBoost
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -85,7 +86,7 @@ def getDataId(data,id):
         if (data[i]['id']==id):
             return i
     return 0
-  
+
 @app.route('/wildtype', methods=['POST','GET'])
 ##Fonction de recuperation des etats stables
 def wildtype():
@@ -140,7 +141,17 @@ def graph():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'wildtype' + '.tsv',
             sep='\t')
+<<<<<<< HEAD
         M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
+=======
+        df_timeseries = pd.read_csv(
+                'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+                'timeseries' + '.tsv',
+                sep='\t')
+        #M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
+        M=XGBoost.get_relation_matrix_from_coef_matrix(XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
+        print(M)
+>>>>>>> 21ac9ae2f9dd7c7faeb6d84fa3b6797a80416f82
     retour=[]
 
     for i in range(len(M[0])):
@@ -334,6 +345,12 @@ def predict():
     df_timeseries = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv', sep='\t')
     if headers['method']=='Reseau_neurone':
         datas=MLPRegressor.doubleKO(df_timeseries,df_wildtype,G1,G2)[0]
+        print(datas)
+    elif headers['method']=='XGBoost':
+        models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
+        datas=XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30, G1, G2, models)
+        print('////////////////////////////////////////////////////////////::')
+        print(datas)
     else:
         datas= FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
 
