@@ -198,7 +198,7 @@ export class LearningComponent implements OnInit {
     let json = {
       'tsv': this.data[this.tabId].name,
       'model': this.selectedLearning,
-      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString])
+      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString,this.model,this.gold])
     }
 
     this.authenticationService.addQueryHistory2(json).subscribe(
