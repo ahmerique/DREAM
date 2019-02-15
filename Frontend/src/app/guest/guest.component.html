@@ -1,56 +1,61 @@
-<div class="clearfix">
+<div class="center">
+  <div class="clearfix">
 
-  <div class="left">
-    <h2>1. Visualisation des données</h2>
-    <p>Ici, tu peux visualiser les différents jeux de données génétiques disponibles.</p>
-    <p>L'objectif par la suite est d'y appliquer un ou plusieurs algorithmes de Machine Learning afin de déterminer les
-      interactions entre gènes et l'évolution de leurs expressions pour une perturbation donnée.</p>
-    <p>Ce type d'étude est permet de mieux comprendre les phénomènes génétiques</p>
-    <br />
-    <p>Pour visualiser les données, on utilise des courbes pour les données temporelles et des histogrammes pour
-      les données des états stables (avec ou sans perturbation).</p>
-    <p>N'hésite pas à filtrer les données affichées pour plus de visibilité</p>
-    <p>Tu peux aussi retravailler les points de mesures des courbes en cliquant dessus si tu le souhaites !</p>
-  </div>
-  <div class="right">
-    <div>
-      <h2>Fichier : </h2>
-      <select [(ngModel)]="selectedOption" name="first" (change)="getData();getData2()">
-        <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
-      </select>
-      <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
+    <div class="left">
+      <h2>1. Visualisation des données</h2>
+      <p>Ici, tu peux visualiser les différents jeux de données génétiques disponibles.</p>
+      <p>L'objectif par la suite est d'y appliquer un ou plusieurs algorithmes de Machine Learning afin de déterminer
+        les
+        interactions entre gènes et l'évolution de leurs expressions pour une perturbation donnée.</p>
+      <p>Ce type d'étude est permet de mieux comprendre les phénomènes génétiques</p>
+      <br />
+      <p>Pour visualiser les données, on utilise des courbes pour les données temporelles et des histogrammes pour
+        les données des états stables (avec ou sans perturbation).</p>
+      <p>N'hésite pas à filtrer les données affichées pour plus de visibilité</p>
+      <p>Tu peux aussi retravailler les points de mesures des courbes en cliquant dessus si tu le souhaites !</p>
+    </div>
+    <div class="right">
+      <div>
+        <h2>Fichier : </h2>
+        <select [(ngModel)]="selectedOption" name="first" (change)="getData();getData2()">
+          <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
+        </select>
+        <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
       <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>-->
-    </div>
+      </div>
 
-    <div *ngIf="addfile">
-      <fieldset>
-        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile"
-          onchange="document.getElementById('input_text_file').value = this.value" />
-      </fieldset>
-    </div>
+      <div *ngIf="addfile">
+        <fieldset>
+          <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
+        </fieldset>
+      </div>
 
-    <br />
+      <br />
 
-    <h3>Affichage : Timeseries</h3>
-    <button (click)="straightLine()">droite</button>
-    <button (click)="curveLine()">courbe</button>
-    <button (click)="dots()">Nuage de points</button>
-    <canvas id="myChart" (click)="changeValueGraph()"></canvas>
+      <h3>Affichage : Timeseries</h3>
+      <button (click)="straightLine()">droite</button>
+      <button (click)="curveLine()">courbe</button>
+      <button (click)="dots()">Nuage de points</button>
+      <canvas id="myChart" (click)="changeValueGraph()"></canvas>
 
 
-    <br />
-    <h3>Affichage : </h3>
-    <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
-      <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
-    </select>
-      <select [(ngModel)]="idofdata" (change)="getData2()">
-        <option *ngFor="let number of listData2">    <div *ngIf='flagG'>G{{number}} </div><div *ngIf='!flagG'> {{number}} </div></option>
+      <br />
+      <h3>Affichage : </h3>
+      <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
+        <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
       </select>
-    <div>
-      <canvas id="myChart2"></canvas>
+      <select [(ngModel)]="idofdata" (change)="getData2()">
+        <option *ngFor="let number of listData2">
+          <div *ngIf='flagG'>G{{number}} </div>
+          <div *ngIf='!flagG'> {{number}} </div>
+        </option>
+      </select>
+      <div>
+        <canvas id="myChart2"></canvas>
+      </div>
     </div>
   </div>
+  <br />
+  <div class="line"></div><br />
+  <app-learning [id]=selectedOption [dataChange]="displayData" [tabId]=tabId></app-learning>
 </div>
-<br />
-<div class="line"></div><br />
-<app-learning [id]=selectedOption [dataChange]="displayData" [tabId]=tabId></app-learning>
