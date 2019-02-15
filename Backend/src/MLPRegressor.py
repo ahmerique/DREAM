@@ -1,9 +1,4 @@
 import pandas as pd 
-import matplotlib.pyplot as plt 
-from numpy.linalg import inv 
-import numpy as np 
-import scipy as sc 
-import math as m 
 import csv
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error

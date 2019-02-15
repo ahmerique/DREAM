@@ -18,7 +18,7 @@
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
-          <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
+        <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
       </select>
     </div>
     <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
@@ -34,9 +34,11 @@
     <p>Quand tu as fait tes choix, lance l'apprentissage pour visualiser tes résultats !</p>
   </div>
 </div>
-<br/><div class="line"></div><br/>
+<br />
+<div class="line"></div><br />
 
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
   <app-interaction-graph [linksSend]='links'></app-interaction-graph>
+
 </div>
