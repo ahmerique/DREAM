@@ -10,22 +10,27 @@ export class InteractionGraphComponent implements OnInit {
 
   constructor() { }
   @Input() linksSend: any[];
-  model = false;
+  @Input() model;
+  @Input() gold;
+
+  realModel = false;
   ngOnInit() {
+    console.log(this.linksSend)
 	  this.traceGraph();
   }
   Modele() {
-    if (!this.model) {
-      this.model = true;
+    if (!this.realModel) {
+      this.realModel = true;
     } else {
-      this.model = false;
+      this.realModel = false;
 
     }
   }
 
   traceGraph() {
-    let links = this.linksSend;
     console.log(this.linksSend);
+
+    let links = this.linksSend;
     var nodes = {};
 
     // Compute the distinct nodes from the links.

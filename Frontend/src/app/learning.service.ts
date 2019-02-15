@@ -12,7 +12,10 @@ import { Component } from '@angular/core';
 export class LearningService {
   private dataUrl = ' http://localhost:5000/learning';
   private dataUrl2 = ' http://localhost:5000/prediction';
-  private dataUrl3 = ' http://localhost:5000/graph'
+  private dataUrl3 = ' http://localhost:5000/graph';
+  private dataUrl4 = ' http://localhost:5000/model'; 
+  private dataUrl5 = ' http://localhost:5000/gold'; 
+
   data: any;
 
   constructor(    private http: HttpClient) { }
@@ -28,7 +31,12 @@ export class LearningService {
 
   }
   createGraph(json){
-    console.log(('create'))
     return(this.http.post(this.dataUrl3,json, { responseType: 'text' }));
+  }
+  getRealModel(json){
+    return(this.http.post(this.dataUrl4,json, { responseType: 'text' }));
+  }
+  getGold(json){
+    return(this.http.post(this.dataUrl5,json, { responseType: 'text' }));
   }
 }

@@ -14,14 +14,14 @@
       <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
 
     </div>
-    <button (click)='debug()'>Debug</button>
     <div>
       <h3>Méthode d'apprentissage</h3>
       <select [(ngModel)]="selectedLearning">
         <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
       </select>
     </div>
-    <button (click)="Result(); networkEmit()">Lancer l'apprentissage</button>
+    <button (click)="Result();">Lancer l'apprentissage</button>
+    <div *ngIf="parameters">Il faut selectionner des données et une méthode d'apprentissage</div>
   </div>
   <div class="right">
     <h2>2. Sélection des données et du modèle</h2>
@@ -36,9 +36,11 @@
 </div>
 <br />
 <div class="line"></div><br />
-
+<div *ngIf="loading == true">
+  <img src="assets/img/loading_fire.gif" *ngIf="loading == true">
+</div>
 <div *ngIf="result">
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
-  <app-interaction-graph [linksSend]='links'></app-interaction-graph>
-
+  <app-interaction-graph [linksSend]='links' [model]=model [gold]=gold></app-interaction-graph>
+  <br /><button (click)=saveData()>Sauvegarder le modèle</button>
 </div>

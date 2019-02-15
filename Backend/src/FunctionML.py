@@ -143,3 +143,15 @@ def Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2):
     return thirdPartImplement(df_knockouts,df_knockdowns,df_wildtype,G1,G2,result)
 
 ### Graphe d'interaction : 
+def getGold(Goldstandard,length):
+    i=0
+    Gold_st=[]
+    while Goldstandard.values[i][2]==1:
+        Gold_st.append((int(Goldstandard.values[i][0][1:]),int(Goldstandard.values[i][1][1:])))
+        i+=1
+    result=[[0 for i in range(length)]for i in range(length)]
+    print(Gold_st)
+    for i in range(len(Gold_st)):
+
+        result[Gold_st[i][0]-1][Gold_st[i][1]-1]=1
+    return result

@@ -6,7 +6,7 @@
     <h2>4. Prédiction du réseau d'interaction</h2>
     <p>Suite à l'apprentissage, le modèle a determiné les influences entre les gènes.</p>
     <p>Ces influences sont représentées par un graphe d'interaction.</p>
-    <p>Chaque liaison entre 2 gène correspond à un lien. Si tu double-cliques, tu pourras mettre en valeur tous les liens d'un gène.</p>
+    <p>Chaque liaison entre 2 gènes correspond à un lien. Si tu double-cliques, tu pourras mettre en valeur tous les liens d'un gène.</p>
     <p>La différence de couleur correspond à l'action du gène: 
       s'il a une action d'inhibition, il sera en rouge et
       s'il a une action d'activation, il sera en vert</p>
@@ -15,6 +15,8 @@
 </div>
 <br/><div class="line"></div><br/>
 <button (click)="Modele()">Modèle réel</button>
-<div *ngIf=model>
-  <app-model></app-model>
+<div *ngIf=realModel>
+  <app-model [model]=model [gold]=gold></app-model>
 </div>
+
+

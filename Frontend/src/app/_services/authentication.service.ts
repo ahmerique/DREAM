@@ -60,6 +60,11 @@ export class AuthenticationService {
   addQueryHistory() {
     return this.http.post<any>(API_URL + '/auth/addsearchquery', { 'tsv': 'coucou', 'model': 'coucou2', 'results': 'coucou3' });
   }
+  addQueryHistory2(json) {
+    let x=json
+    console.log(x)
+    return this.http.post<any>(API_URL + '/auth/addsearchquery', x);
+  }
 
   getQueryHistory() {
     return this.http.get<any>(API_URL + '/auth/searchquery');
