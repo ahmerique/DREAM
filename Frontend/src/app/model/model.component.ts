@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LearningService } from '../learning.service';
 
 @Component({
   selector: 'app-model',
@@ -12,15 +13,16 @@ export class ModelComponent implements OnInit {
   @Input() lang;
   flagScore:Boolean=false;
   matriceGold;
-  @Input() score;
+  score;
   
-  constructor() { }
+  constructor(private learningService: LearningService) { }
 
   ngOnInit() {
     console.log(this.gold)
     this.matrice = (JSON.parse(this.model))
     this.matriceGold = (JSON.parse(this.gold))
     this.Actualise();
+    this.getScore();
   }
   showScore(){
     this.flagScore=true;
@@ -53,5 +55,14 @@ export class ModelComponent implements OnInit {
       }
     }
   }
-
+  getScore() {
+    let dataSent={
+      matrice:this.matrice,
+      gold:this.matriceGold
+    }
+    this.learningService.getScore(dataSent).subscribe(data => {
+      console.log(data)
+      this.score = data;
+    });
+  }
 }

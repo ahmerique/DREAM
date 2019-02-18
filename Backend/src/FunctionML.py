@@ -155,3 +155,20 @@ def getGold(Goldstandard,length):
 
         result[Gold_st[i][0]-1][Gold_st[i][1]-1]=1
     return result
+
+def score(matrice):
+
+    CM = [[0,0],[0,0]]
+    for i in range(len(matrice)):
+        for j in range(len(matrice)):
+            if (matrice[i][j]) == 'vn' :
+                CM[1][1] += 1
+            elif (matrice[i][j]) == 'fp':
+                CM[1][0] += 1
+            elif (matrice[i][j]) == 'fn':
+                CM[0][1] += 1
+            elif (matrice[i][j]) == 'vp':
+                CM[0][0] += 1
+    TPR = CM[0][0]/(CM[0][0]+CM[0][1])
+    FPR = CM[1][0]/(CM[1][0]+CM[1][1])
+    return(metrics.auc([0, FPR, 1.],[0.,TPR,1.]))

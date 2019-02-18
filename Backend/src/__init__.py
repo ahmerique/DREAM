@@ -70,7 +70,6 @@ def getData():
         sql = "select tsv.name from tsv where tsv.folder_id=" + str(i + 1) +" order by tsv.name"
         cur.execute(sql)
         records = cur.fetchall()
-        print(records)
         if len(records) != 0:
             types = []
             for j in range(len(records)):
@@ -175,18 +174,15 @@ def display():
             else:
                 newdata += datas[j]
         records = newdata.split("\t")
-        print(records, data2)
         for i in range(length):
             displayData.append({"label": "G" + str(i + 1), "data": []})
         for i in range(len(data2)):
             for j in range(len(data2[i])):
                 displayData[j]["data"].append(data2[i][j])
 
-        print(displayData)
         return (str(displayData))
     else:
         displayData = []
-        print("knockout")
         data = []
         files2 = pd.read_csv(
             'Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',
@@ -198,7 +194,6 @@ def display():
         data2 = files.values
         text = open('Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
                     'r+')
-        print(data)
         content = text.read()
         text.close()
         datas = str(content)
@@ -217,9 +212,7 @@ def display():
                 displayData[(j * 2)]["data"].append(data2[i][j])
 
         for i in range(len(data[0])):
-            print(data[0][i])
             displayData[(i * 2) + 1]["data"].append(data[0][i])
-        print(displayData)
         return (str(displayData))
 
 
@@ -251,11 +244,19 @@ def displayTimeseries():
     return (str(displayData))
 
 
+@app.route('/score', methods=['POST'])
+#Route créée pour afficher les timeseries sur le graphe.
+def score():
+    headers = request.get_json(force=True)
+    matrice = headers['matrice']
+    score=FunctionML.score(matrice)
+    print(score)
+    return (str(score))
+
 @app.route('/model', methods=['POST'])
 #Route créée pour afficher les timeseries sur le graphe.
 def getModel():
     headers = request.get_json(force=True)
-    print(ast.literal_eval(headers['data'])['0'])
     if True:#Creer une condition pour choisir la methode
         df_knockouts = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
@@ -286,7 +287,6 @@ def getModel():
             retour+=","
     retour+="]"
     x=FunctionML.getGold(df_gold,10)
-    print(x)
     return (str(retour))
 
 
@@ -294,7 +294,6 @@ def getModel():
 #Route créée pour afficher les timeseries sur le graphe.
 def getGold():
     headers = request.get_json(force=True)
-    print(ast.literal_eval(headers['data'])['0'])
     if True:#Creer une condition pour choisir la methode
 
         df_gold=pd.read_csv(
@@ -328,24 +327,20 @@ def predict():
     dossier=str(dossier)[3:-4]
     hello=""
     datas=[]
-    print('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv')
     df_knockouts = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv', sep='\t')
     df_knockdowns = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockdowns.tsv', sep='\t')
     df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
     df_timeseries = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv', sep='\t')
     if headers['method']=='Reseau_neurone':
         datas=MLPRegressor.doubleKO(df_timeseries,df_wildtype,G1,G2)[0]
-        print(datas)
     elif headers['method']=='XGBoost':
         models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
         datas=XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30, G1, G2, models)
-        print('////////////////////////////////////////////////////////////::')
-        print(datas)
+
     else:
         datas= FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
 
     for row in datas:
-        print(row)
         hello+=' '+str(row)
 
     return (hello)

@@ -13,7 +13,6 @@ export class InteractionGraphComponent implements OnInit {
   @Input() model;
   @Input() gold;
   @Input() lang;
-  @Input() score;
 
   realModel = false;
   ngOnInit() {

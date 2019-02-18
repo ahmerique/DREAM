@@ -13,7 +13,6 @@ export class HistoryComponent implements OnInit {
   displayFlag=false;
   model;
   gold;
-  score;
   data = [{ id: 0, name: '', type: [] }];
   id: number;
   selectedLearning: String;
@@ -62,8 +61,6 @@ export class HistoryComponent implements OnInit {
     this.dataString=JSON.parse(this.SoldQuery['results'])[4]
     this.model=JSON.parse(this.SoldQuery['results'])[5]
     this.gold=JSON.parse(this.SoldQuery['results'])[6]
-
-    this.score=JSON.parse(this.SoldQuery['results'])[7]
     this.displayFlag=true
   }
 
