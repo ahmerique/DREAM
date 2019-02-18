@@ -20,6 +20,8 @@ export class LearningComponent implements OnInit {
   @Input() id: number;
   @Input() dataChange: any;
   @Input() tabId: number;
+  @Input() lang;
+
   links = [];
   selectedType = {};
   selectedLearning: string;
@@ -29,9 +31,8 @@ export class LearningComponent implements OnInit {
   parameters = false;
   lengthNumber: number = 10;//nombre de données dans la table utilisée
   learningList = []
-  model=''
-  gold=''
-
+  model = ''
+  gold = ''
   ngOnInit() {
     this.getDataBase();
   }
@@ -101,7 +102,6 @@ export class LearningComponent implements OnInit {
         this.getRealModel(dataSent);
         this.getGold(dataSent);
 
-
       });
     }
   }
@@ -109,7 +109,7 @@ export class LearningComponent implements OnInit {
   updateLearning() {
     let listSelected = []
     this.learningList = []
-    this.selectedLearning=''
+    this.selectedLearning = ''
     for (let j = 0; j < Object.keys(this.selectedType).length; j++) {
       listSelected += this.selectedType[Object.keys(this.selectedType)[j]]
     }
@@ -163,6 +163,7 @@ export class LearningComponent implements OnInit {
     }
     return 0
   }
+
   addData() {
     this.table.push(this.table.length)
   }
@@ -172,25 +173,25 @@ export class LearningComponent implements OnInit {
   }
   Learn(dataSent) {
     this.learningService.createGraph(dataSent).subscribe(data => {
-      console.log(data),
-        this.links = JSON.parse((data.replace(/'/g, '"')));
+      console.log(data);
+      this.links = JSON.parse((data.replace(/'/g, '"')));
       this.loading = false;
       this.result = true;
 
     });
   }
-  getRealModel(dataSent){
+  getRealModel(dataSent) {
 
     this.learningService.getRealModel(dataSent).subscribe(data => {
       console.log(data)
-        this.model = data;
+      this.model = data;
     });
   }
-  getGold(dataSent){
+  getGold(dataSent) {
 
     this.learningService.getGold(dataSent).subscribe(data => {
       console.log(data)
-        this.gold = data;
+      this.gold = data;
     });
   }
 
@@ -198,7 +199,7 @@ export class LearningComponent implements OnInit {
     let json = {
       'tsv': this.data[this.tabId].name,
       'model': this.selectedLearning,
-      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString,this.model,this.gold])
+      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString, this.model, this.gold])
     }
 
     this.authenticationService.addQueryHistory2(json).subscribe(

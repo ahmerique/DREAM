@@ -1,22 +1,47 @@
 <div class="clearfix">
   <div class="left" id="graph">
-    <h2>graphe d'interaction</h2>
+    <div *ngIf="lang!='en'">
+      <h2>graphe d'interaction</h2>
+    </div>
+    <div *ngIf="lang=='en'">
+      <h2>Interaction graph</h2>
+    </div>
   </div>
   <div class="right">
-    <h2>4. Prédiction du réseau d'interaction</h2>
-    <p>Suite à l'apprentissage, le modèle a determiné les influences entre les gènes.</p>
-    <p>Ces influences sont représentées par un graphe d'interaction.</p>
-    <p>Chaque liaison entre 2 gènes correspond à un lien. Si tu double-cliques, tu pourras mettre en valeur tous les liens d'un gène.</p>
-    <p>La différence de couleur correspond à l'action du gène: 
-      s'il a une action d'inhibition, il sera en rouge et
-      s'il a une action d'activation, il sera en vert</p>
-    <p>Enfin, lorque tu double-cliques, la différence de couleur marque ici le sens de l'interaction et non l'action du gène</p>
+    <div *ngIf="lang!='en'">
+      <h2>4. Prédiction du graph d'interaction</h2>
+      <p>Suite à l'apprentissage, le modèle a determiné les influences entre les gènes.</p>
+      <p>Ces influences sont représentées par un graphe d'interaction.</p>
+      <p>Chaque liaison entre 2 gènes correspond à un lien.
+        La différence de couleur correspond à l'action du gène :
+        s'il a une action d'inhibition, il sera en rouge et
+        s'il a une action d'activation, il sera en vert.
+        Si tu double-cliques sur un gène, tu pourras mettre en valeur tous les liens de ce gène avec d'autres.
+        Dans ce cas là, la différence de couleur marquera le sens de l'interaction et non l'action du gène.</p>
+    </div>
+    <div *ngIf="lang=='en'">
+      <h2>4. Prediction on the interaction graph</h2>
+      <p>
+        After the learning, the model determined the interactions between the genes.
+        Those interaction are represented using an interaction graph.
+        Each bond between two genes represent a link between those genes.
+        The color difference represent the action of the gene:
+        If there's an inhibition, the link will be red.
+        If there's an activation, the link will be green.
+        If you double-click on a gene, you will highlight all the bonds of the specified gene.
+        In that case, the color difference will represent the direction of the interaction instead of its action.
+      </p>
+    </div>
   </div>
+  <br />
 </div>
-<br/><div class="line"></div><br/>
-<button (click)="Modele()">Modèle réel</button>
+<div class="line"></div><br />
+<div *ngIf="lang!='en'">
+  <button (click)="Modele()">Modèle réel</button>
+</div>
+<div *ngIf="lang=='en'">
+  <button (click)="Modele()">Real Model</button>
+</div>
 <div *ngIf=realModel>
-  <app-model [model]=model [gold]=gold></app-model>
+  <app-model [model]=model [gold]=gold [lang]=lang ></app-model>
 </div>
-
-

@@ -15,6 +15,7 @@ export class LearningService {
   private dataUrl3 = ' http://localhost:5000/graph';
   private dataUrl4 = ' http://localhost:5000/model'; 
   private dataUrl5 = ' http://localhost:5000/gold'; 
+  private dataUrl6 = ' http://localhost:5000/score'; 
 
   data: any;
 
@@ -38,5 +39,8 @@ export class LearningService {
   }
   getGold(json){
     return(this.http.post(this.dataUrl5,json, { responseType: 'text' }));
+  }
+  getScore(json){
+    return(this.http.post(this.dataUrl6,json, { responseType: 'text' }));
   }
 }

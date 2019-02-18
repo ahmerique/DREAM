@@ -20,7 +20,7 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   sticky = false;
   elementPosition: any;
-
+  lang=true
   constructor(
     private authenticationService: AuthenticationService,
     private messageService: MessageService,
@@ -49,7 +49,9 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
           this.connected = false;
         });
   }
-
+  changeLang(){
+    this.lang=false
+  }
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
