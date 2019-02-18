@@ -273,7 +273,16 @@ def getModel():
         df_gold=pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'goldstandard' + '.tsv',   sep='\t')
-        M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
+        df_timeseries=pd.read_csv(
+            'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+            'timeseries' + '.tsv',   sep='\t')
+
+        if headers['learning']=='XGBoost':
+
+            M = XGBoost.get_relation_matrix_from_coef_matrix(XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
+            print('coucou')
+        else :
+            M = FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
     retour="["
 
     for i in range(len(M[0])):
@@ -282,7 +291,7 @@ def getModel():
             retour+=str((int(abs(M[i][j]))))
             if j!=len(M[i])-1:
                 retour+=','
-        retour+="]"    
+        retour+="]"
         if i!=len(M[0])-1:
             retour+=","
     retour+="]"
