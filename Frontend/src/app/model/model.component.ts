@@ -10,8 +10,10 @@ export class ModelComponent implements OnInit {
   matrice;
   @Input() gold;
   @Input() lang;
-
+  flagScore:Boolean=false;
   matriceGold;
+  @Input() score;
+  
   constructor() { }
 
   ngOnInit() {
@@ -20,11 +22,15 @@ export class ModelComponent implements OnInit {
     this.matriceGold = (JSON.parse(this.gold))
     this.Actualise();
   }
+  showScore(){
+    this.flagScore=true;
+  }
   Actualise() {
+    this.flagScore=false;
+    console.log(this.flagScore)
     for (let j = 0; j < this.matriceGold.length; j++) {
       for (let i = 0; i < this.matriceGold[j].length; i++) {
-        console.log(this.matriceGold[j][i])
-        console.log(this.matrice[j][i])
+
         if (this.matriceGold[j][i] != this.matrice[j][i]) {
           if (this.matrice[j][i] == 1) {
             this.matrice[j][i] = 'fp'

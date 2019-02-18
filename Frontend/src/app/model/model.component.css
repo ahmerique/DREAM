@@ -53,3 +53,13 @@ table {
 .green{
   background-color:greenyellow;
 }
+
+button {
+  height: 25px;
+  font-family: 'Montserrat';
+  border-radius: 5px;
+  border: 0 none;
+  background-color: #b2d3e6;
+  cursor: pointer;
+
+}

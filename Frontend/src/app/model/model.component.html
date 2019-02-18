@@ -30,7 +30,11 @@
       fp: Faux Positif<br />
       vn: Vrai Négatif<br />
       fn: Faux Negatif
-
+      <br/>
+      <div *ngIf="!flagScore">
+          <button (click)=showScore()>Score</button>
+        </div>
+        <div *ngIf="flagScore">Score : {{score}}</div>
     </div>
   </div>
 </div>
@@ -68,8 +72,12 @@
       fp: False Positive<br />
       vn: True Negative<br />
       fn: False Negative
+      <br/>
 
+      <div *ngIf="!flagScore">
+        <button (click)=showScore()>Score</button>
+      </div>
+      <div *ngIf="flagScore">Score : {{score}}</div>
     </div>
-
   </div>
 </div>

@@ -33,7 +33,7 @@ export class LearningComponent implements OnInit {
   learningList = []
   model=''
   gold=''
-
+  score=0;
   ngOnInit() {
     this.getDataBase();
   }
@@ -200,7 +200,7 @@ export class LearningComponent implements OnInit {
     let json = {
       'tsv': this.data[this.tabId].name,
       'model': this.selectedLearning,
-      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString,this.model,this.gold])
+      'results': JSON.stringify([this.links, this.data, this.lengthNumber, this.id, this.dataString,this.model,this.gold,this.score])
     }
 
     this.authenticationService.addQueryHistory2(json).subscribe(
