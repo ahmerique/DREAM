@@ -12,6 +12,7 @@ export class InteractionGraphComponent implements OnInit {
   @Input() linksSend: any[];
   @Input() model;
   @Input() gold;
+  @Input() lang;
 
   realModel = false;
   ngOnInit() {

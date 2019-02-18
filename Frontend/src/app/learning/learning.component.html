@@ -1,37 +1,82 @@
 <div class="clearfix">
-  <div class="left">
-    <div>
-      <h2>Apprentissage :</h2>
-      <h3>Données : </h3>
+  <div *ngIf="lang!='en'">
 
-      <div *ngFor="let x of table">
-        <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
-          <option *ngFor="let type of data[tabId].type" value={{type}}>{{type}}</option>
-        </select>
-        <br />
+    <div class="left">
+      <div>
+        <h2>Apprentissage :</h2>
+        <h3>Données : </h3>
+
+        <div *ngFor="let x of table">
+          <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
+            <option *ngFor="let type of data[tabId].type" value={{type}}>{{type}}</option>
+          </select>
+          <br />
+
+        </div>
+        <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
 
       </div>
-      <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
-
+      <div>
+        <h3>Méthode d'apprentissage</h3>
+        <select [(ngModel)]="selectedLearning">
+          <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
+        </select>
+      </div>
+      <button (click)="Result();">Lancer l'apprentissage</button>
+      <div *ngIf="parameters">Il faut selectionner des données et une méthode d'apprentissage.</div>
     </div>
-    <div>
-      <h3>Méthode d'apprentissage</h3>
-      <select [(ngModel)]="selectedLearning">
-        <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
-      </select>
-    </div>
-    <button (click)="Result();">Lancer l'apprentissage</button>
-    <div *ngIf="parameters">Il faut selectionner des données et une méthode d'apprentissage</div>
   </div>
-  <div class="right">
-    <h2>2. Sélection des données et du modèle</h2>
-    <p>Dans un premier temps, il faut sélectionner le(s) jeu(x) de données génétiques que tu souhaites analyser par la
-      suite.</p>
-    <p>Il est important de prendre un nombre de données suffisant pour que la machine apprenne correctement. Plus il y
-      a de données, plus elle affinera son modèle.</p>
-    <p>Tu dois également choisir le modèle d'apprentissage que tu vas appliquer à ces données. Chaque algorithme a ses
-      forces et ses faiblesses. Ils peuvent donner des résultats très différents !</p>
-    <p>Quand tu as fait tes choix, lance l'apprentissage pour visualiser tes résultats !</p>
+
+  <div *ngIf="lang=='en'">
+
+      <div class="left">
+        <div>
+          <h2>Learning:</h2>
+          <h3>Datas: </h3>
+  
+          <div *ngFor="let x of table">
+            <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
+              <option *ngFor="let type of data[tabId].type" value={{type}}>{{type}}</option>
+            </select>
+            <br />
+  
+          </div>
+          <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
+  
+        </div>
+        <div>
+          <h3>Learning Method</h3>
+          <select [(ngModel)]="selectedLearning">
+            <option *ngFor="let type of learningList" value={{type}}>{{type}}</option>
+          </select>
+        </div>
+        <button (click)="Result();">Run the algorithm</button>
+        <div *ngIf="parameters">you have to select datas and a learning method.</div>
+      </div>
+    </div>
+  <div *ngIf="lang!='en'">
+    <div class="right">
+      <h2>2. Sélection des données et du modèle</h2>
+      <p>Dans un premier temps, il faut sélectionner le(s) jeu(x) de données génétiques que tu souhaites analyser par la
+        suite.</p>
+      <p>Il est important de prendre un nombre de données suffisant pour que la machine apprenne correctement. Plus il y
+        a de données, plus elle affinera son modèle.</p>
+      <p>Tu dois également choisir le modèle d'apprentissage que tu vas appliquer à ces données. Chaque algorithme a ses
+        forces et ses faiblesses. Ils peuvent donner des résultats très différents !</p>
+      <p>Quand tu as fait tes choix, lance l'apprentissage pour visualiser tes résultats !</p>
+    </div>
+  </div>
+
+  <div *ngIf="lang=='en'">
+    <div class="right">
+      <h2>2. Data and model selection</h2>
+      <p>Firstly, you have to select the genetic data(s) you will want to analyse.</p>
+      <p>It is important to select enough datas to have an accurate model. You have to understand that the more datas
+        you will select, the more precise the machine will be</p>
+      <p>You also have to chose which learning model you will want to apply on those datas. Each algorithm has its
+        strengths and its weaknesses. Thus, they can provide very different results!</p>
+      <p>When you have made all your choices, run the algorithm to visualise your results.</p>
+    </div>
   </div>
 </div>
 <br />
@@ -40,7 +85,13 @@
   <img src="assets/img/loading_fire.gif" *ngIf="loading == true">
 </div>
 <div *ngIf="result">
-  <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data></app-prediction>
-  <app-interaction-graph [linksSend]='links' [model]=model [gold]=gold></app-interaction-graph>
+  <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data
+    [lang]=lang></app-prediction>
+  <app-interaction-graph [linksSend]='links' [model]=model [gold]=gold [lang]=lang></app-interaction-graph>
+  <div *ngIf="lang!='en'">
   <br /><button (click)=saveData()>Sauvegarder le modèle</button>
+  </div>
+  <div *ngIf="lang=='en'">
+      <br /><button (click)=saveData()>Save model</button>
+      </div>
 </div>

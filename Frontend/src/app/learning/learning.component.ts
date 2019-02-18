@@ -20,6 +20,8 @@ export class LearningComponent implements OnInit {
   @Input() id: number;
   @Input() dataChange: any;
   @Input() tabId: number;
+  @Input() lang;
+
   links = [];
   selectedType = {};
   selectedLearning: string;

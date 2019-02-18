@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { DataService } from '../data.service';
 import { Chart } from 'chart.js';
 import { range } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
 // import { ConsoleReporter } from 'jasmine';
 
 @Component({
@@ -12,7 +14,7 @@ import { range } from 'rxjs';
 
 export class GuestComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,private route: ActivatedRoute) { }
   hauteur = 200;
   selectedDevice: String;
   addfile = false;
@@ -35,6 +37,8 @@ export class GuestComponent implements OnInit {
   lengthData = 10;
   flagG=true
   tabId:number;
+  @Input() lang:String
+
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
       this.data = JSON.parse(data.replace(/'/g, '"'));
@@ -219,6 +223,11 @@ export class GuestComponent implements OnInit {
   ngOnInit() {
     this.getDataBase();
     this.createGraph();
+    this.route.params.subscribe(params => {
+      this.lang = params['id']; 
+
+   });
+   console.log(this.lang)
   }
 
   addFile() {

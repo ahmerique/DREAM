@@ -17,6 +17,8 @@ export class PredictionComponent implements OnInit {
   @Input() id:number
   @Input() method: String;
   @Input() data;
+  @Input() lang;
+
   show: boolean = false;
   selectedOption1: String
   selectedOption2: String

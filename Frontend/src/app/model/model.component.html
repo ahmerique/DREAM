@@ -1,35 +1,75 @@
-<div class="clearfix">
+<div *ngIf="lang!='en'">
+  <div class="clearfix">
     <div class="left">
-        <h2>5. Modèle réel appris</h2>
-        <p>Cette section te permet de visualiser les différents résultats que nous avons du calculer pour permettre l'affichage</p>
-        <p>du graphe d'interaction et des prédictions de perturbation : </p>
-        <p>La matrice correspond aux interactions entre les différents gènes, en cliquant sur le bouton on peut voir la matrice que l'on aurait du obtenir</p>
-        <p>accompagnée du score que nous avons eu pour cette prédiction.</p>
-        
-      </div>
-      <div class = "right">
-        <h2>Modele Réel</h2>
-        Matrice d'interaction trouvée:
-        <br/>
-        <table *ngFor="let row of matrice">
-            <td *ngFor="let cells of row">
-                <div *ngIf='cells=="vp" ||cells=="vn"' class='green'>
-                {{cells}}
-  
-                </div>
-                <div *ngIf='cells=="fp" ||cells=="fn"'class='red'>
-                   
-                    {{cells}}
-  
-                    </div>
-                  </td><br/>
-        </table>
-        Legende:<br/>
-        vp: Vrai Positif <br/>
-        fp: Faux Positif<br/>
-        vn: Vrai Négatif<br/>
-        fn: Faux Negatif
+      <h2>5. Modèle réel appris</h2>
+      <p>Cette section te permet de visualiser les différentes étapes par lesquelles nous avons du passer pour permettre
+        la création du modèle sous forme de graphe d'interaction et des prédictions de perturbation :
+        La matrice correspond aux interactions entre les différents gènes, en cliquant sur le bouton nous peut voir la
+        matrice que nous aurions du obtenir accompagnée du score que nous avons eu pour cette prédiction.</p>
 
-      </div>
-      
     </div>
+    <div class="right">
+      <h2>Modele Réel</h2>
+      Matrice d'interaction trouvée:
+      <br />
+      <table *ngFor="let row of matrice">
+        <td *ngFor="let cells of row">
+          <div *ngIf='cells=="vp" ||cells=="vn"' class='green'>
+            {{cells}}
+
+          </div>
+          <div *ngIf='cells=="fp" ||cells=="fn"' class='red'>
+
+            {{cells}}
+
+          </div>
+        </td><br />
+      </table>
+      Legende:<br />
+      vp: Vrai Positif <br />
+      fp: Faux Positif<br />
+      vn: Vrai Négatif<br />
+      fn: Faux Negatif
+
+    </div>
+  </div>
+</div>
+<div *ngIf="lang=='en'">
+
+  <div class="clearfix">
+    <div class="left">
+      <h2>5. Real Model</h2>
+
+      <p>This section allows you to visualise the steps we had to have to allow the creation of the model we predict,
+        using both an interaction graph and the perturbation predictions:
+        The matrix illustrates the interactions betweens the genes. If you click on the button, you can calculate the
+        score we have for this prediction.</p>
+
+    </div>
+    <div class="right">
+      <h2>Real Model</h2>
+      Interaction Matrix:
+      <br />
+      <table *ngFor="let row of matrice">
+        <td *ngFor="let cells of row">
+          <div *ngIf='cells=="vp" ||cells=="vn"' class='green'>
+            {{cells}}
+
+          </div>
+          <div *ngIf='cells=="fp" ||cells=="fn"' class='red'>
+
+            {{cells}}
+
+          </div>
+        </td><br />
+      </table>
+      Legende:<br />
+      vp: True Positive <br />
+      fp: False Positive<br />
+      vn: True Negative<br />
+      fn: False Negative
+
+    </div>
+
+  </div>
+</div>

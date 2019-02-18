@@ -9,6 +9,8 @@ export class ModelComponent implements OnInit {
   @Input() model;
   matrice;
   @Input() gold;
+  @Input() lang;
+
   matriceGold;
   constructor() { }
 

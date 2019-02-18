@@ -14,11 +14,17 @@ const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'data', component: DataComponent, canActivate: [AuthGuard] },
+  { path: 'mainPage/:id', component: MainPageComponent, canActivate: [AuthGuard] },
   { path: 'mainPage', component: MainPageComponent, canActivate: [AuthGuard] },
+
   { path: 'guest', component: GuestComponent },
+  { path: 'guest/:id', component: GuestComponent },
+
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/mainPage', pathMatch: 'full' },
+  { path: 'en', redirectTo: '/mainPage/en', pathMatch: 'full' },
+
   { path: '**', redirectTo: '/mainPage', pathMatch: 'full' },
 ];
 
