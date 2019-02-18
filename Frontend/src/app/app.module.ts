@@ -37,7 +37,7 @@ import { GuestComponent } from './guest/guest.component';
     MainPageComponent,
     LoginComponent,
     SignupComponent,
-    GuestComponent
+    GuestComponent,
   ],
   imports: [
     BrowserModule,
