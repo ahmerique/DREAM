@@ -32,6 +32,8 @@
   border-top: 1px solid;
   border-top-color: rgba(0, 0, 0);
   width: 99%;
+  height: 50px;
+  background-image: linear-gradient(rgba(232,232,232), rgba(256,256,256));
 }
 
 .link {
