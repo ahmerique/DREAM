@@ -3,6 +3,7 @@ import psycopg2
 from . import FunctionML
 from . import MLPRegressor
 from . import XGBoost
+from . import RL
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -281,6 +282,9 @@ def getModel():
 
             M = XGBoost.get_relation_matrix_from_coef_matrix(XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
             print('coucou')
+        elif headers['learning']=='RL':
+            M = RL.get_relation_matrix(RL.RL_from_timeseries(df_timeseries))[0]
+
         else :
             M = FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
     retour="["

@@ -122,6 +122,7 @@ export class LearningComponent implements OnInit {
     if (listSelected.includes("timeseries")) {
       this.learningList.push('Reseau de Neurones')
       this.learningList.push('XGBoost')
+      this.learningList.push('RL')
       this.learningList.push('Random Forest')
 
     }
