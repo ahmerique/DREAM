@@ -36,6 +36,8 @@ export class CoreComponent implements OnInit {
   flagG=true
   tabId:number;
   @Input() lang:String
+  @Input() test:String
+
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
       this.data = JSON.parse(data.replace(/'/g, '"'));
@@ -218,9 +220,10 @@ export class CoreComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.getDataBase();
     this.createGraph();
-    console.log(this.lang)
+    console.log(this.test)
   }
 
   addFile() {

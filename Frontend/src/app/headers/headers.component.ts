@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit, Input } from '@angular/core';
 import { AuthenticationService, MessageService } from '../_services';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -11,12 +11,12 @@ import { Subscription } from 'rxjs';
 })
 
 export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
-
   error = '';
   connected: boolean;
   subscription: Subscription;
 
   @ViewChild('stickyMenu') menuElement: ElementRef;
+  @Input() test;
 
   sticky = false;
   elementPosition: any;
@@ -85,14 +85,5 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  test() {
-    this.authenticationService.addQueryHistory().subscribe(
-      data => {
-        console.log(data.message);
-      },
-      error => {
-        console.log(error);
-      });
-  }
 
 }

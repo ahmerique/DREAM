@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-
+  lang;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -32,7 +32,10 @@ export class LoginComponent implements OnInit {
       pseudo: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.route.params.subscribe(params => {
+      this.lang = params['id']; 
 
+   });
     // reset login status
     this.authenticationService.logout();
 

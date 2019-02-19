@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-
+  lang;
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -26,6 +26,12 @@ export class SignupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.lang = params['id']; 
+
+   });
+
+   console.log(this.lang)
     this.signUpForm = this.formBuilder.group({
       pseudo: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

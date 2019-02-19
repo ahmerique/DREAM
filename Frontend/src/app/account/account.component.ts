@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_services';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../_helpers/password.validator';
@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit {
   _loading = false;
   _submitted = false;
   _error = '';
-
+  lang;
   _changePasswordDone = false;
   _changeInfoDone = false;
 
@@ -37,11 +37,15 @@ export class AccountComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.lang = params['id']; 
 
+   });
     this.authenticationService.getUser()
       .pipe(first())
       .subscribe(

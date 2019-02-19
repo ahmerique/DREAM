@@ -223,6 +223,7 @@ export class GuestComponent implements OnInit {
   ngOnInit() {
     this.getDataBase();
     this.createGraph();
+
     this.route.params.subscribe(params => {
       this.lang = params['id']; 
 

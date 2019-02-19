@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AuthGuard } from './_guards';
+import { AuthGuard2 } from './_guards';
 
 import { Routes, RouterModule } from '@angular/router';
 import { AccountComponent } from './account/account.component';
@@ -14,7 +15,9 @@ const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
   { path: 'data', component: DataComponent, canActivate: [AuthGuard] },
-  { path: 'mainPage/:id', component: MainPageComponent, canActivate: [AuthGuard] },
+
+  { path: 'data/:id', component: DataComponent, canActivate: [AuthGuard] },
+  { path: 'mainPage/:id', component: MainPageComponent, canActivate: [AuthGuard2] },
   { path: 'mainPage', component: MainPageComponent, canActivate: [AuthGuard] },
 
   { path: 'guest', component: GuestComponent },

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-data',
@@ -9,9 +10,14 @@ export class DataComponent implements OnInit {
   _currentUserData = ['data1.tsv', 'data2222.csv'];
   _import = false;
   _delete = false;
-  constructor() { }
+  lang;
+  constructor(        private route: ActivatedRoute,private router: Router    ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.lang = params['id']; 
+
+   });
   }
 
   importData(): void {
