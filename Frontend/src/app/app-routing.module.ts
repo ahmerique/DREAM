@@ -14,9 +14,7 @@ import { GuestComponent } from './guest/guest.component';
 const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard] },
-  { path: 'datas', component: DataComponent, canActivate: [AuthGuard] },
 
-  { path: 'datas/:id', component: DataComponent, canActivate: [AuthGuard] },
   { path: 'mainPage/:id', component: MainPageComponent, canActivate: [AuthGuard2] },
   { path: 'mainPage', component: MainPageComponent, canActivate: [AuthGuard] },
 
