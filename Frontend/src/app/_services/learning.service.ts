@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { API_URL } from './env';
+import { API_URL } from '../env';
 
 @Injectable({
   providedIn: 'root'

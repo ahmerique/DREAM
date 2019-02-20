@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../_services/data.service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
-import { LearningService } from '../learning.service'
+import { LearningService } from '../_services/learning.service';
 @Component({
   selector: 'app-prediction',
   templateUrl: './prediction.component.html',
@@ -9,12 +9,12 @@ import { LearningService } from '../learning.service'
 })
 export class PredictionComponent implements OnInit {
   perturbation = []
-  wildtype=[]
+  wildtype = []
   constructor(private dataService: DataService, private learningService: LearningService) { }
   dataTab = []
   @Input() dataSend: String;
   @Input() lengthData: number;
-  @Input() id:number
+  @Input() id: number
   @Input() method: String;
   @Input() data;
   @Input() lang;
@@ -23,9 +23,9 @@ export class PredictionComponent implements OnInit {
   selectedOption1: String
   selectedOption2: String
 
-  getDataId(){
-    for (let i=0;i<this.data.length;i++){
-      if (this.data[i]['id']==this.id){
+  getDataId() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]['id'] == this.id) {
         return i
       }
     }
@@ -35,27 +35,27 @@ export class PredictionComponent implements OnInit {
     let perturbation = {
       pert1: this.selectedOption1,
       pert2: this.selectedOption2,
-      id:this.id,
-      method:this.method
+      id: this.id,
+      method: this.method
     }
     console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
       this.dataTab = data.split(' ');
-      this.perturbation=[]
-      for (let i = 1; i < this.lengthData+1; i++) {
-        this.perturbation.push({name:'G'+(i).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      this.perturbation = []
+      for (let i = 1; i < this.lengthData + 1; i++) {
+        this.perturbation.push({ name: 'G' + (i).toString(), value: (parseFloat(this.dataTab[i]).toFixed(2)) })
       }
     });
     this.show = true
   }
 
   getData() {
-    this.dataService.getData({id:this.id}).subscribe(data => {
+    this.dataService.getData({ id: this.id }).subscribe(data => {
       this.dataTab = data.split(' ');
-      this.wildtype=[]
-      for (let i = 1; i < this.lengthData+1; i++) {
-        this.wildtype.push({name:'G'+(i).toString(), value:(parseFloat(this.dataTab[i]).toFixed(2))})
+      this.wildtype = []
+      for (let i = 1; i < this.lengthData + 1; i++) {
+        this.wildtype.push({ name: 'G' + (i).toString(), value: (parseFloat(this.dataTab[i]).toFixed(2)) })
       }
     });
   }
@@ -65,7 +65,7 @@ export class PredictionComponent implements OnInit {
 
     this.getData();
     for (let i = 0; i < this.lengthData; i++) {
-      this.perturbation.push({name:'G'+(i+1).toString()})
+      this.perturbation.push({ name: 'G' + (i + 1).toString() })
     }
   }
 
