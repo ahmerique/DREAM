@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  forgot_password = false;
   lang;
   constructor(
     private formBuilder: FormBuilder,
@@ -33,9 +34,9 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
     this.route.params.subscribe(params => {
-      this.lang = params['id']; 
+      this.lang = params['id'];
 
-   });
+    });
     // reset login status
     this.authenticationService.logout();
 
