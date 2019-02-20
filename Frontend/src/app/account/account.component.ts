@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../_services';
+import { AuthenticationService, MessageService } from '../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../_helpers/password.validator';
-
 
 @Component({
   selector: 'app-account',
@@ -39,6 +38,7 @@ export class AccountComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -192,6 +192,7 @@ export class AccountComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.messageService.sendMessage('logout');
           console.log('account deleted');
           this.router.navigate(['/login']);
         },
