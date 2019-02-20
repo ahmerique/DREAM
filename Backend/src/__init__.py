@@ -24,6 +24,7 @@ db = SQLAlchemy(app)
 from Backend.src.authentication.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
+local_password="postgres"
 
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
@@ -37,7 +38,7 @@ def result():
 def config():
     hello = ""
     conn = psycopg2.connect(
-        host="localhost", database="postgres", user="postgres", password="")
+        host="localhost", database="postgres", user="postgres", password=local_password)
 
     cur = conn.cursor()
 
@@ -57,7 +58,7 @@ def config():
 def getData():
     data = []
     conn = psycopg2.connect(
-        host="localhost", database="postgres", user="postgres", password="")
+        host="localhost", database="postgres", user="postgres", password=local_password)
     cur = conn.cursor()
     sql2 = "select folder_id,name from folder order by name"
     cur.execute(sql2)
@@ -92,7 +93,7 @@ def getDataId(data,id):
 def wildtype():
     hello = ""
     datas = []
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="")
+    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password=local_password)
     cur = conn.cursor()
     headers=request.get_json(force=True)
     id=int(headers['id'])
@@ -320,7 +321,7 @@ def getGold():
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
 def predict():
     conn = psycopg2.connect(
-    host="localhost", database="postgres", user="postgres", password="")
+    host="localhost", database="postgres", user="postgres", password=local_password)
 
     cur = conn.cursor()
     headers=request.get_json(force=True)

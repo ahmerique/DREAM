@@ -33,9 +33,11 @@ export class DataService {
     return (this.http.post(this.dataUrl3, file, { responseType: 'text' }));
 
   }
+
   getDataBase() {
     return (this.http.get(this.dataUrl4, { responseType: 'text' }));
   }
+
   displayData(data) {
     console.log(data)
     if (data['type'] != "timeseries") {
