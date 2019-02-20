@@ -280,8 +280,8 @@ class DeleteAccountAPI(MethodView):
     def post(self):
         responseObjectUser, returnCodeUser = _getUser(self)
         responseObjectPassword, returnCodePassword = _checkPassword(self)
-        if (returnCodePassword == 200):
-            if (returnCodeUser == 200):
+        if (returnCodeUser == 200):
+            if (returnCodePassword == 200):
                 # get auth token
                 auth_header = request.headers.get('Authorization')
                 auth_token = auth_header.split(" ")[1]
@@ -290,17 +290,17 @@ class DeleteAccountAPI(MethodView):
                 blacklist_token = BlacklistToken(token=auth_token)
 
                 try:
-                    # insert the token in blacklist
-                    db.session.add(blacklist_token)
+                    # delete the user
+                    db.session.delete(responseObjectUser)
                     db.session.commit()
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'User successfully deleted'
+                    }
                     try:
-                        # delete the user
-                        db.session.delete(responseObjectUser)
+                        # insert the token in blacklist
+                        db.session.add(blacklist_token)
                         db.session.commit()
-                        responseObject = {
-                            'status': 'success',
-                            'message': 'User successfully deleted'
-                        }
                         return make_response(jsonify(responseObject)), 200
                     except Exception as e:
                         responseObject = {'status': 'fail', 'message': e}
@@ -309,11 +309,12 @@ class DeleteAccountAPI(MethodView):
                     responseObject = {'status': 'fail', 'message': e}
                     return make_response(jsonify(responseObject)), 200
             else:
-                return make_response(
-                    jsonify(responseObjectUser)), returnCodeUser
+                print('fail password')
+                return make_response(jsonify(responseObjectPassword)), returnCodePassword
         else:
-            return make_response(
-                jsonify(responseObjectPassword)), returnCodePassword
+            print('fail user')
+            return make_response(jsonify(responseObjectUser)), returnCodeUser
+              
 
 
 class AddSearchQueryAPI(MethodView):

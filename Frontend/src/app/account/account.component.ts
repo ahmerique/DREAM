@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_services';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../_helpers/password.validator';
@@ -43,9 +43,9 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.lang = params['id']; 
+      this.lang = params['id'];
 
-   });
+    });
     this.authenticationService.getUser()
       .pipe(first())
       .subscribe(
@@ -173,19 +173,22 @@ export class AccountComponent implements OnInit {
 
   //////////////////// DELETE ACCOUNT//////////////////////////////////////////////////////////////////////////////////////////
 
+  get fDelete() { return this.deleteForm.controls; }
 
   deleteAccount() {
 
     this._submitted = true;
-
+    console.log("coucou");
+    console.log(this.fDelete.password.value);
     // stop here if form is invalid
-    if (this.changeInfoForm.invalid) {
+    if (this.deleteForm.invalid) {
+      console.log("coucou");
       return;
     }
 
     this._loading = true;
 
-    this.authenticationService.deleteAccount(this.deleteForm.controls.password.value)
+    this.authenticationService.deleteAccount(this.fDelete.password.value)
       .pipe(first())
       .subscribe(
         data => {

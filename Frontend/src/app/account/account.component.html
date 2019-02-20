@@ -23,7 +23,7 @@
     </div>
 
     <div id="right block" class="center-left">
-      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': _submitted && this.deleteForm.controls.password.errors }"
+      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': _submitted && fDelete.password.errors }"
           autocomplete="off" type="password" /></p>
     </div>
 
@@ -34,8 +34,8 @@
 
     <!-- errors -->
     <div *ngIf="_error" class="alert">{{_error}}</div> <br />
-    <div *ngIf="_submitted && fInfo.password.errors" class="invalid-feedback">
-      <div *ngIf="fInfo.password.errors.required">Password is required</div>
+    <div *ngIf="_submitted && fDelete.password.errors" class="invalid-feedback">
+      <div *ngIf="fDelete.password.errors.required">Password is required</div>
     </div>
 
   </form>
