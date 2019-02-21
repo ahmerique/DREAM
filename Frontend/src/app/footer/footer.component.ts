@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from '../_services';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  lang: string;
+  subscriptionLanguage: any;
 
-  ngOnInit() {
+  constructor(private messageService: MessageService
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
   }
 
+  ngOnInit() {
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+  }
 }

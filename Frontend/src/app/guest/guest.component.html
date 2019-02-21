@@ -1,7 +1,7 @@
 <div class="clearfix">
 
   <div class="left">
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
 
       <h2>1. Visualisation des données</h2>
       <p>Ici, tu peux visualiser les différents jeux de données génétiques disponibles.</p>
@@ -52,7 +52,7 @@
   </div>
   <div class="right">
     <div>
-      <div *ngIf="lang!='en'">
+      <div *ngIf="lang==='fr'">
         <h2>Fichier : </h2>
       </div>
       <div *ngIf="lang=='en'">
@@ -73,7 +73,7 @@
     </div>
 
     <br />
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
       <h3>Affichage : Timeseries</h3>
       <button (click)="straightLine()">droite</button>
       <button (click)="curveLine()">courbe</button>
@@ -89,7 +89,7 @@
 
 
     <br />
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
       <h3>Affichage : </h3>
     </div>
     <div *ngIf="lang=='en'">

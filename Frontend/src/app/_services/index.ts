@@ -2,3 +2,4 @@
 export * from './message.service';
 export * from './data.service';
 export * from './learning.service';
+export * from './language.service';

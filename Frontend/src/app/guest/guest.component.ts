@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { DataService } from '../_services/data.service';
 import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../_services';
 
 // import { ConsoleReporter } from 'jasmine';
 
@@ -13,7 +14,22 @@ import { ActivatedRoute } from '@angular/router';
 
 export class GuestComponent implements OnInit {
 
-  constructor(private dataService: DataService, private route: ActivatedRoute) { }
+  constructor(
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private messageService: MessageService,
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
+  }
+
+
+
+
+  subscriptionLanguage: any;
   hauteur = 200;
   selectedDevice: String;
   addfile = false;
@@ -36,7 +52,7 @@ export class GuestComponent implements OnInit {
   lengthData = 10;
   flagG = true;
   tabId: number;
-  @Input() lang: String;
+  lang: String;
 
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
@@ -222,12 +238,8 @@ export class GuestComponent implements OnInit {
   ngOnInit() {
     this.getDataBase();
     this.createGraph();
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
 
-    this.route.params.subscribe(params => {
-      this.lang = params['id'];
-
-    });
-    console.log(this.lang);
   }
 
   addFile() {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../_services';
+import { AuthenticationService, MessageService } from '../_services';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -17,21 +17,26 @@ export class SignupComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  lang;
+  lang: string;
+  subscriptionLanguage: any;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-  ) { }
+    private messageService: MessageService,
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
+  }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.lang = params['id']; 
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
 
-   });
-
-   console.log(this.lang)
     this.signUpForm = this.formBuilder.group({
       pseudo: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
