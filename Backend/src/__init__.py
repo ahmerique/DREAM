@@ -24,7 +24,17 @@ db = SQLAlchemy(app)
 from Backend.src.authentication.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
-local_password="postgres"
+
+# local_host = 'localhost'
+# local_database = 'postgres'
+# local_user = 'postgres'
+# local_password = "postgres"
+
+local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
+local_database = 'd9t02rla10o05u'
+local_user = 'fnsfvbzahondck'
+local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
+
 
 @app.route('/')
 ##Fonction de vérification que le back est plutot bon
@@ -38,7 +48,10 @@ def result():
 def config():
     hello = ""
     conn = psycopg2.connect(
-        host="localhost", database="postgres", user="postgres", password=local_password)
+        host=local_host,
+        database=local_database,
+        user=local_user,
+        password=local_password)
 
     cur = conn.cursor()
 
@@ -58,7 +71,10 @@ def config():
 def getData():
     data = []
     conn = psycopg2.connect(
-        host="localhost", database="postgres", user="postgres", password=local_password)
+        host=local_host,
+        database=local_database,
+        user=local_user,
+        password=local_password)
     cur = conn.cursor()
     sql2 = "select folder_id,name from folder order by name"
     cur.execute(sql2)
@@ -69,7 +85,8 @@ def getData():
         name = row[1][2:-2]
         data.append({"id": id, "name": name})
     for i in range(len(data)):
-        sql = "select tsv.name from tsv where tsv.folder_id=" + str(i + 1) +" order by tsv.name"
+        sql = "select tsv.name from tsv where tsv.folder_id=" + str(
+            i + 1) + " order by tsv.name"
         cur.execute(sql)
         records = cur.fetchall()
         if len(records) != 0:
@@ -80,29 +97,37 @@ def getData():
             data[i]["type"] = types
         else:
             data[i]["type"] = ['test' + str(i)]
+
     return (str(data))
 
-def getDataId(data,id):
+
+def getDataId(data, id):
     for i in range(len(data)):
-        if (data[i]['id']==id):
+        if (data[i]['id'] == id):
             return i
     return 0
 
-@app.route('/wildtype', methods=['POST','GET'])
+
+@app.route('/wildtype', methods=['POST', 'GET'])
 ##Fonction de recuperation des etats stables
 def wildtype():
     hello = ""
     datas = []
-    conn = psycopg2.connect(host="localhost", database="postgres", user="postgres", password=local_password)
+    conn = psycopg2.connect(
+        host=local_host,
+        database=local_database,
+        user=local_user,
+        password=local_password)
     cur = conn.cursor()
-    headers=request.get_json(force=True)
-    id=int(headers['id'])
+    headers = request.get_json(force=True)
+    id = int(headers['id'])
 
-    sql2 = "select name from folder where folder_id="+str(id)
+    sql2 = "select name from folder where folder_id=" + str(id)
     cur.execute(sql2)
-    dossier= cur.fetchall()
-    dossier=str(dossier)[3:-4]
-    df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
+    dossier = cur.fetchall()
+    dossier = str(dossier)[3:-4]
+    df_wildtype = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
 
     datas = (df_wildtype.values)
     for row in datas[0]:
@@ -126,10 +151,11 @@ def learn():
         datas.append(files.values)
     return (str(headers))
 
+
 @app.route('/graph', methods=['POST'])
 def graph():
     headers = request.get_json(force=True)
-    if True:#Creer une condition pour choisir la methode
+    if True:  #Creer une condition pour choisir la methode
         df_knockouts = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'knockouts' + '.tsv',
@@ -142,14 +168,19 @@ def graph():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'wildtype' + '.tsv',
             sep='\t')
-        M=FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
-    retour=[]
+        M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+    retour = []
 
     for i in range(len(M[0])):
         for j in range(len(M[0])):
-            if abs(M[i][j])==1:
-                retour.append({ 'source': i+1, 'target': j+1, 'type': 'unknown' })
+            if abs(M[i][j]) == 1:
+                retour.append({
+                    'source': i + 1,
+                    'target': j + 1,
+                    'type': 'unknown'
+                })
     return (str(retour))
+
 
 @app.route('/displayData', methods=['POST'])
 def display():
@@ -162,8 +193,9 @@ def display():
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
             sep='\t')
         data2 = files.values
-        text = open('Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
-                    'r+')
+        text = open(
+            'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
+            'r+')
 
         content = text.read()
         text.close()
@@ -194,8 +226,9 @@ def display():
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
             sep='\t')
         data2 = files.values
-        text = open('Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
-                    'r+')
+        text = open(
+            'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
+            'r+')
         content = text.read()
         text.close()
         datas = str(content)
@@ -225,8 +258,8 @@ def displayTimeseries():
     dossier = headers['donnee']
     name = headers['type']
     displayData = []
-    text = open('Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
-                'r+')
+    text = open(
+        'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv', 'r+')
     content = text.read()
     text.close()
     datas = str(content)
@@ -251,15 +284,16 @@ def displayTimeseries():
 def score():
     headers = request.get_json(force=True)
     matrice = headers['matrice']
-    score=FunctionML.score(matrice)
+    score = FunctionML.score(matrice)
     print(score)
     return (str(score))
+
 
 @app.route('/model', methods=['POST'])
 #Route créée pour afficher les timeseries sur le graphe.
 def getModel():
     headers = request.get_json(force=True)
-    if True:#Creer une condition pour choisir la methode
+    if True:  #Creer une condition pour choisir la methode
         df_knockouts = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'knockouts' + '.tsv',
@@ -272,35 +306,38 @@ def getModel():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'wildtype' + '.tsv',
             sep='\t')
-        df_gold=pd.read_csv(
+        df_gold = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
-            'goldstandard' + '.tsv',   sep='\t')
-        df_timeseries=pd.read_csv(
+            'goldstandard' + '.tsv',
+            sep='\t')
+        df_timeseries = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
-            'timeseries' + '.tsv',   sep='\t')
+            'timeseries' + '.tsv',
+            sep='\t')
 
-        if headers['learning']=='XGBoost':
+        if headers['learning'] == 'XGBoost':
 
-            M = XGBoost.get_relation_matrix_from_coef_matrix(XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
+            M = XGBoost.get_relation_matrix_from_coef_matrix(
+                XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
             print('coucou')
-        elif headers['learning']=='RL':
+        elif headers['learning'] == 'RL':
             M = RL.get_relation_matrix(RL.RL_from_timeseries(df_timeseries))[0]
 
-        else :
-            M = FunctionML.etudedict(df_knockouts,df_knockdowns,df_wildtype)
-    retour="["
+        else:
+            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+    retour = "["
 
     for i in range(len(M[0])):
-        retour+="["
+        retour += "["
         for j in range(len(M[i])):
-            retour+=str((int(abs(M[i][j]))))
-            if j!=len(M[i])-1:
-                retour+=','
-        retour+="]"
-        if i!=len(M[0])-1:
-            retour+=","
-    retour+="]"
-    x=FunctionML.getGold(df_gold,10)
+            retour += str((int(abs(M[i][j]))))
+            if j != len(M[i]) - 1:
+                retour += ','
+        retour += "]"
+        if i != len(M[0]) - 1:
+            retour += ","
+    retour += "]"
+    x = FunctionML.getGold(df_gold, 10)
     return (str(retour))
 
 
@@ -308,53 +345,66 @@ def getModel():
 #Route créée pour afficher les timeseries sur le graphe.
 def getGold():
     headers = request.get_json(force=True)
-    if True:#Creer une condition pour choisir la methode
+    if True:  #Creer une condition pour choisir la methode
 
-        df_gold=pd.read_csv(
+        df_gold = pd.read_csv(
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
-            'goldstandard' + '.tsv',   sep='\t')
-    x=FunctionML.getGold(df_gold,10)
+            'goldstandard' + '.tsv',
+            sep='\t')
+    x = FunctionML.getGold(df_gold, 10)
     return (str(x))
+
 
 @app.route('/prediction', methods=['POST'])
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
 def predict():
     conn = psycopg2.connect(
-    host="localhost", database="postgres", user="postgres", password=local_password)
+        host=local_host,
+        database=local_database,
+        user=local_user,
+        password=local_password)
 
     cur = conn.cursor()
-    headers=request.get_json(force=True)
-    if headers['pert1'][5]!='o':
-        G1= 'd'+headers['pert1'][-1]
+    headers = request.get_json(force=True)
+    if headers['pert1'][5] != 'o':
+        G1 = 'd' + headers['pert1'][-1]
     else:
-        G1= 'o'+headers['pert1'][-1]
-    if headers['pert2'][5]!='o':
-        G2= 'd'+headers['pert2'][-1]
+        G1 = 'o' + headers['pert1'][-1]
+    if headers['pert2'][5] != 'o':
+        G2 = 'd' + headers['pert2'][-1]
     else:
-        G2= 'o'+headers['pert2'][-1]
-    id=int(headers['id'])
+        G2 = 'o' + headers['pert2'][-1]
+    id = int(headers['id'])
 
-    sql2 = "select name from folder where folder_id="+str(id)
+    sql2 = "select name from folder where folder_id=" + str(id)
     cur.execute(sql2)
-    dossier= cur.fetchall()
-    dossier=str(dossier)[3:-4]
-    hello=""
-    datas=[]
-    df_knockouts = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv', sep='\t')
-    df_knockdowns = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_knockdowns.tsv', sep='\t')
-    df_wildtype = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
-    df_timeseries = pd.read_csv('Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv', sep='\t')
-    if headers['method']=='Reseau_neurone':
-        datas=MLPRegressor.doubleKO(df_timeseries,df_wildtype,G1,G2)[0]
-    elif headers['method']=='XGBoost':
+    dossier = cur.fetchall()
+    dossier = str(dossier)[3:-4]
+    hello = ""
+    datas = []
+    df_knockouts = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_knockouts.tsv', sep='\t')
+    df_knockdowns = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_knockdowns.tsv',
+        sep='\t')
+    df_wildtype = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
+    df_timeseries = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv',
+        sep='\t')
+    if headers['method'] == 'Reseau_neurone':
+        datas = MLPRegressor.doubleKO(df_timeseries, df_wildtype, G1, G2)[0]
+    elif headers['method'] == 'XGBoost':
         models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
-        datas=XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30, G1, G2, models)
+        datas = XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30,
+                                             G1, G2, models)
 
     else:
-        datas= FunctionML.Global(df_knockouts,df_knockdowns,df_wildtype,G1,G2)
+        datas = FunctionML.Global(df_knockouts, df_knockdowns, df_wildtype, G1,
+                                  G2)
 
     for row in datas:
-        hello+=' '+str(row)
+        hello += ' ' + str(row)
 
     return (hello)
