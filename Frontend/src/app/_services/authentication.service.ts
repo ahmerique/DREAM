@@ -89,4 +89,9 @@ export class AuthenticationService {
   forgotPassword(email) {
     return this.http.post<any>(API_URL + '/auth/forgotpassword', { 'email': email });
   }
+
+  resetPassword(token, password) {
+    return this.http.post<any>(API_URL + '/auth/resetpassword', { 'token': token, 'password': password });
+  }
+
 }

@@ -37,16 +37,11 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.authenticationService.checkToken()
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.connected = true;
-        },
-        error => {
-          console.log('connected as a guest');
-          this.connected = false;
-        });
+    if (localStorage.getItem('currentUser')) {
+      this.connected = true;
+    } else {
+      this.connected = false;
+    }
 
     this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
   }
