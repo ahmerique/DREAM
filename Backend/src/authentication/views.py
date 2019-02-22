@@ -1,14 +1,22 @@
 # authentication/auth/views.py
 
-from flask import Blueprint, request, make_response, jsonify
+from flask import Blueprint, request, make_response, jsonify,url_for,render_template,redirect
 from flask.views import MethodView
+from flask_mail import Message
 
-from Backend.src import app, bcrypt, db
+from Backend.src import app, mail, bcrypt, db
 from Backend.src.models import User, BlacklistToken, Search_query
 
 auth_blueprint = Blueprint('auth', __name__)
 
+#FRONTEND_URL='http://centrale-genetic-lab.herokuapp.com/'
+FRONTEND_URL='http://localhost:4200/'
+
 #TOOLS
+
+def send_email(email,subject,html):
+    msg = Message(html=html,subject=subject, recipients=[email])
+    mail.send(msg)
 
 
 def _getUser(self):
@@ -422,7 +430,7 @@ class DeleteSearchQueryAPI(MethodView):
             return make_response(jsonify(responseObjectUser)), returnCodeUser
 
 
-class changeInfoAPI(MethodView):
+class ChangeInfoAPI(MethodView):
     def post(self):
         # get the post data
         post_data = request.get_json()
@@ -460,7 +468,7 @@ class changeInfoAPI(MethodView):
                 jsonify(responseObjectPassword)), returnCodePassword
 
 
-class changePasswordAPI(MethodView):
+class ChangePasswordAPI(MethodView):
     def post(self):
         # get the post data
         post_data = request.get_json()
@@ -499,6 +507,92 @@ class changePasswordAPI(MethodView):
                 jsonify(responseObjectPassword)), returnCodePassword
 
 
+class ForgotPassword(MethodView):
+
+    def post(self):
+    
+        # get the post data
+        post_data = request.get_json()
+
+        try:
+            # fetch the user data
+            user = User.query.filter_by(email=post_data.get('email')).first()
+            if user: 
+                #get email token
+                auth_token = user.encode_auth_token(user.email).decode() 
+                if auth_token:
+                    
+                    #send resetpassword email
+
+                    #create url with token
+                    recover_url = FRONTEND_URL+'/resetpassword/'+auth_token
+
+                    #write email
+                    email_html = '<p>Hello '+ user.pseudo +' !</p><p>Please follow the link below to reset your password:</p><p><a href='+recover_url+'>'+recover_url+'</a></p>'
+                    subject='Reset your password, Centrale Digital Lab'
+
+                    send_email(user.email,subject,email_html)
+
+                    #return a success to angular
+                    responseObject = {
+                        'status': 'success',
+                        'message': 'Successfully send password reset.',
+                    }
+                    return make_response(jsonify(responseObject)), 200
+                else:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': 'Creation of token error'
+                    }
+                    return make_response(jsonify(responseObject)), 500
+
+            else:
+                responseObject = {
+                    'status': 'fail',
+                    'message': 'Email does not exist'
+                }
+                return make_response(jsonify(responseObject)), 404
+        except Exception as e:
+            print(e)
+            responseObject = {'status': 'fail', 'message': e.args}
+            return make_response(jsonify(responseObject)), 500
+
+
+class ResetPassword_API(MethodView):
+
+    def post(self):
+        # get the post data
+        post_data = request.get_json()
+        auth_token = post_data.get('token')
+        new_password = post_data.get('password')
+
+        if auth_token:
+            try:
+                resp = User.decode_auth_token(auth_token)
+                user = User.query.filter_by(email=resp).first_or_404()
+                user.password = bcrypt.generate_password_hash(new_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+                db.session.commit()
+                responseObject = {
+                    'status': 'success',
+                    'message': 'user password successfully modified'
+                }
+                return make_response(jsonify(responseObject)), 200
+            except Exception as e:
+                responseObject = {'status': 'fail', 'message': e.args}
+                return make_response(jsonify(responseObject)), 401
+        else:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Provide a valid auth token.'
+            }
+            return make_response(jsonify(responseObject)), 401
+
+
+
+
+
+
+
 # define the API resources
 registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
@@ -510,8 +604,10 @@ checkToken_view = CheckTokenAPI.as_view('checkToken_api')
 addSearchQuery_view = AddSearchQueryAPI.as_view('addSearchQuery_api')
 searchQuery_view = SearchQueryAPI.as_view('searchQuery_api')
 deleteSearchQuery_view = DeleteSearchQueryAPI.as_view('deleteSearchQuery_api')
-changeInfo_view = changeInfoAPI.as_view('changeInfo_api')
-changePassword_view = changePasswordAPI.as_view('changePassword_api')
+changeInfo_view = ChangeInfoAPI.as_view('changeInfo_api')
+changePassword_view = ChangePasswordAPI.as_view('changePassword_api')
+forgotPassword_view = ForgotPassword.as_view('forgotPassword_api')
+resetPassword_view=ResetPassword_API.as_view('resetPassword_api')
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule(
@@ -540,3 +636,7 @@ auth_blueprint.add_url_rule(
     '/account/changeinfo', view_func=changeInfo_view, methods=['POST'])
 auth_blueprint.add_url_rule(
     '/account/changepassword', view_func=changePassword_view, methods=['POST'])
+auth_blueprint.add_url_rule(
+    '/auth/forgotpassword', view_func=forgotPassword_view, methods=['POST'])
+auth_blueprint.add_url_rule(
+    '/auth/resetpassword', view_func=resetPassword_view, methods=['POST'])

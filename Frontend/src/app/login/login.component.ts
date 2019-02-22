@@ -76,7 +76,17 @@ export class LoginComponent implements OnInit {
         });
   }
 
-  forgotPassword(): void {
+  forgotPassword(email): void {
+    this.authenticationService.forgotPassword(email)
+      .pipe(first())
+      .subscribe(
+        data => {
+          alert('An email has been sent to reset your password');
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
 
   }
 

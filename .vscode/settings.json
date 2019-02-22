@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\Erick\\Anaconda3\\python.exe",
+    "python.pythonPath": "C:\\Python27\\python.exe",
     "python.formatting.provider": "yapf",
     "python.linting.enabled": false,
     "python.linting.pylintEnabled": false,

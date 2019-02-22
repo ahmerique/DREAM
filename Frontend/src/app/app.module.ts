@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { GuestComponent } from './guest/guest.component';
 import { FooterComponent } from './footer/footer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -40,6 +41,7 @@ import { FooterComponent } from './footer/footer.component';
     SignupComponent,
     GuestComponent,
     FooterComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
