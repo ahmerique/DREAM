@@ -1,0 +1,94 @@
+/* The navigation bar */
+#navbar {
+  overflow: hidden;
+  background-color: #b2d3e6;
+  /* Position the navbar at the top of the page */
+  height: 2em;
+  /* Full width */
+}
+
+#navbar a,
+#navbar div {
+  float: left;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-size: 1em;
+  padding: 0.3em 1em;
+  height: 2em;
+  cursor: pointer;
+  cursor: hand;
+
+}
+
+#navbar a:hover,
+#navbar div:hover {
+  background-color: #68a7ca;
+}
+
+#navbar a:active,
+#navbar div:active {
+  color: rgb(114, 114, 114);
+}
+
+#navbar a.selected,
+#navbar div.selected {
+  background-color: #4390bc;
+  color: rgb(255, 255, 255)
+}
+
+img {
+  height: 1.5em;
+  float: right;
+  margin-right: 0.25em;
+  margin-top: 0.25em;
+
+}
+
+.logo {
+  height: 150px;
+  float: left;
+  margin-right: 0.25em;
+  margin-top: 0;
+}
+
+.logo2 {
+  height: 150px;
+  float: right;
+  margin-right: 0.25em;
+  margin-top: 0;
+}
+
+#navbar a.right,
+#navbar div.right {
+  float: right;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.Website-title {
+  text-align: center;
+  font-size: 2em;
+  color: rgb(255, 255, 255);
+  background-color: #4390bc;
+  padding: 2%;
+}
+
+.no-style {
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+  font-size: 2em;
+
+}
+
+.no-style:visited {
+  color: rgb(255, 255, 255);
+}

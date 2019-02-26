@@ -1,0 +1,31 @@
+h1 {
+  list-style-type: none;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.center .center-left {
+  display: inline-block;
+  text-align: left;
+}
+
+button {
+  border: none;
+  background-color: #ddd;
+  text-decoration: none;
+  cursor: pointer;
+  cursor: hand;
+  border-radius: 2px;
+  padding: 5px 10px;
+}
+
+button:hover {
+  background-color: #999;
+}
+
+button:active {
+  color: rgb(114, 114, 114);
+}

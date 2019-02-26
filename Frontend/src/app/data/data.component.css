@@ -1,0 +1,49 @@
+h1 {
+  list-style-type: none;
+  text-align: center;
+}
+
+.center {
+  list-style-type: none;
+  text-align: center;
+}
+
+.center .center-left {
+  display: inline-block;
+  text-align: left;
+  width: fit-content;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  margin-right: 1%;
+  background-color: #ddd;
+  text-decoration: none;
+  font-size: 1em;
+  text-align: center;
+  cursor: pointer;
+  cursor: hand;
+  border-radius: 2px;
+  padding: 5px 10px;
+
+}
+
+button:hover {
+  background-color: #999;
+}
+
+button:active {
+  color: rgb(114, 114, 114);
+}
+
+button.selected {
+  background-color: rgb(80, 80, 80);
+  color: rgb(255, 255, 255)
+}
+
+button.delete {
+  font-size: 1em;
+  padding: 0.1em 0.4em;
+  margin-right: 0%
+}

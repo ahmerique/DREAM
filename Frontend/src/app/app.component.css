@@ -1,0 +1,51 @@
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.main {
+  margin-top: 35px;
+  margin-bottom: 20px;
+  margin-right: 0.5%;
+  margin-left: 0.5%;
+  /* Add a top margin to avoid content overlay */
+}
+
+.bottom {
+  margin-top: 15em;
+}
+
+.descri {
+  float: left;
+  width: 73%;
+}
+
+.footer {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border-top: 1px solid;
+  border-top-color: rgba(0, 0, 0);
+  box-shadow: 0px -1.5px 0.5px rgba(0, 0, 0);
+}
+
+.link {
+  display: inline;
+}
+
+.links {
+  width: 24%;
+  float: right;
+  font-family: 'Montserrat';
+  font-weight: Lighter;
+  font-size: 18px;
+  padding-left: 1%;
+  padding-right: 1%;
+  border-left: 1px solid;
+  border-left-color: rgba(0, 0, 0);
+}

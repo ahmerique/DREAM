@@ -1,0 +1,116 @@
+<div class="clearfix">
+
+  <div class="left">
+    <div *ngIf="lang==='fr'">
+
+      <h2>1. Visualisation des données</h2>
+      <p>Ici, tu peux visualiser les différents jeux de données génétiques disponibles.</p>
+      <p>L'objectif par la suite est d'y appliquer un algorithme de Machine Learning afin de déterminer
+        les
+        interactions entre gènes et l'évolution de leurs expressions pour une perturbation donnée.</p>
+      <p>Ce type d'étude est permet de mieux comprendre les phénomènes génétiques.</p>
+      <br />
+      <p>Pour visualiser les données, on utilise des courbes pour les données temporelles et des histogrammes pour
+        les données des états stables (avec ou sans perturbation).</p>
+      <p>Les données manipulées sont de différents types :</p>
+      <p>Séries temporelles : évolution au fil du temps de la concentration de la protéine associée à chaque gène. Sur
+        la
+        première moitié du graphe, un tiers des gènes est perturbé. La perturbation est ensuite relachée.</p>
+      <p>Wildtype : Représentation des états stables obtenus s'il n'y a aucune perturbation.</p>
+      <p>Knockout : Représentation des états d'équilibres obtenus s'il y a une protéine avec une concentration fixée à
+        0.</p>
+      <p>Knowkdown : Représentation des états d'équilibres obtenus s'il y a une protéine avec une concentration fixée à
+        la moitié de sa valeur
+        stable.</p>
+      <p>Multifactorial : Représentation d'états d'équilibres obtenus en maintenant des légères perturbation sur
+        certaines
+        des protéines</p>
+      <p>N'hésite pas à filtrer les données affichées pour plus de visibilité.</p>
+      <p>Tu peux aussi retravailler les points de mesure des courbes en cliquant dessus si tu le souhaites !</p>
+    </div>
+    <div *ngIf="lang=='en'">
+
+      <h2>1. Data Visualisation</h2>
+      <p>Here you can visualise the different genetic data we provide.</p>
+      <p>The objective will be to apply a Machine Learning algorithm on those data to determine the interaction between
+        the genes and the evolution of there expressions for a given perturbation.</p>
+      <p>This type of study allows us to have a better understanding of genetic phenomenom.</p>
+      <br />
+      <p>The manipulated data have different type:</p>
+      <p>Timeseries: Evolution over time of the concentration of the protein associated with each gene. On the first
+        half of the graph, one third of the genes are perturbated. perturbation is then released.</p>
+      <p>Wildtype: Representation of stable states obtained when there's no perturbation.</p>
+      <p>Knockout: Representation of stable states obtained when one protein has its concentration fixed to 0.</p>
+      <p>Knockdown: Representation of stable states obtained when one protein has its concentration fixed to half its
+        stable value.</p>
+      <p>Multifactorial: Representation of stable states obtained when maintaining small perturbation on a few proteins.
+      </p>
+      <p>You can filter datas to have a better visualisation.</p>
+      <p>You can also rework measurements points by clicking on them if you want to!</p>
+      <p>Tu peux aussi retravailler les points de mesure des courbes en cliquant dessus si tu le souhaites !</p>
+    </div>
+  </div>
+  <div class="right">
+    <div>
+      <div *ngIf="lang==='fr'">
+        <h2>Fichier : </h2>
+      </div>
+      <div *ngIf="lang=='en'">
+        <h2>File : </h2>
+      </div>
+      <select [(ngModel)]="selectedOption" name="first" (change)="getData();getData2()">
+        <option *ngFor="let data of data" value={{data.id}}>{{data.name}}</option>
+      </select>
+      <!-- <button type="button" (click)="addFile()">Ajouter un nouveau fichier</button>
+      <button type="button" (click)="addFile()">Ajouter un nouveau dossier</button>-->
+    </div>
+
+    <div *ngIf="addfile">
+      <fieldset>
+        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile"
+          onchange="document.getElementById('input_text_file').value = this.value" />
+      </fieldset>
+    </div>
+
+    <br />
+    <div *ngIf="lang==='fr'">
+      <h3>Affichage : Timeseries</h3>
+      <button (click)="straightLine()">droite</button>
+      <button (click)="curveLine()">courbe</button>
+      <button (click)="dots()">Nuage de points</button>
+    </div>
+    <div *ngIf="lang=='en'">
+      <h3>Display : Timeseries</h3>
+      <button (click)="straightLine()">Line plot</button>
+      <button (click)="curveLine()">Curve plot</button>
+      <button (click)="dots()">Scatter plot</button>
+    </div>
+    <canvas id="myChart" (click)="changeValueGraph()"></canvas>
+
+
+    <br />
+    <div *ngIf="lang==='fr'">
+      <h3>Affichage : </h3>
+    </div>
+    <div *ngIf="lang=='en'">
+      <h3>Display : </h3>
+    </div>
+    <select [(ngModel)]="selectedGraphType2" (change)="getData2()">
+      <option *ngFor="let type of dataToSelect[selectedOption-1].type">{{type}}</option>
+    </select>
+    <select [(ngModel)]="idofdata" (change)="getData2()">
+      <option *ngFor="let number of listData2">
+        <div *ngIf='flagG'>G{{number}} </div>
+        <div *ngIf='!flagG'> {{number}} </div>
+      </option>
+    </select>
+    <div>
+      <canvas id="myChart2"></canvas>
+    </div>
+  </div>
+</div>
+<br />
+<div class="line"></div><br />
+<div class="center">
+<app-learning [id]=selectedOption [dataChange]="displayData" [tabId]=tabId [lang]=lang></app-learning></div>
+<app-footer></app-footer>

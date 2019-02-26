@@ -1,0 +1,113 @@
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+
+
+<div *ngIf="lang==='fr'">
+
+  <h1>
+    Inscription:
+  </h1>
+
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+    <div class="center">
+
+      <div class="center-left">
+        <p>Pseudo:</p>
+        <p>email:</p>
+        <p>Mot de passe:</p>
+        <p>Confirmer votre mot de passe:</p>
+      </div>
+
+      <div class="center-left">
+        <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="off" /></p>
+        <p> <input formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" autocomplete="off" /></p>
+        <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
+            autocomplete="off" /></p>
+        <p> <input formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+            autocomplete="off" type=password /></p>
+      </div><br />
+
+      <button (click)="onSubmit()" type="submit" [disabled]="loading">
+        S'enregistrer
+      </button> <br />
+
+      <div *ngIf="error" class="alert">{{error}}</div> <br />
+      <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
+        <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+      </div>
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">email is required</div>
+        <div *ngIf="f.email.errors.email">incorrect email</div>
+      </div>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+      <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+        <div *ngIf="f.confirmPassword.errors.required">Confirm password is required</div>
+      </div>
+      <div class="invalid-feedback" *ngIf="submitted && signUpForm.errors?.doesMatchPassword">Password does not match</div>
+
+    </div>
+  </form>
+</div>
+
+
+
+
+
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+
+
+<div *ngIf="lang==='en'">
+
+  <h1>
+    Register:
+  </h1>
+
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+    <div class="center">
+
+      <div class="center-left">
+        <p>Pseudo:</p>
+        <p>email:</p>
+        <p>Password:</p>
+        <p>Confirme password:</p>
+      </div>
+
+      <div class="center-left">
+        <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="off" /></p>
+        <p> <input formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" autocomplete="off" /></p>
+        <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
+            autocomplete="off" /></p>
+        <p> <input formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+            autocomplete="off" type=password /></p>
+      </div><br />
+
+      <button (click)="onSubmit()" type="submit" [disabled]="loading">
+        Register
+      </button> <br />
+
+      <div *ngIf="error" class="alert">{{error}}</div> <br />
+      <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
+        <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+      </div>
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">email is required</div>
+        <div *ngIf="f.email.errors.email">incorrect email</div>
+      </div>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+      <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+        <div *ngIf="f.confirmPassword.errors.required">Confirm password is required</div>
+      </div>
+      <div class="invalid-feedback" *ngIf="submitted && signUpForm.errors?.doesMatchPassword">Password does not match</div>
+
+    </div>
+  </form>
+</div>

@@ -1,0 +1,75 @@
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+
+
+<div *ngIf="lang==='fr'">
+  <div class="center">
+
+    <h1>
+      Derniers modèles
+    </h1>
+
+    <div *ngFor=" let oldQuery of _history">
+      <div class="center-left">
+        <p>date: <em>{{oldQuery.query_date}} </em>&nbsp;&nbsp; <button (click)="deleteQuery(oldQuery.query_id)">x</button>
+        </p>
+        <p>tsv: <em>{{oldQuery.tsv}}</em></p>
+        <p>modèle: <em>{{oldQuery.model}}</em></p>
+
+      </div>
+      <br />
+      <div *ngIf=!displayFlag>
+        <button class="center" title="load model" (click)="loadQuery(oldQuery)">Charger modèle</button><br />
+      </div>
+
+      <br />
+    </div>
+    <div *ngIf=displayFlag>
+      <button class="center" title="load model" (click)="hide()">Masquer</button><br />
+      <app-prediction [dataSend]='dataString' [lengthData]=lengthNumber [id]=id [method]=selectedLearning [data]=data>
+      </app-prediction>
+      <app-interaction-graph [linksSend]=links [model]=model [gold]=gold></app-interaction-graph>
+    </div>
+
+  </div>
+</div>
+
+
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+
+
+<div *ngIf="lang==='en'">
+
+  <div class="center">
+
+    <h1>
+      Last models
+    </h1>
+
+    <div *ngFor=" let oldQuery of _history">
+      <div class="center-left">
+        <p>date: <em>{{oldQuery.query_date}} </em>&nbsp;&nbsp; <button (click)="deleteQuery(oldQuery.query_id)">x</button>
+        </p>
+        <p>tsv: <em>{{oldQuery.tsv}}</em></p>
+        <p>model: <em>{{oldQuery.model}}</em></p>
+
+      </div>
+      <br />
+      <div *ngIf=!displayFlag>
+        <button class="center" title="load model" (click)="loadQuery(oldQuery)">Load model</button><br />
+      </div>
+
+      <br />
+    </div>
+    <div *ngIf=displayFlag>
+      <button class="center" title="load model" (click)="hide()">Hide</button><br />
+      <app-prediction [dataSend]='dataString' [lengthData]=lengthNumber [id]=id [method]=selectedLearning [data]=data>
+      </app-prediction>
+      <app-interaction-graph [linksSend]=links [model]=model [gold]=gold></app-interaction-graph>
+    </div>
+
+  </div>
+</div>
