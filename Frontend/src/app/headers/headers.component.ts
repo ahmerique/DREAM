@@ -42,7 +42,6 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.connected = false;
     }
-
     this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
   }
 
