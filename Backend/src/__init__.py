@@ -413,8 +413,17 @@ def predict():
     if headers['method'] == 'Reseau_neurone':
         datas = MLPRegressor.doubleKO(df_timeseries, df_wildtype, G1, G2)[0]
     elif headers['method'] == 'XGBoost':
-        models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
-        datas = XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30,
+        models = Regressors.train_XGBoost_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_XGBoost(df_timeseries, df_wildtype, 30,
+                                             G1, G2, models)
+    elif headers['method'] == 'Random Forest':
+        models = Regressors.train_RandomForest_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_RandomForest(df_timeseries, df_wildtype, 30,
+                                             G1, G2, models)
+
+    elif headers['method'] == 'RL':
+        models = Regressors.train_RL_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_RL(df_timeseries, df_wildtype, 30,
                                              G1, G2, models)
 
     else:
