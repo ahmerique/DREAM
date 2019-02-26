@@ -348,7 +348,6 @@ def getModel():
             M=FunctionML.etudedict(df_knockouts,df_wildtype,0.12)
         else : 
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
-
     retour = "["
 
     for i in range(len(M[0])):

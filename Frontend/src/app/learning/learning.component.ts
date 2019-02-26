@@ -114,10 +114,8 @@ export class LearningComponent implements OnInit {
       listSelected += this.selectedType[Object.keys(this.selectedType)[j]]
     }
     if (listSelected.includes("knockouts")) {
-      this.learningList.push('Ecart relatif')
-      this.learningList.push('Ecart absolu')
-      this.learningList.push('Ecart relatif et absolu')
-
+      this.learningList.push('Absolute Gap')
+      this.learningList.push('Relative Gap')
     }
     if (listSelected.includes("timeseries")) {
       this.learningList.push('Reseau de Neurones')
@@ -131,8 +129,11 @@ export class LearningComponent implements OnInit {
 
     }
     if (listSelected.includes("knockdowns")) {
-      this.learningList.push('Ecart absolu')
-      this.learningList.push('Ecart relatif')
+      this.learningList.push('Absolute Gap')
+      this.learningList.push('Relative Gap')
+    }
+    if (listSelected.includes("knockdowns") && listSelected.includes("knockouts")){
+      this.learningList.push('Dictionnary')
 
     }
     this.learningList = this.cleanArray(this.learningList)
