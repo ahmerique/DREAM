@@ -36,6 +36,7 @@ def etudeRelationRelatif(df_knockouts,df_wildtype):
 ##Etude dictionnaire
 
 def etudeRelationSigne(df_knockouts,df_wildtype):
+
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
 
@@ -44,6 +45,7 @@ def etudeRelationSigne(df_knockouts,df_wildtype):
             if i != j:
                 mat[i][j] =(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))
                 if -0.12 < mat[i][j] < 0.12 : 
+
                     mat[i][j] = 0.
                 elif mat[i][j]>0:
                     mat[i][j] = 1.
@@ -56,6 +58,7 @@ def creationDict(df_knockouts,df_wildtype):
     for i in range(len(df_knockouts.values)):
         dict[i+1]={}
     relation=etudeRelationSigne(df_knockouts,df_wildtype)  
+
     for i in range(len(relation)):
         newrel=[]
         for j in range(len(relation)):
@@ -93,6 +96,7 @@ def etudedictdouble(df_knockouts,df_knockdowns,df_wildtype):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
     dict1=creationDict(df_knockouts,df_wildtype)
+
     for i in range (len(dict1)):
         list1=dict1[i+1][i+1]
         list2=[]
@@ -106,11 +110,13 @@ def etudedictdouble(df_knockouts,df_knockdowns,df_wildtype):
                                 mat[i][abs(j)-1]=1
                             else:
                                 list2.append(j)
+
     return mat
 
 def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
     m = len(df_knockouts.values)
     mat=etudedictdouble(df_knockouts,df_knockdowns,df_wildtype).T
+
     retour=[]
     for i in range(m):
         if (max(mat[i])-min(mat[i])==1):
@@ -159,6 +165,7 @@ def getValue(df_knockouts,df_knockdowns,df_wildtype,var,i):
     
 def relation(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
     mat=etudedictdouble(df_knockouts,df_knockdowns,df_wildtype)
+
     if abs(mat[var1][var2])==1:
         return True
     return False

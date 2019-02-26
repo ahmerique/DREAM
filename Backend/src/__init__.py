@@ -186,6 +186,8 @@ def graph():
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
         else:
             M = FunctionML.etudedict(df_knockouts, df_wildtype)
+
+
     retour = []
 
     for i in range(len(M[0])):
@@ -348,6 +350,7 @@ def getModel():
             M=FunctionML.etudedict(df_knockouts,df_wildtype)
         else : 
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
+
     retour = "["
 
     for i in range(len(M[0])):
@@ -416,11 +419,21 @@ def predict():
     df_timeseries = pd.read_csv(
         'Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv',
         sep='\t')
+
     if headers['method'] == 'MLP Regressor':
         datas = MLPRegressor.doubleKO(df_timeseries, df_wildtype, G1, G2)[0]
     elif headers['method'] == 'XGBoost':
-        models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
-        datas = XGBoost.get_double_knockouts(df_timeseries, df_wildtype, 30,
+        models = Regressors.train_XGBoost_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_XGBoost(df_timeseries, df_wildtype, 30,
+                                             G1, G2, models)
+    elif headers['method'] == 'Random Forest':
+        models = Regressors.train_RandomForest_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_RandomForest(df_timeseries, df_wildtype, 30,
+                                             G1, G2, models)
+
+    elif headers['method'] == 'RL':
+        models = Regressors.train_RL_from_timeseries(df_timeseries)
+        datas = Regressors.get_double_knockouts_RL(df_timeseries, df_wildtype, 30,
                                              G1, G2, models)
 
     else:

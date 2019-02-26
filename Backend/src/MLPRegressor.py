@@ -11,6 +11,7 @@ def train(X,y,test,reg):
 
 import copy
 ##Etude de variation
+
 def doubleKO(df_timeseries,df_wildtype,var1,var2):
     j=int(len(df_timeseries.drop(["Time"],axis=1).values)/5)
     X=[]
@@ -83,3 +84,4 @@ def testcomplet(df_timeseries,df_wildtype,z=91/1000,c=54/100):
             if A[i][j]>z:
                 M[i][j]=1
     return M
+

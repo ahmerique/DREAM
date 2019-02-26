@@ -119,6 +119,7 @@ export class LearningComponent implements OnInit {
     }
     if (listSelected.includes("timeseries")) {
       this.learningList.push('MLP Regressor')
+
       this.learningList.push('XGBoost')
       this.learningList.push('RL')
       this.learningList.push('Random Forest')
@@ -134,6 +135,7 @@ export class LearningComponent implements OnInit {
     }
     if (listSelected.includes("knockdowns") && listSelected.includes("knockouts")){
       this.learningList.push('Dictionnary')
+
 
     }
     this.learningList = this.cleanArray(this.learningList)

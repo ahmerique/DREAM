@@ -98,7 +98,8 @@ def extract_Xi_and_Yi_from_echant(echant, gene_label, shift=-1):
         else:
             Xi=np.transpose(list(np.transpose(echant)[0:(gene_label-1)])+list(np.transpose(echant)[gene_label:]))[0:-1]
             Yi=np.transpose(np.transpose(echant)[gene_label-1])[1:]
-        return {"Xi": Xi2, "Yi": Yi2}
+
+        return {"Xi": Xi, "Yi": Yi}
     else:
         print(shift)
         return "Error, shift "+ str(shift)+" is not suported yet"
@@ -254,4 +255,146 @@ def get_relation_matrix(M, pourc=0.2, taille=10):
             if abs(M[i][j]) >= pourc:
                 X[i][j] = 1
                 Rel += [(i+1,j+1)]
+    return X
+
+
+def train_XGBoost_from_timeseries(df_timeseries, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    n_gene=len(np.transpose(init_df_timeseries(df_timeseries)))
+    models = [0 for i in range(n_gene)]
+    for gene_label in range(1,n_gene+1):
+        trained_model = train_XGBoost_for_one_gene_from_timeseries(df_timeseries, 'Nan', gene_label, shift=1, params=params)
+        models[gene_label-1] = trained_model
+    return models
+
+def train_RandomForest_from_timeseries(df_timeseries, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    n_gene=len(np.transpose(init_df_timeseries(df_timeseries)))
+    models = [0 for i in range(n_gene)]
+    for gene_label in range(1,n_gene+1):
+        trained_model = train_RandomForest_for_one_gene_from_timeseries(df_timeseries,'Nan', gene_label, shift=1, params=params)
+        models[gene_label-1] = trained_model
+    return models
+
+def get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, models, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    #models = train_XGBoost_from_timeseries(df_timeseries, param)
+    Y = [0 for i in range(len(X))]
+    for i in range(len(X)):
+        if i == 0:
+            Xi = [X[1:]]
+        elif i == 9:
+            Xi = [X[0:-1]]
+        else:
+            Xi = [list(X[0:i])+list(X[i+1:])]
+        Y[i] = models[i].predict(Xi)
+    for i in range(len(Y)):
+        Y[i] = Y[i][0]
+    return Y
+
+def get_RandomForest_next_point_from_df_timeseries(df_timeseries, X, models, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    #models = train_XGBoost_from_timeseries(df_timeseries, param)
+    Y = [0 for i in range(len(X))]
+    for i in range(len(X)):
+        if i == 0:
+            Xi = [X[1:]]
+        elif i == 9:
+            Xi = [X[0:-1]]
+        else:
+            Xi = [list(X[0:i])+list(X[i+1:])]
+        Y[i] = models[i].predict(Xi)
+    for i in range(len(Y)):
+        Y[i] = Y[i][0]
+    return Y
+
+def get_double_knockouts_XGBoost(df_timeseries, df_wildtype, itera, var1, var2, models):
+    X = df_wildtype.values[0]
+    if var1[0]=='o':
+        X[int(var1[1:])-1]=0
+    else:
+        X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    if var2[0]=='o':
+        X[int(var2[1:])-1]=0
+    else:
+        X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+
+    for k in range(itera):
+        X = get_XGBoost_next_point_from_df_timeseries(df_timeseries, X, models)
+        if var1[0]=='o':
+            X[int(var1[1:])-1]=0
+        else:
+            X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+        if var2[0]=='o':
+            X[int(var2[1:])-1]=0
+        else:
+            X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    return X
+
+def get_double_knockouts_RandomForest(df_timeseries, df_wildtype, itera, var1, var2, models):
+    X = df_wildtype.values[0]
+    if var1[0]=='o':
+        X[int(var1[1:])-1]=0
+    else:
+        X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    if var2[0]=='o':
+        X[int(var2[1:])-1]=0
+    else:
+        X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+
+    for k in range(itera):
+        X = get_RandomForest_next_point_from_df_timeseries(df_timeseries, X, models)
+        if var1[0]=='o':
+            X[int(var1[1:])-1]=0
+        else:
+            X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+        if var2[0]=='o':
+            X[int(var2[1:])-1]=0
+        else:
+            X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    return X
+
+
+def train_RL_from_timeseries(df_timeseries, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    n_gene=len(np.transpose(init_df_timeseries(df_timeseries)))
+    models = [0 for i in range(n_gene)]
+    for gene_label in range(1,n_gene+1):
+        X = extract_Xi_and_Yi_from_echant(init_df_timeseries(df_timeseries), gene_label, shift=1)['Xi']
+        y = extract_Xi_and_Yi_from_echant(init_df_timeseries(df_timeseries), gene_label, shift=1)['Yi']
+        trained_model = LinearRegression().fit(X, y)
+        models[gene_label-1] = trained_model
+    return models
+
+def get_RL_next_point_from_df_timeseries(df_timeseries, X, models, params={'n_estimators': 500, 'max_depth': 8, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
+    #models = train_XGBoost_from_timeseries(df_timeseries, param)
+    Y = [0 for i in range(len(X))]
+    for i in range(len(X)):
+        if i == 0:
+            Xi = [X[1:]]
+        elif i == 9:
+            Xi = [X[0:-1]]
+        else:
+            Xi = [list(X[0:i])+list(X[i+1:])]
+        Y[i] = models[i].predict(Xi)
+    for i in range(len(Y)):
+        Y[i] = Y[i][0]
+    return Y
+
+def get_double_knockouts_RL(df_timeseries, df_wildtype, itera, var1, var2, models):
+    X = df_wildtype.values[0]
+    if var1[0]=='o':
+        X[int(var1[1:])-1]=0
+    else:
+        X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+    if var2[0]=='o':
+        X[int(var2[1:])-1]=0
+    else:
+        X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+
+    for k in range(itera):
+        X = get_RL_next_point_from_df_timeseries(df_timeseries, X, models)
+        if var1[0]=='o':
+            X[int(var1[1:])-1]=0
+        else:
+            X[int(var1[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
+        if var2[0]=='o':
+            X[int(var2[1:])-1]=0
+        else:
+            X[int(var2[1:])-1]=df_wildtype.values[0][int(var1[1:])-1]/2
     return X
