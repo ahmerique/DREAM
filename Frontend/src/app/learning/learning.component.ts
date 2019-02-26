@@ -118,7 +118,7 @@ export class LearningComponent implements OnInit {
       this.learningList.push('Relative Gap')
     }
     if (listSelected.includes("timeseries")) {
-      this.learningList.push('Reseau de Neurones')
+      this.learningList.push('MLP Regressor')
       this.learningList.push('XGBoost')
       this.learningList.push('RL')
       this.learningList.push('Random Forest')

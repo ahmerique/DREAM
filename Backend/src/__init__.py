@@ -416,7 +416,7 @@ def predict():
     df_timeseries = pd.read_csv(
         'Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv',
         sep='\t')
-    if headers['method'] == 'Reseau_neurone':
+    if headers['method'] == 'MLP Regressor':
         datas = MLPRegressor.doubleKO(df_timeseries, df_wildtype, G1, G2)[0]
     elif headers['method'] == 'XGBoost':
         models = XGBoost.train_XGBoost_from_timeseries(df_timeseries)
