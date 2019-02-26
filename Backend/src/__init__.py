@@ -211,27 +211,14 @@ def display():
         files = pd.read_csv(
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
             sep='\t')
-        data2 = files.values
-        text = open(
-            'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
-            'r+')
-
-        content = text.read()
-        text.close()
-        datas = str(content)
-        newdata = ''
+        data = files.values
         length = int(len(files.values))
-        for j in range(0, len(datas)):
-            if datas[j] == "\n":
-                newdata += '\t'
-            else:
-                newdata += datas[j]
-        records = newdata.split("\t")
+
         for i in range(length):
             displayData.append({"label": "G" + str(i + 1), "data": []})
-        for i in range(len(data2)):
-            for j in range(len(data2[i])):
-                displayData[j]["data"].append(data2[i][j])
+        for i in range(len(data)):
+            for j in range(len(data[i])):
+                displayData[j]["data"].append(data[i][j])
 
         return (str(displayData))
     else:
@@ -245,20 +232,8 @@ def display():
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
             sep='\t')
         data2 = files.values
-        text = open(
-            'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
-            'r+')
-        content = text.read()
-        text.close()
-        datas = str(content)
-        newdata = ''
         length = int(len(files.values))
-        for j in range(0, len(datas)):
-            if datas[j] == "\n":
-                newdata += '\t'
-            else:
-                newdata += datas[j]
-        records = newdata.split("\t")
+
         for i in range(2 * length):
             displayData.append({"label": "G" + str(i + 1), "data": []})
         for i in range(len(data2)):
