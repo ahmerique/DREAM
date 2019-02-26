@@ -333,15 +333,22 @@ def getModel():
             sep='\t')
 
         if headers['learning'] == 'XGBoost':
-
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
             M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
-
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
-        else:
-            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+        elif headers['learning'] == 'MLP Regressor':
+            M=MLPRegressor.testcomplet(df_timeseries,df_wildtype)
+        elif headers['learning'] == 'Absolute Gap':
+            M = FunctionML.etudeRelationAbsolue(df_knockouts,df_wildtype)
+        elif headers['learning'] == 'Relative Gap':
+            M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)      
+        elif headers['learning'] == 'Dictionnary':
+            M=FunctionML.etudedict(df_knockouts,df_wildtype,0.12)
+        else : 
+            M=FunctionML.testcomplet(df_timeseries,df_wildtype)
+
     retour = "["
 
     for i in range(len(M[0])):

@@ -4,7 +4,38 @@ from sklearn import ensemble
 from sklearn import metrics
 from statistics import mean
 
-def etudeRelationSigne(df_knockouts,df_wildtype,v=.12):
+
+##Etude variation
+def etudeRelationAbsolue(df_knockouts,df_wildtype,v=0.12):
+    m = len(df_knockouts.values)
+    mat = np.zeros((m,m))
+    mat2= np.zeros((m,m))
+    for i in range(m):
+        for j in range(m):
+            if i != j:
+                mat[i][j] =abs(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))
+                if mat[i][j] < v: 
+                    mat[i][j] = 0.
+                else:
+                    mat[i][j] = 1.
+    return mat
+
+def etudeRelationRelatif(df_knockouts,df_wildtype,v=0.38):
+    m = len(df_knockouts.values)
+    mat = np.zeros((m,m))
+    mat2= np.zeros((m,m))
+    for i in range(m):
+        for j in range(m):
+            if i != j:
+                mat[i][j] =abs(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))/df_wildtype.values[0][j]
+                if mat[i][j] < v: 
+                    mat[i][j] = 0.
+                else:
+                    mat[i][j] = 1.
+    return mat
+##Etude dictionnaire
+
+def etudeRelationSigne(df_knockouts,df_wildtype,v=0.12):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
 
@@ -20,7 +51,7 @@ def etudeRelationSigne(df_knockouts,df_wildtype,v=.12):
                     mat[i][j] = -1.
     return mat
 
-def creationDict(df_knockouts,df_wildtype,v):
+def creationDict(df_knockouts,df_wildtype,v=0.12):
     dict={}
     for i in range(len(df_knockouts.values)):
         dict[i+1]={}
@@ -37,7 +68,7 @@ def creationDict(df_knockouts,df_wildtype,v):
             dict[abs(newrel[l])][i+1]=(newrel)
     return dict
 
-def etudedict(df_knockouts,df_knockdowns,df_wildtype,v=.13):
+def etudedict(df_knockouts,df_wildtype,v=0.12):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
     dict1=creationDict(df_knockouts,df_wildtype,v)
@@ -45,17 +76,19 @@ def etudedict(df_knockouts,df_knockdowns,df_wildtype,v=.13):
         list1=dict1[i+1][i+1]
         list2=[]
         for j in range(len(list1)):
-                mat[i][abs(list1[j])-1]=np.sign(list1[j]+.01)
+                mat[i][abs(list1[j])-1]=1
         for key in dict1[i+1]:
             if (i+1) in dict1[i+1][key]:
-                for j in dict1[i+1][key]:
-                    if j!=(i+1):
-                        if j in list2:
-                            mat[i][abs(j)-1]=np.sign(j+0.1)
-                        else:
-                            list2.append(j)
+                    for j in dict1[i+1][key]:
+                        if j!=(i+1):
+                            if j in list2:
+                                mat[i][abs(j)-1]=1
+                            else:
+                                list2.append(j)
     return mat
 
+
+##Variation
 def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
     m = len(df_knockouts.values)
     mat=etudedict(df_knockouts,df_knockdowns,df_wildtype).T
