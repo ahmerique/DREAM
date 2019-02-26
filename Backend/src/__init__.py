@@ -355,7 +355,10 @@ def getModel():
                 M = FunctionML.etudeRelationRelatif(df_knockdowns,df_wildtype)
 
         elif headers['learning'] == 'Dictionnary':
-            M=FunctionML.etudedict(df_knockouts,df_wildtype)
+            if ('knockouts') in headers['data']:
+                M=FunctionML.etudedict(df_knockouts,df_wildtype)
+            else:
+                M=FunctionML.etudedict(df_knockdowns,df_wildtype)
         else :
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
 
