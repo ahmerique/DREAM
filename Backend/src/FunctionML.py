@@ -158,7 +158,7 @@ def getValue(df_knockouts,df_knockdowns,df_wildtype,var,i):
         return df_knockdowns.values[int(var[1:])-1][i]
     
 def relation(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
-    mat=etudedict(df_knockouts,df_knockdowns,df_wildtype)
+    mat=etudedictdouble(df_knockouts,df_knockdowns,df_wildtype)
     if abs(mat[var1][var2])==1:
         return True
     return False
