@@ -333,7 +333,6 @@ def getModel():
             sep='\t')
 
         if headers['learning'] == 'XGBoost':
-
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
             M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
