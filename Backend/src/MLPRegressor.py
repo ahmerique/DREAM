@@ -73,7 +73,7 @@ def testcomplet(df_timeseries,df_wildtype,z=91/1000,c=54/100):
         B=[]
         for j in range(10):
             if j!=i:
-                B.append(testrelation(i,j,df_timeseries1,df_wildtype1,reg,c))
+                B.append(testrelation(i,j,df_timeseries,df_wildtype,reg,c))
             else:
                 B.append(0)
         A.append(B)
