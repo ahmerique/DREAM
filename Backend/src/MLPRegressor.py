@@ -16,7 +16,7 @@ def doubleKO(df_timeseries,df_wildtype,var1,var2):
     j=int(len(df_timeseries.drop(["Time"],axis=1).values)/5)
     X=[]
     y=[]
-    length=10
+    length=int(len(df_timeseries.values[0]-1))
     for s in range(1,6):
         X+=[[float(df_timeseries.drop(["Time"],axis=1).values[i][j]) for j in range(0,length)] for i in range(j*(s-1),j*s-1)]
         y+=[[float(df_timeseries.drop(["Time"],axis=1).values[i][j]) for j in range(0,length)] for i in range(j*(s-1)+1,j*s)]
@@ -64,23 +64,24 @@ def testcomplet(df_timeseries,df_wildtype,z=91/1000,c=54/100):
     j=int(len(df_timeseries.drop(["Time"],axis=1).values)/5)
     X=[]
     y=[]
-    length=10
+    length=int(len(df_timeseries.values[0]-1))
+
     for s in range(1,6):
         X+=[[float(df_timeseries.drop(["Time"],axis=1).values[i][j]) for j in range(0,length)] for i in range(j*(s-1),j*s-1)]
         y+=[[float(df_timeseries.drop(["Time"],axis=1).values[i][j]) for j in range(0,length)] for i in range(j*(s-1)+1,j*s)]
     reg.fit(X, y)
     A=[]
-    for i in range(10):
+    for i in range(length):
         B=[]
-        for j in range(10):
+        for j in range(length):
             if j!=i:
                 B.append(testrelation(i,j,df_timeseries,df_wildtype,reg,c))
             else:
-                B.append(0)
+                B.append(length)
         A.append(B)
-    M=[[0 for i in range(10)] for j in range(10)]
-    for i in range(10):
-        for j in range(10):
+    M=[[0 for i in range(length)] for j in range(length)]
+    for i in range(length):
+        for j in range(length):
             if A[i][j]>z:
                 M[i][j]=1
     return M
