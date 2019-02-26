@@ -35,10 +35,10 @@ local_database = 'postgres'
 local_user = 'postgres'
 local_password = "postgres"
 
-# local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
-# local_database = 'd9t02rla10o05u'
-# local_user = 'fnsfvbzahondck'
-# local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
+local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
+local_database = 'd9t02rla10o05u'
+local_user = 'fnsfvbzahondck'
+local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
 
 
 @app.route('/')
@@ -220,7 +220,7 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-        length = 10
+        length = int(len(files.values))
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -252,7 +252,7 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-        length = 10
+        length = int(len(files.values))
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -371,7 +371,7 @@ def getModel():
         if i != len(M[0]) - 1:
             retour += ","
     retour += "]"
-    x = FunctionML.getGold(df_gold, 10)
+    x = FunctionML.getGold(df_gold, int(len(df_wildtype.values[0])))
     return (str(retour))
 
 
@@ -385,7 +385,11 @@ def getGold():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'goldstandard' + '.tsv',
             sep='\t')
-    x = FunctionML.getGold(df_gold, 10)
+        if (len(df_gold))>100:
+            length=100
+        else:
+            length=10
+    x = FunctionML.getGold(df_gold,length)
     return (str(x))
 
 
