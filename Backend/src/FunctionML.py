@@ -89,9 +89,28 @@ def etudedict(df_knockouts,df_wildtype):
 
 
 ##Variation
-def etudeVariation(df_knockouts,df_wildtype):
+def etudedictdouble(df_knockouts,df_knockdowns,df_wildtype):
     m = len(df_knockouts.values)
-    mat=etudedict(df_knockouts,df_knockdowns,df_wildtype).T
+    mat = np.zeros((m,m))
+    dict1=creationDict(df_knockouts,df_wildtype)
+    for i in range (len(dict1)):
+        list1=dict1[i+1][i+1]
+        list2=[]
+        for j in range(len(list1)):
+                mat[i][abs(list1[j])-1]=1
+        for key in dict1[i+1]:
+            if (i+1) in dict1[i+1][key]:
+                    for j in dict1[i+1][key]:
+                        if j!=(i+1):
+                            if j in list2:
+                                mat[i][abs(j)-1]=1
+                            else:
+                                list2.append(j)
+    return mat
+
+def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
+    m = len(df_knockouts.values)
+    mat=etudedictdouble(df_knockouts,df_knockdowns,df_wildtype).T
     retour=[]
     for i in range(m):
         if (max(mat[i])-min(mat[i])==1):
@@ -110,7 +129,7 @@ def etudeVariation(df_knockouts,df_wildtype):
             retour.append(0)
     return retour
 
-def implementation1(df_knockouts,df_wildtype,var1,var2):
+def implementation1(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
     variation=etudeVariation(df_knockouts,df_knockdowns,df_wildtype)
     answer=[-1 for i in range(len(df_knockouts.values))]
     if var1[0]=='o':
@@ -132,7 +151,7 @@ def implementation1(df_knockouts,df_wildtype,var1,var2):
                 answer[i]=getValue(df_knockouts,df_knockdowns,df_wildtype,var2,i)
     return (answer)
 
-def getValue(df_knockouts,df_wildtype,var,i):
+def getValue(df_knockouts,df_knockdowns,df_wildtype,var,i):
     if var[0]=='o':
         return df_knockouts.values[int(var[1:])-1][i]
     else:

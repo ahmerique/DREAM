@@ -345,7 +345,7 @@ def getModel():
         elif headers['learning'] == 'Relative Gap':
             M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)      
         elif headers['learning'] == 'Dictionnary':
-            M=FunctionML.etudedict(df_knockouts,df_wildtypes)
+            M=FunctionML.etudedict(df_knockouts,df_wildtype)
         else : 
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
     retour = "["
@@ -424,8 +424,7 @@ def predict():
                                              G1, G2, models)
 
     else:
-        datas = FunctionML.Global(df_knockouts, df_knockdowns, df_wildtype, G1,
-                                  G2)
+        datas = FunctionML.Global(df_knockouts, df_knockdowns, df_wildtype, G1,G2)
 
     for row in datas:
         hello += ' ' + str(row)
