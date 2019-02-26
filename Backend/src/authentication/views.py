@@ -570,6 +570,7 @@ class ResetPassword_API(MethodView):
             try:
                 resp = User.decode_auth_token(auth_token)
                 user = User.query.filter_by(email=resp).first_or_404()
+
                 user.password = bcrypt.generate_password_hash(new_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
                 db.session.commit()
                 responseObject = {
