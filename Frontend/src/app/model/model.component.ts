@@ -11,10 +11,11 @@ export class ModelComponent implements OnInit {
   matrice;
   @Input() gold;
   @Input() lang;
+  @Input() method: String;
   flagScore:Boolean=false;
   matriceGold;
   score;
-  
+
   constructor(private learningService: LearningService) { }
 
   ngOnInit() {
@@ -23,6 +24,7 @@ export class ModelComponent implements OnInit {
     this.matriceGold = (JSON.parse(this.gold))
     this.Actualise();
     this.getScore();
+    console.log(this.method)
   }
   showScore(){
     this.flagScore=true;

@@ -33,16 +33,16 @@
         <div>
           <h2>Learning:</h2>
           <h3>Datas: </h3>
-  
+
           <div *ngFor="let x of table">
             <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
               <option *ngFor="let type of data[tabId].type" value={{type}}>{{type}}</option>
             </select>
             <br />
-  
+
           </div>
           <button (click)="addData()">+</button><button (click)="deleteData(x);updateLearning()">-</button>
-  
+
         </div>
         <div>
           <h3>Learning Method:</h3>
