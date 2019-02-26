@@ -6,7 +6,9 @@ user_name = 'postgres'
 password = 'postgres'
 database_name = 'postgres'
 
-postgres_local_base = 'postgres://fnsfvbzahondck:9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20@ec2-54-75-227-10.eu-west-1.compute.amazonaws.com:5432/d9t02rla10o05u'
+postgres_local_base = 'postgresql://' + user_name + ':' + password + '@localhost/'
+
+#postgres_local_base = 'postgres://fnsfvbzahondck:9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20@ec2-54-75-227-10.eu-west-1.compute.amazonaws.com:5432/d9t02rla10o05u'
 
 
 class BaseConfig:
@@ -17,14 +19,13 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', postgres_local_base + database_name)
-    MAIL_SERVER = 'smtps.nomade.ec-nantes.fr'
-    MAIL_PORT = 587
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587 
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    MAIL_USERNAME = 'erick.ah-mouck@eleves.ec-nantes.fr'
-    MAIL_PASSWORD = 'DARK@silver974'
-    MAIL_DEFAULT_SENDER = 'erick.ah-mouck@eleves.ec-nantes.fr'
-
+    MAIL_USERNAME = 'centrale.genetic.lab@gmail.com'
+    MAIL_PASSWORD = "]BSC/M!\\uvw7Fge7"
+    MAIL_DEFAULT_SENDER = 'centrale.genetic.lab@gmail.com'
 
 
 class DevelopmentConfig(BaseConfig):

@@ -17,7 +17,6 @@ export class DataService {
   constructor(private http: HttpClient) { }
   getData(json) {
     // fonction test pour renvoyer des données depuis la base de données
-    console.log("getdata")
     return (this.http.post(this.dataUrl, json, { responseType: 'text' }));
   }
 
@@ -33,7 +32,6 @@ export class DataService {
   }
 
   displayData(data) {
-    console.log(data)
     if (data['type'] != "timeseries") {
       return (this.http.post(this.dataUrl5, data, { responseType: 'text' }));
     }

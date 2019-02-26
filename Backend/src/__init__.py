@@ -35,10 +35,10 @@ local_database = 'postgres'
 local_user = 'postgres'
 local_password = "postgres"
 
-local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
-local_database = 'd9t02rla10o05u'
-local_user = 'fnsfvbzahondck'
-local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
+# local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
+# local_database = 'd9t02rla10o05u'
+# local_user = 'fnsfvbzahondck'
+# local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
 
 
 @app.route('/')
@@ -102,7 +102,7 @@ def getData():
             data[i]["type"] = types
         else:
             data[i]["type"] = ['test' + str(i)]
-
+    print(data)
     return (str(data))
 
 
@@ -221,6 +221,7 @@ def display():
                 displayData[j]["data"].append(data[i][j])
 
         return (str(displayData))
+
     else:
         displayData = []
         data = []
@@ -258,18 +259,40 @@ def displayTimeseries():
     text.close()
     datas = str(content)
     newdata = ''
-    length = 11
-    for j in range(0, len(datas)):
-        if datas[j] == "\n":
-            newdata += '\t'
-        else:
-            newdata += datas[j]
-    records = newdata.split("\t")
-    for row in range(243):
-        if row < length:
-            displayData.append({"label": str(records[row])[1:-1], "data": []})
-        elif row > length:
-            displayData[(row - 1) % length]["data"].append(records[row])
+    #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
+    if int(dossier[-4])==1:
+        is_insilico10 = True
+    else:
+        is_insilico10 = False
+
+    if is_insilico10:
+        length = 11
+        for j in range(0, len(datas)):
+            if datas[j] == "\n":
+                newdata += '\t'
+            else:
+                newdata += datas[j]
+        records = newdata.split("\t")
+        print((records[1:243]))
+        for row in range(243):#243=21(nbre de pts)*10(nbre courbe)+21(absisses temporelles)+10(G1-G10)+2
+            if row < length:
+                displayData.append({"label": str(records[row])[1:-1], "data": []})
+            elif row > length:
+                displayData[(row - 1) % length]["data"].append(records[row])
+    else:
+        length = 101
+        for j in range(0, len(datas)):
+            if datas[j] == "\n":
+                newdata += '\t'
+            else:
+                newdata += datas[j]
+        records = newdata.split("\t")
+        print(records[2000:2200])
+        for row in range(2223):#2223=21(nbre de pts)*100(nbre courbe)+21(absisses temporelles)+100(G1-G100)+2
+            if row < length:
+                displayData.append({"label": str(records[row])[1:-1], "data": []})
+            elif row > length:
+                displayData[(row - 1) % length]["data"].append(records[row])     
     return (str(displayData))
 
 
