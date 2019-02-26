@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
-import { LearningService } from '../learning.service';
-import { DataService } from '../data.service';
+import { LearningService } from '../_services/learning.service';
+import { DataService } from '../_services/data.service';
 import { AuthenticationService, MessageService } from '../_services';
 
 @Component({

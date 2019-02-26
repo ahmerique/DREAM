@@ -61,7 +61,7 @@ export class AuthenticationService {
     return this.http.post<any>(API_URL + '/auth/addsearchquery', { 'tsv': 'coucou', 'model': 'coucou2', 'results': 'coucou3' });
   }
   addQueryHistory2(json) {
-    let x=json
+    let x = json
     console.log(x)
     return this.http.post<any>(API_URL + '/auth/addsearchquery', x);
   }
@@ -84,6 +84,14 @@ export class AuthenticationService {
 
   changeAccountPassword(password, new_password) {
     return this.http.post<any>(API_URL + '/account/changepassword', { 'new_password': new_password, 'password': password });
+  }
+
+  forgotPassword(email) {
+    return this.http.post<any>(API_URL + '/auth/forgotpassword', { 'email': email });
+  }
+
+  resetPassword(token, password) {
+    return this.http.post<any>(API_URL + '/auth/resetpassword', { 'token': token, 'password': password });
   }
 
 }

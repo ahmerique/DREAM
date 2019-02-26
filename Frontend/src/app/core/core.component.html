@@ -1,7 +1,7 @@
 <div class="clearfix">
 
   <div class="left">
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
 
       <h2>1. Visualisation des données</h2>
       <p>Ici, tu peux visualiser les différents jeux de données génétiques disponibles.</p>
@@ -43,7 +43,8 @@
       <p>Knockout: Representation of stable states obtained when one protein has its concentration fixed to 0.</p>
       <p>Knockdown: Representation of stable states obtained when one protein has its concentration fixed to half its
         stable value.</p>
-      <p>Multifactorial: Representation of stable states obtained when maintaining small perturbation on a few proteins.
+      <p>Multifactorial: Representation of stable states obtained when maintaining small perturbation on a few
+        proteins.
       </p>
       <p>You can filter datas to have a better visualisation.</p>
       <p>You can also rework measurements points by clicking on them if you want to!</p>
@@ -52,7 +53,7 @@
   </div>
   <div class="right">
     <div>
-      <div *ngIf="lang!='en'">
+      <div *ngIf="lang==='fr'">
         <h2>Fichier : </h2>
       </div>
       <div *ngIf="lang=='en'">
@@ -67,13 +68,12 @@
 
     <div *ngIf="addfile">
       <fieldset>
-        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile"
-          onchange="document.getElementById('input_text_file').value = this.value" />
+        <input type="file" onmousedown="return false" onkeydown="return false" class="inputFile" onchange="document.getElementById('input_text_file').value = this.value" />
       </fieldset>
     </div>
 
     <br />
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
       <h3>Affichage : Timeseries</h3>
       <button (click)="straightLine()">droite</button>
       <button (click)="curveLine()">courbe</button>
@@ -89,7 +89,7 @@
 
 
     <br />
-    <div *ngIf="lang!='en'">
+    <div *ngIf="lang==='fr'">
       <h3>Affichage : </h3>
     </div>
     <div *ngIf="lang=='en'">

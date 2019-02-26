@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../_services';
 
 @Component({
   selector: 'app-main-page',
@@ -7,15 +8,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-  lang:String;
-  constructor(private route: ActivatedRoute) { }
+
+  lang: String;
+  subscriptionLanguage: any;
+
+  constructor(private route: ActivatedRoute, private messageService: MessageService,
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
+  }
+
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.lang = params['id']; 
-
-   });
-   console.log(this.lang)
-
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
   }
 
 }

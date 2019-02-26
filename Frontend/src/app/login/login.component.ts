@@ -19,24 +19,30 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
   forgot_password = false;
-  lang;
+  lang: string;
+  subscriptionLanguage: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
     private messageService: MessageService
-  ) { }
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       pseudo: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.route.params.subscribe(params => {
-      this.lang = params['id'];
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
 
-    });
     // reset login status
     this.authenticationService.logout();
 
@@ -70,7 +76,17 @@ export class LoginComponent implements OnInit {
         });
   }
 
-  forgotPassword(): void {
+  forgotPassword(email): void {
+    this.authenticationService.forgotPassword(email)
+      .pipe(first())
+      .subscribe(
+        data => {
+          alert('An email has been sent to reset your password');
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        });
 
   }
 

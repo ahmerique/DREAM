@@ -1,49 +1,115 @@
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
 
-<h1>
-  Connexion:
-</h1>
 
-<div class="center">
+<div *ngIf="lang==='fr'">
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>
+    Connexion:
+  </h1>
 
-    <div id="left block" class="center-left">
+  <div class="center">
 
-      <p>Pseudo:</p>
-      <p>Mot de passe:</p>
-      <button (click)="onSubmit()" type="submit" [disabled]="loading">
-        Se connecter
-      </button> <br />
-      <div *ngIf="error" class="alert">{{error}}</div> <br />
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
-        <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+      <div id="left block" class="center-left">
+
+        <p>Pseudo:</p>
+        <p>Mot de passe:</p>
+        <button (click)="onSubmit()" type="submit" [disabled]="loading">
+          Se connecter
+        </button> <br />
+        <div *ngIf="error" class="alert">{{error}}</div> <br />
+
+        <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
+          <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+        </div>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+
+        <p>
+          Pas encore de compte?
+          <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Inscris-toi!</a>
+        </p>
+        <p class='text_interaction' (click)='forgot_password=true'>J'ai oublié mon mot de passe ou mon pseudo.</p>
+
       </div>
-      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-        <div *ngIf="f.password.errors.required">Password is required</div>
+
+      <div id="right block" class="center-left">
+        <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="on" /></p>
+        <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
+            autocomplete="off" /></p>
       </div>
 
-      <p>
-        Pas encore de compte?
-        <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Inscris-toi!</a>
+    </form>
+
+    <div id='forgotpassword' *ngIf='forgot_password===true'>
+      <p>email:
+        <input #email autocomplete="on" />
+        <button (click)="forgotPassword(email.value)">Envoyer</button>
       </p>
-      <p class='text_interaction' (click)='forgot_password=true'>J'ai oublié mon mot de passe ou mon pseudo.</p>
-
     </div>
 
-    <div id="right block" class="center-left">
-      <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="on" /></p>
-      <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
-          autocomplete="off" /></p>
-    </div>
-
-  </form>
-
-  <div id='forgotpassword' *ngIf='forgot_password===true'>
-    <p>email:
-      <input #email autocomplete="on" />
-      <button (click)="forgotPassword(email.value)">Envoyer</button>
-    </p>
   </div>
+</div>
 
+
+
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+
+
+<div *ngIf="lang==='en'">
+
+  <h1>
+    Login:
+  </h1>
+
+  <div class="center">
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <div id="left block" class="center-left">
+
+        <p>Pseudo:</p>
+        <p>Password:</p>
+        <button (click)="onSubmit()" type="submit" [disabled]="loading">
+          Log in
+        </button> <br />
+        <div *ngIf="error" class="alert">{{error}}</div> <br />
+
+        <div *ngIf="submitted && f.pseudo.errors" class="invalid-feedback">
+          <div *ngIf="f.pseudo.errors.required">Pseudo is required</div>
+        </div>
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+
+        <p>
+          No account yet?
+          <a class='text_interaction' routerLink="/signup" routerLinkActive='selected'>Register!</a>
+        </p>
+        <p class='text_interaction' (click)='forgot_password=true'>Lost password or pseudo?<p>
+
+      </div>
+
+      <div id="right block" class="center-left">
+        <p> <input formControlName="pseudo" [ngClass]="{ 'is-invalid': submitted && f.pseudo.errors }" autocomplete="on" /></p>
+        <p> <input formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" type=password
+            autocomplete="off" /></p>
+      </div>
+
+    </form>
+
+    <div id='forgotpassword' *ngIf='forgot_password===true'>
+      <p>email:
+        <input #email autocomplete="on" />
+        <button (click)="forgotPassword(email.value)">Send</button>
+      </p>
+    </div>
+
+  </div>
 </div>

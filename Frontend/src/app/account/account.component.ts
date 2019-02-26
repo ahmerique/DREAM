@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../_services';
-import { Router,ActivatedRoute } from '@angular/router';
+import { AuthenticationService, MessageService } from '../_services';
+import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmPasswordValidator } from '../_helpers/password.validator';
-
 
 @Component({
   selector: 'app-account',
@@ -12,8 +11,6 @@ import { ConfirmPasswordValidator } from '../_helpers/password.validator';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-
-
 
   _pseudo = '';
   _email = '';
@@ -28,9 +25,10 @@ export class AccountComponent implements OnInit {
   _loading = false;
   _submitted = false;
   _error = '';
-  lang;
+  lang: string;
   _changePasswordDone = false;
   _changeInfoDone = false;
+  subscriptionLanguage: any;
 
 
 
@@ -39,13 +37,19 @@ export class AccountComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-  ) { }
+    private messageService: MessageService
+  ) {
+    this.subscriptionLanguage = this.messageService.getMessage().subscribe(message => {
+      if (message.text === 'changeLanguage') {
+        this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+      }
+    });
+  }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.lang = params['id']; 
 
-   });
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
+    console.log(this.lang);
     this.authenticationService.getUser()
       .pipe(first())
       .subscribe(
@@ -126,6 +130,7 @@ export class AccountComponent implements OnInit {
       .subscribe(
         data => {
           console.log('Password changed');
+          this._error = undefined;
           this._loading = false;
           this._changePasswordDone = true;
         },
@@ -158,7 +163,18 @@ export class AccountComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
+          this.authenticationService.getUser()
+            .pipe(first())
+            .subscribe(
+              res => {
+                this._pseudo = res.data.pseudo;
+                this._email = res.data.email;
+              },
+              error => {
+                console.log(error);
+              });
           console.log('account info changed');
+          this._error = undefined;
           this._loading = false;
           this._changeInfoDone = true;
         },
@@ -173,22 +189,23 @@ export class AccountComponent implements OnInit {
 
   //////////////////// DELETE ACCOUNT//////////////////////////////////////////////////////////////////////////////////////////
 
+  get fDelete() { return this.deleteForm.controls; }
 
   deleteAccount() {
 
     this._submitted = true;
-
     // stop here if form is invalid
-    if (this.changeInfoForm.invalid) {
+    if (this.deleteForm.invalid) {
       return;
     }
 
     this._loading = true;
 
-    this.authenticationService.deleteAccount(this.deleteForm.controls.password.value)
+    this.authenticationService.deleteAccount(this.fDelete.password.value)
       .pipe(first())
       .subscribe(
         data => {
+          this.messageService.sendMessage('logout');
           console.log('account deleted');
           this.router.navigate(['/login']);
         },

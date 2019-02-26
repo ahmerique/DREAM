@@ -1,52 +1,107 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div *ngIf="connected">
-  <div class="Website-title">
-    <img class='logo' src="assets/img/LogoCGL.PNG">
-    <img class='logo2' src="assets/img/LogoCGL.PNG">
 
-    <a class="no-style" routerLink="/">Bienvenue au Centrale Genetic Lab!</a>
-    <p class="CGL-Description">L'outil disruptif de Machine Learning de données génétiques</p>
+<!-- FRENCH VERSION -->
+
+<div *ngIf="lang==='fr'">
+  <div *ngIf="connected">
+    <div class="Website-title">
+      <img class='logo' src="assets/img/LogoCGL.PNG">
+      <img class='logo2' src="assets/img/LogoCGL.PNG">
+
+      <a class="no-style" routerLink="/">Bienvenue au Centrale Genetic Lab!</a>
+      <p class="CGL-Description">L'outil disruptif de Machine Learning de données génétiques</p>
+    </div>
+
+    <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
+      <a routerLink="/mainPage" routerLinkActive='selected'>
+        <i class="fa fa-fw fa-home"></i> Accueil
+      </a>
+      <a routerLink="/account" routerLinkActive='selected'>Mon compte</a>
+      <!--<a routerLink="/data" routerLinkActive='selected'>Mes données</a>-->
+      <a routerLink="/history" routerLinkActive='selected'>Mon historique</a>
+      <div class=right (click)="logout()">Déconnexion</div>
+      <img src="assets/img/uk_flag.png" (click)="changeLanguage('en')">
+      <img src="assets/img/fr_flag.png" (click)="changeLanguage('fr')">
+
+    </div>
   </div>
 
-  <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
-    <a routerLink="/mainPage" routerLinkActive='selected'>
-      <i class="fa fa-fw fa-home"></i> Accueil
-    </a>
-    <a routerLink="/account" routerLinkActive='selected'>Mon compte</a>
-    <!--<a routerLink="/data" routerLinkActive='selected'>Mes données</a>-->
-    <a routerLink="/history" routerLinkActive='selected'>Mon historique</a>
-    <div class=right (click)="logout()">Déconnexion</div>
-    <img src="assets/img/uk_flag.png" routerLink="/en">
-    <img src="assets/img/fr_flag.png" routerLink="/">
+  <div *ngIf="!connected">
+    <div class="Website-title">
+      <img class='logo' src="assets/img/LogoCGL.PNG">
+      <img class='logo2' src="assets/img/LogoCGL.PNG">
+      <a class="no-style" routerLink="/guest">Bienvenue au Centrale Genetic Lab!</a>
+      <p class="CGL-description">L'outil disruptif de Machine Learning de données génétiques</p>
+    </div>
 
+    <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
+      <a routerLink="/guest" routerLinkActive='selected'>
+        <i class="fa fa-fw fa-home"></i> Accueil
+      </a>
+      <a class=right routerLink="/signup" routerLinkActive='selected'>
+        <i class="fa fa-user-plus"></i> Inscription
+      </a>
+      <a class=right routerLink="/login" routerLinkActive='selected'>
+        <i class="fa fa-sign-in"></i> Connexion
+      </a>
+
+      <img src="assets/img/uk_flag.png" (click)="changeLanguage('en')">
+      <img src="assets/img/fr_flag.png" (click)="changeLanguage('fr')">
+
+    </div>
   </div>
 </div>
 
-<div *ngIf="!connected">
-  <div class="Website-title">
-    <script>
-      console.log('coucou')
 
-    </script>
-    <img class='logo' src="assets/img/LogoCGL.PNG">
-    <img class='logo2' src="assets/img/LogoCGL.PNG">
-    <a class="no-style" routerLink="/guest">Bienvenue au Centrale Genetic Lab!</a>
-    <p class="CGL-description">L'outil disruptif de Machine Learning de données génétiques</p>
+
+<!-- ENGLISH VERSION -->
+
+<div *ngIf="lang==='en'">
+  <div *ngIf="connected">
+    <div class="Website-title">
+      <img class='logo' src="assets/img/LogoCGL.PNG">
+      <img class='logo2' src="assets/img/LogoCGL.PNG">
+
+      <a class="no-style" routerLink="/">Welcome to the Centrale Genetic Lab!</a>
+      <p class="CGL-Description">A machine learning tools for genetics</p>
+    </div>
+
+    <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
+      <a routerLink="/mainPage" routerLinkActive='selected'>
+        <i class="fa fa-fw fa-home"></i> Home
+      </a>
+      <a routerLink="/account" routerLinkActive='selected'>Account</a>
+      <!--<a routerLink="/data" routerLinkActive='selected'>Mes données</a>-->
+      <a routerLink="/history" routerLinkActive='selected'>History</a>
+      <div class=right (click)="logout()">Disconnect</div>
+      <img src="assets/img/uk_flag.png" (click)="changeLanguage('en')">
+      <img src="assets/img/fr_flag.png" (click)="changeLanguage('fr')">
+
+    </div>
   </div>
 
-  <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
-    <a routerLink="/guest" routerLinkActive='selected'>
-      <i class="fa fa-fw fa-home"></i> Accueil
-    </a>
-    <a class=right routerLink="/signup" routerLinkActive='selected'>
-      <i class="fa fa-user-plus"></i> Inscription
-    </a>
-    <a class=right routerLink="/login" routerLinkActive='selected'>
-      <i class="fa fa-sign-in"></i> Connexion
-    </a>
+  <div *ngIf="!connected">
+    <div class="Website-title">
+      <img class='logo' src="assets/img/LogoCGL.PNG">
+      <img class='logo2' src="assets/img/LogoCGL.PNG">
+      <a class="no-style" routerLink="/guest">Welcome to the Centrale Genetic Lab!</a>
+      <p class="CGL-description">A machine learning tool for genetics</p>
+    </div>
 
-    <img src="assets/img/uk_flag.png" routerLink="/en">
-    <img src="assets/img/fr_flag.png" routerLink="/">
+    <div id="navbar" class="navbar" #stickyMenu [class.sticky]="sticky">
+      <a routerLink="/guest" routerLinkActive='selected'>
+        <i class="fa fa-fw fa-home"></i> Home
+      </a>
+      <a class=right routerLink="/signup" routerLinkActive='selected'>
+        <i class="fa fa-user-plus"></i> Register
+      </a>
+      <a class=right routerLink="/login" routerLinkActive='selected'>
+        <i class="fa fa-sign-in"></i> Connect
+      </a>
 
+      <img src="assets/img/uk_flag.png" (click)="changeLanguage('en')">
+      <img src="assets/img/fr_flag.png" (click)="changeLanguage('fr')">
+
+    </div>
   </div>
 </div>

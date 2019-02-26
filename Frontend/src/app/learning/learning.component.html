@@ -1,5 +1,5 @@
 <div class="clearfix">
-  <div *ngIf="lang!='en'">
+  <div *ngIf="lang==='fr'">
 
     <div class="left">
       <div>
@@ -54,7 +54,7 @@
         <div *ngIf="parameters">you have to select datas and a learning method.</div>
       </div>
     </div>
-  <div *ngIf="lang!='en'">
+  <div *ngIf="lang==='fr'">
     <div class="right">
       <h2>2. Sélection des données et du modèle</h2>
       <p>Dans un premier temps, il faut sélectionner le(s) jeu(x) de données génétiques que tu souhaites analyser par la
@@ -88,7 +88,7 @@
   <app-prediction [dataSend]='dataString' [lengthData]='lengthNumber' [id]=id [method]=selectedLearning [data]=data
     [lang]=lang></app-prediction>
   <app-interaction-graph [linksSend]='links' [model]=model [gold]=gold [lang]=lang ></app-interaction-graph>
-  <div *ngIf="lang!='en'">
+  <div *ngIf="lang==='fr'">
   <br /><button (click)=saveData()>Sauvegarder le modèle</button>
   </div>
   <div *ngIf="lang=='en'">

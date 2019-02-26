@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../_services/data.service';
 import { Chart } from 'chart.js';
 import { range } from 'rxjs';
 // import { ConsoleReporter } from 'jasmine';
@@ -33,10 +33,10 @@ export class CoreComponent implements OnInit {
   setColor2 = ['Aqua', 'Blue', 'Fuchsia', 'Green', 'Lime', 'Navy', 'Olive', 'Purple', 'Teal', 'Yellow'];
   setColor = ['#FF0000', '#A02831', '#C24040', '#F6745A', '#FDD784', '#FF5900', '#FF9300', 'black', 'blue', 'green', 'purple'];
   lengthData = 10;
-  flagG=true
-  tabId:number;
-  @Input() lang:String
-  @Input() test:String
+  flagG = true;
+  tabId: number;
+  @Input() lang: String;
+  @Input() test: String;
 
   getDataBase() {
     this.dataService.getDataBase().subscribe(data => {
@@ -66,21 +66,21 @@ export class CoreComponent implements OnInit {
     }
     return color;
   }
-  getDataName(){
-    for (let i=0;i<this.data.length;i++){
-      if (this.data[i]['id']==this.selectedOption){
-        return this.data[i]['name']
+  getDataName() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]['id'] === this.selectedOption) {
+        return this.data[i]['name'];
       }
     }
-    return 'erreur qui ne devrait pas arriver'
+    return 'erreur qui ne devrait pas arriver';
   }
-  getDataId(){
-    for (let i=0;i<this.data.length;i++){
-      if (this.data[i]['id']==this.selectedOption){
-        return i
+  getDataId() {
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i]['id'] === this.selectedOption) {
+        return i;
       }
     }
-    return 0
+    return 0;
   }
   getData() {
     this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType }).subscribe(data => {
@@ -94,32 +94,32 @@ export class CoreComponent implements OnInit {
       }
       this.chart.options.title.display = true;
       this.chart.data.labels = this.displayData[0]['data'];
-      this.chart.options.title.text = this.getDataName()+ ' ' + this.selectedGraphType;
+      this.chart.options.title.text = this.getDataName() + ' ' + this.selectedGraphType;
       this.chart.data.datasets = this.displayData.slice(1, this.displayData.length);
       this.chart.update();
     });
   }
-  debug(){
-    console.log(this.tabId)
+  debug() {
+    console.log(this.tabId);
   }
   getData2() {
-    this.tabId=this.selectedOption-1
+    this.tabId = this.selectedOption - 1;
     this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType2 }).subscribe(data => {
       this.listData2 = [];
       this.displayData2 = JSON.parse(data.replace(/'/g, '"'));
-      this.tabId=this.getDataId();
+      this.tabId = this.getDataId();
       for (let j = 0; j < this.displayData2[0]['data'].length; j++) {
         this.listData2.push(j + 1);
       }
       console.log(this.listData2);
-      if (!(!(parseInt(this.idofdata)))){
-        this.idofdata='G'+(this.idofdata)
+      if (!(!(parseInt(this.idofdata)))) {
+        this.idofdata = 'G' + (this.idofdata);
       }
       if (!(this.listData2.includes(parseInt(this.idofdata.substr(1))))) {
         this.idofdata = 'G1';
       }
 
-      (this.selectedGraphType2 == 'wildtype' || this.selectedGraphType2 == 'multifactorial')?this.flagG=false : this.flagG=true
+      (this.selectedGraphType2 === 'wildtype' || this.selectedGraphType2 === 'multifactorial') ? this.flagG = false : this.flagG = true;
 
       console.log(this.idofdata);
       if (this.selectedGraphType2 !== 'knockouts') {
@@ -159,8 +159,8 @@ export class CoreComponent implements OnInit {
         this.chart2.options.title.text = this.getDataName() + ' ' + this.selectedGraphType2;
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
-        if (!this.flagG){
-          this.idofdata=(this.idofdata).substr(1)
+        if (!this.flagG) {
+          this.idofdata = (this.idofdata).substr(1);
         }
       }
     });
@@ -220,10 +220,10 @@ export class CoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.getDataBase();
     this.createGraph();
-    console.log(this.test)
+    console.log(this.test);
   }
 
   addFile() {
@@ -238,8 +238,8 @@ export class CoreComponent implements OnInit {
     for (let j = 0; j < this.displayData.length; j++) {
       this.displayData[j]['showLine'] = true;
     }
-    this.chart.options.elements.line.tension = 0.01
-    this.chart.update();  
+    this.chart.options.elements.line.tension = 0.01;
+    this.chart.update();
   }
 
 

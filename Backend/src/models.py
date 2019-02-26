@@ -15,8 +15,10 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    search_queries = db.relationship('Search_query', backref='user')
-    folders = db.relationship('Folder', backref='user')
+    search_queries = db.relationship(
+        'Search_query', backref='user', cascade='all, delete, delete-orphan')
+    folders = db.relationship(
+        'Folder', backref='user', cascade='all, delete, delete-orphan')
 
     def __init__(self, email, pseudo, password):
         self.email = email
@@ -122,7 +124,8 @@ class Folder(db.Model):
     folder_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.Text, nullable=False)
-    tsvs = db.relationship('Tsv', backref='folder')
+    tsvs = db.relationship(
+        'Tsv', backref='folder', cascade='all, delete, delete-orphan')
 
     def __init__(self, user_id, name):
         self.user_id = user_id

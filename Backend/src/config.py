@@ -17,6 +17,14 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', postgres_local_base + database_name)
+    MAIL_SERVER = 'smtps.nomade.ec-nantes.fr'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'erick.ah-mouck@eleves.ec-nantes.fr'
+    MAIL_PASSWORD = 'DARK@silver974'
+    MAIL_DEFAULT_SENDER = 'erick.ah-mouck@eleves.ec-nantes.fr'
+
 
 
 class DevelopmentConfig(BaseConfig):

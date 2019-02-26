@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild, ElementRef, HostListener, AfterViewInit, Input } from '@angular/core';
-import { AuthenticationService, MessageService } from '../_services';
+import { AuthenticationService, MessageService, LanguageService } from '../_services';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -14,20 +14,20 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
   error = '';
   connected: boolean;
   subscription: Subscription;
-
+  lang: string;
   @ViewChild('stickyMenu') menuElement: ElementRef;
   @Input() test;
 
   sticky = false;
   elementPosition: any;
-  lang=true
+
   constructor(
     private authenticationService: AuthenticationService,
     private messageService: MessageService,
     private router: Router,
+    private languageService: LanguageService,
   ) {
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      console.log(message);
       if (message.text === 'login') {
         this.connected = true;
       } else if (message.text === 'logout') {
@@ -36,22 +36,16 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
   ngOnInit(): void {
-    this.authenticationService.checkToken()
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.connected = true;
-        },
-        error => {
-          console.log('connected as a guest');
-          this.connected = false;
-        });
+    if (localStorage.getItem('currentUser')) {
+      this.connected = true;
+    } else {
+      this.connected = false;
+    }
+
+    this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
   }
-  changeLang(){
-    this.lang=false
-  }
+
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
@@ -67,7 +61,7 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(
         data => {
           this.connected = false;
-          this.router.navigate(['/login']);
+          this.router.navigate(['/guest']);
         },
         error => {
           console.log(error);
@@ -85,5 +79,13 @@ export class HeadersComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-
+  changeLanguage(language: string) {
+    if (language === 'en') {
+      this.lang = 'en';
+      this.languageService.setLanguage('en');
+    } else {
+      this.lang = 'fr';
+      this.languageService.setLanguage('fr');
+    }
+  }
 }

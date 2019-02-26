@@ -1,29 +1,79 @@
-<div class="montserrat">
-  <div class='main'>
-    <router-outlet></router-outlet>
-  </div>
-  <div class='bottom' class='footer'>
-    <div class='links'>
-      <h2>Liens</h2>
-    <a href="https://www.ls2n.fr/" target="_blank">
-    <img class ='link'  src="assets/img/LogoLS2N.PNG" height='60'>
-    </a>
-    <a href="https://www.ec-nantes.fr/" target="_blank">
-    <img class = 'link' src="assets/img/LogoECN.PNG" height='60'>
-    </a>
-    <a href="http://dreamchallenges.org/" target="_blank">
-    <img class = 'link' src="assets/img/LogoDREAM.PNG" height='60'>
-    </a>
-    <a href="https://www.ec-nantes.fr/centrale-digital-lab/centrale-digital-lab-236307.kjsp" target="_blank">
-    <img class = 'link' src="favicon.ico" height='60'>
-    </a>
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+<!--------------------------------------- FRENCH VERSION -------------------------------------------------->
+
+<div *ngIf="lang==='fr'">
+  <div class="montserrat">
+    <div class='main'>
+      <router-outlet></router-outlet>
     </div>
-    <div class='descri'>
-    <h2>A propos de nous</h2>
-    <p>Ce site a été développé dans le cadre du programme Centrale Digital Lab de l'Ecole Centrale de Nantes. </p>
-    <p>Les trois étudiants en Machine Learning Gauthier Lacroix, Erick Ah-Mouck et Alexandre Féron ont élaboré, en colaboration avec les chercheurs du LS2N, cette interface pour permettre d'exploiter facilement leurs algorithmes d'apprentissage.</p>
-    <p>Ce site est basé sur le challenge d'exploitation de données génétique DREAM4.</p>
-    <p>Tu disposes de pointeurs pour plus d'information sur les différentes parties prenantes de ce projet.</p>
+    <div class='bottom' class='footer'>
+      <div class='links'>
+        <h2>Liens</h2>
+        <a href="https://www.ls2n.fr/" target="_blank">
+          <img class='link' src="assets/img/LogoLS2N.PNG" height='60'>
+        </a>
+        <a href="https://www.ec-nantes.fr/" target="_blank">
+          <img class='link' src="assets/img/LogoECN.PNG" height='60'>
+        </a>
+        <a href="http://dreamchallenges.org/" target="_blank">
+          <img class='link' src="assets/img/LogoDREAM.PNG" height='60'>
+        </a>
+        <a href="https://www.ec-nantes.fr/centrale-digital-lab/centrale-digital-lab-236307.kjsp" target="_blank">
+          <img class='link' src="favicon.ico" height='60'>
+        </a>
+      </div>
+      <div class='descri'>
+        <h2>A propos de nous</h2>
+        <p>Ce site a été développé dans le cadre du programme Centrale Digital Lab de l'Ecole Centrale de Nantes. </p>
+        <p>Les trois étudiants en Machine Learning Gauthier Lacroix, Erick Ah-Mouck et Alexandre Féron ont élaboré, en
+          colaboration avec les chercheurs du LS2N, cette interface pour permettre d'exploiter facilement leurs
+          algorithmes d'apprentissage.</p>
+        <p>Ce site est basé sur le challenge d'exploitation de données génétique DREAM4.</p>
+        <p>Tu disposes de pointeurs pour plus d'information sur les différentes parties prenantes de ce projet.</p>
+      </div>
     </div>
   </div>
+</div>
+
+
+
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+<!--------------------------------------- ENGLISH VERSION -------------------------------------------------->
+
+<div *ngIf="lang==='en'">
+
+  <div class="montserrat">
+    <div class='main'>
+      <router-outlet></router-outlet>
+    </div>
+    <div class='bottom' class='footer'>
+      <div class='links'>
+        <h2>Links</h2>
+        <a href="https://www.ls2n.fr/" target="_blank">
+          <img class='link' src="assets/img/LogoLS2N.PNG" height='60'>
+        </a>
+        <a href="https://www.ec-nantes.fr/" target="_blank">
+          <img class='link' src="assets/img/LogoECN.PNG" height='60'>
+        </a>
+        <a href="http://dreamchallenges.org/" target="_blank">
+          <img class='link' src="assets/img/LogoDREAM.PNG" height='60'>
+        </a>
+        <a href="https://www.ec-nantes.fr/centrale-digital-lab/centrale-digital-lab-236307.kjsp" target="_blank">
+          <img class='link' src="favicon.ico" height='60'>
+        </a>
+      </div>
+      <div class='descri'>
+        <h2>About us</h2>
+        <p>This website was developed during the Centrale Digital Lab program of Centrale Nantes. </p>
+        <p>The three students Gauthier Lacroix, Erick Ah-Mouck and Alexandre Feron implemented this user interface
+          to highlight their machine learning algorithms. They received help from LS2N researchers. </p>
+        <p>Ce site est basé sur le challenge d'exploitation de données génétique DREAM4.</p>
+        <p>This website tackles the DREAM4 data challenge</p>
+        <p>For more informations about the key players of the project, you can follow the links here.</p>
+      </div>
+    </div>
+  </div>
+
 </div>
