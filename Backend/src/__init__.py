@@ -4,6 +4,7 @@ from . import FunctionML
 from . import MLPRegressor
 from . import XGBoost
 from . import RL
+from . import Regressors
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -172,7 +173,19 @@ def graph():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'wildtype' + '.tsv',
             sep='\t')
-        M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+        df_timeseries = pd.read_csv(
+            'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
+            'timeseries' + '.tsv',
+            sep='\t')
+        if headers['learning'] == 'XGBoost':
+            M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
+        elif headers['learning'] == 'RL':
+            M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
+
+        elif headers['learning'] == 'Random Forest':
+            M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
+        else:
+            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
     retour = []
 
     for i in range(len(M[0])):
@@ -321,12 +334,12 @@ def getModel():
 
         if headers['learning'] == 'XGBoost':
 
-            M = XGBoost.get_relation_matrix_from_coef_matrix(
-                XGBoost.get_coef_matrix_from_XGBoost_coef(df_timeseries))
-            print('coucou')
+            M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
-            M = RL.get_relation_matrix(RL.RL_from_timeseries(df_timeseries))[0]
+            M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
 
+        elif headers['learning'] == 'Random Forest':
+            M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
         else:
             M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
     retour = "["
