@@ -185,7 +185,9 @@ def graph():
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
         else:
-            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+            M = FunctionML.etudedict(df_knockouts, df_wildtype)
+
+
     retour = []
 
     for i in range(len(M[0])):
@@ -218,13 +220,7 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-
-        #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
-        
-        if int(dossier[-4])==1:
-            length = 10
-        else:
-            length = 100
+        length = int(len(files.values))
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -256,13 +252,7 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-
-        #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
-        if int(dossier[-4])==1:
-            length = 10
-        else:
-            length = 100
-
+        length = int(len(files.values))
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -293,9 +283,7 @@ def displayTimeseries():
     text.close()
     datas = str(content)
     newdata = ''
-    
     #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
-
     if int(dossier[-4])==1:
         is_insilico10 = True
     else:
@@ -367,17 +355,35 @@ def getModel():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'timeseries' + '.tsv',
             sep='\t')
-
+        print(('knockouts') in headers['data'])
         if headers['learning'] == 'XGBoost':
-
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
             M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
-
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
-        else:
-            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+        elif headers['learning'] == 'MLP Regressor':
+            M=MLPRegressor.testcomplet(df_timeseries,df_wildtype)
+        elif headers['learning'] == 'Absolute Gap':
+            if ('knockouts') in headers['data']:
+                M = FunctionML.etudeRelationAbsolue(df_knockouts,df_wildtype)
+            else:
+                M = FunctionML.etudeRelationAbsolue(df_knockdowns,df_wildtype)
+
+        elif headers['learning'] == 'Relative Gap':
+            if ('knockouts') in headers['data']:
+                M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)
+            else:
+                M = FunctionML.etudeRelationRelatif(df_knockdowns,df_wildtype)
+
+        elif headers['learning'] == 'Dictionnary':
+            if ('knockouts') in headers['data']:
+                M=FunctionML.etudedict(df_knockouts,df_wildtype)
+            else:
+                M=FunctionML.etudedict(df_knockdowns,df_wildtype)
+        else :
+            M=FunctionML.testcomplet(df_timeseries,df_wildtype)
+
     retour = "["
 
     for i in range(len(M[0])):
@@ -390,7 +396,7 @@ def getModel():
         if i != len(M[0]) - 1:
             retour += ","
     retour += "]"
-    x = FunctionML.getGold(df_gold, 10)
+    x = FunctionML.getGold(df_gold, int(len(df_wildtype.values[0])))
     return (str(retour))
 
 
@@ -404,7 +410,11 @@ def getGold():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'goldstandard' + '.tsv',
             sep='\t')
-    x = FunctionML.getGold(df_gold, 10)
+        if (len(df_gold))>100:
+            length=100
+        else:
+            length=10
+    x = FunctionML.getGold(df_gold,length)
     return (str(x))
 
 
@@ -446,7 +456,8 @@ def predict():
     df_timeseries = pd.read_csv(
         'Backend/data/' + dossier + '/' + dossier + '_timeseries.tsv',
         sep='\t')
-    if headers['method'] == 'Reseau_neurone':
+
+    if headers['method'] == 'MLP Regressor':
         datas = MLPRegressor.doubleKO(df_timeseries, df_wildtype, G1, G2)[0]
     elif headers['method'] == 'XGBoost':
         models = Regressors.train_XGBoost_from_timeseries(df_timeseries)
@@ -463,8 +474,7 @@ def predict():
                                              G1, G2, models)
 
     else:
-        datas = FunctionML.Global(df_knockouts, df_knockdowns, df_wildtype, G1,
-                                  G2)
+        datas = FunctionML.Global(df_knockouts, df_knockdowns, df_wildtype, G1,G2)
 
     for row in datas:
         hello += ' ' + str(row)

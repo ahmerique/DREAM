@@ -98,6 +98,7 @@ def extract_Xi_and_Yi_from_echant(echant, gene_label, shift=-1):
         else:
             Xi=np.transpose(list(np.transpose(echant)[0:(gene_label-1)])+list(np.transpose(echant)[gene_label:]))[0:-1]
             Yi=np.transpose(np.transpose(echant)[gene_label-1])[1:]
+
         return {"Xi": Xi, "Yi": Yi}
     else:
         print(shift)
