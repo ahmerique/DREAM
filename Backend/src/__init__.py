@@ -333,7 +333,7 @@ def getModel():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'timeseries' + '.tsv',
             sep='\t')
-
+        print(('knockouts') in headers['data'])
         if headers['learning'] == 'XGBoost':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
@@ -343,12 +343,20 @@ def getModel():
         elif headers['learning'] == 'MLP Regressor':
             M=MLPRegressor.testcomplet(df_timeseries,df_wildtype)
         elif headers['learning'] == 'Absolute Gap':
-            M = FunctionML.etudeRelationAbsolue(df_knockouts,df_wildtype)
+            if ('knockouts') in headers['data']:
+                M = FunctionML.etudeRelationAbsolue(df_knockouts,df_wildtype)
+            else:
+                M = FunctionML.etudeRelationAbsolue(df_knockdowns,df_wildtype)
+
         elif headers['learning'] == 'Relative Gap':
-            M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)      
+            if ('knockouts') in headers['data']:
+                M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)
+            else:
+                M = FunctionML.etudeRelationRelatif(df_knockdowns,df_wildtype)
+
         elif headers['learning'] == 'Dictionnary':
             M=FunctionML.etudedict(df_knockouts,df_wildtype)
-        else : 
+        else :
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
 
     retour = "["
