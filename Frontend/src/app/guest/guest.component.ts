@@ -82,17 +82,19 @@ export class GuestComponent implements OnInit {
     }
     return color;
   }
+
   getDataName() {
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i]['id'] === this.selectedOption) {
+      if (this.data[i]['id'] === +this.selectedOption) {
         return this.data[i]['name'];
       }
     }
-    return 'erreur qui ne devrait pas arriver';
+    return 'GUEST erreur qui ne devrait pas arriver';
   }
+
   getDataId() {
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i]['id'] === this.selectedOption) {
+      if (this.data[i]['id'] === +this.selectedOption) {
         return i;
       }
     }
@@ -127,7 +129,6 @@ export class GuestComponent implements OnInit {
       for (let j = 0; j < this.displayData2[0]['data'].length; j++) {
         this.listData2.push(j + 1);
       }
-      console.log(this.listData2);
       if (!(!(parseInt(this.idofdata)))) {
         this.idofdata = 'G' + (this.idofdata);
       }
@@ -137,7 +138,6 @@ export class GuestComponent implements OnInit {
 
       (this.selectedGraphType2 === 'wildtype' || this.selectedGraphType2 === 'multifactorial') ? this.flagG = false : this.flagG = true;
 
-      console.log(this.idofdata);
       if (this.selectedGraphType2 !== 'knockouts') {
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';

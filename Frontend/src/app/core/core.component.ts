@@ -66,22 +66,25 @@ export class CoreComponent implements OnInit {
     }
     return color;
   }
+
   getDataName() {
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i]['id'] === this.selectedOption) {
+      if (this.data[i]['id'] === +this.selectedOption) {
         return this.data[i]['name'];
       }
     }
-    return 'erreur qui ne devrait pas arriver';
+    return 'coucou pas arriver';
   }
+
   getDataId() {
     for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i]['id'] === this.selectedOption) {
+      if (this.data[i]['id'] === +this.selectedOption) {
         return i;
       }
     }
     return 0;
   }
+
   getData() {
     this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType }).subscribe(data => {
       this.displayData = JSON.parse(data.replace(/'/g, '"'));
@@ -102,6 +105,7 @@ export class CoreComponent implements OnInit {
   debug() {
     console.log(this.tabId);
   }
+
   getData2() {
     this.tabId = this.selectedOption - 1;
     this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType2 }).subscribe(data => {
@@ -111,7 +115,6 @@ export class CoreComponent implements OnInit {
       for (let j = 0; j < this.displayData2[0]['data'].length; j++) {
         this.listData2.push(j + 1);
       }
-      console.log(this.listData2);
       if (!(!(parseInt(this.idofdata)))) {
         this.idofdata = 'G' + (this.idofdata);
       }
@@ -121,7 +124,6 @@ export class CoreComponent implements OnInit {
 
       (this.selectedGraphType2 === 'wildtype' || this.selectedGraphType2 === 'multifactorial') ? this.flagG = false : this.flagG = true;
 
-      console.log(this.idofdata);
       if (this.selectedGraphType2 !== 'knockouts') {
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';
@@ -220,10 +222,8 @@ export class CoreComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getDataBase();
     this.createGraph();
-    console.log(this.test);
   }
 
   addFile() {

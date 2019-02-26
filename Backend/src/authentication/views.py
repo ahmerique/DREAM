@@ -178,7 +178,6 @@ class LoginAPI(MethodView):
                 }
                 return make_response(jsonify(responseObject)), 404
         except Exception as e:
-            print(e)
             responseObject = {'status': 'fail', 'message': e.args}
             return make_response(jsonify(responseObject)), 500
 
@@ -231,7 +230,7 @@ class LogoutAPI(MethodView):
                     }
                     return make_response(jsonify(responseObject)), 200
                 except Exception as e:
-                    responseObject = {'status': 'fail', 'message': e}
+                    responseObject = {'status': 'fail', 'message': e.args}
                     return make_response(jsonify(responseObject)), 200
             else:
                 responseObject = {'status': 'fail', 'message': resp}
@@ -298,6 +297,10 @@ class DeleteAccountAPI(MethodView):
                 blacklist_token = BlacklistToken(token=auth_token)
 
                 try:
+                    # insert the token in blacklist
+                    db.session.add(blacklist_token)
+                    db.session.commit()
+
                     # delete the user
                     db.session.delete(responseObjectUser)
                     db.session.commit()
@@ -305,16 +308,10 @@ class DeleteAccountAPI(MethodView):
                         'status': 'success',
                         'message': 'User successfully deleted'
                     }
-                    try:
-                        # insert the token in blacklist
-                        db.session.add(blacklist_token)
-                        db.session.commit()
-                        return make_response(jsonify(responseObject)), 200
-                    except Exception as e:
-                        responseObject = {'status': 'fail', 'message': e}
-                        return make_response(jsonify(responseObject)), 200
+                    return make_response(jsonify(responseObject)), 200
+                
                 except Exception as e:
-                    responseObject = {'status': 'fail', 'message': e}
+                    responseObject = {'status': 'fail', 'message': e.args}
                     return make_response(jsonify(responseObject)), 200
             else:
                 print('fail password')
@@ -567,8 +564,14 @@ class ResetPassword_API(MethodView):
         new_password = post_data.get('password')
 
         if auth_token:
+            resp = User.decode_auth_token(auth_token)
+            blacklist_token = BlacklistToken(token=auth_token)
             try:
-                resp = User.decode_auth_token(auth_token)
+                # blacklist the token
+                db.session.add(blacklist_token)
+                db.session.commit()
+                
+                # change password
                 user = User.query.filter_by(email=resp).first_or_404()
                 user.password = bcrypt.generate_password_hash(new_password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
                 db.session.commit()
@@ -577,9 +580,10 @@ class ResetPassword_API(MethodView):
                     'message': 'user password successfully modified'
                 }
                 return make_response(jsonify(responseObject)), 200
+
             except Exception as e:
                 responseObject = {'status': 'fail', 'message': e.args}
-                return make_response(jsonify(responseObject)), 401
+                return make_response(jsonify(responseObject)), 500
         else:
             responseObject = {
                 'status': 'fail',

@@ -102,7 +102,7 @@ def getData():
             data[i]["type"] = types
         else:
             data[i]["type"] = ['test' + str(i)]
-
+    print(data)
     return (str(data))
 
 
@@ -218,7 +218,13 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-        length = 10
+
+        #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
+        
+        if int(dossier[-4])==1:
+            length = 10
+        else:
+            length = 100
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -230,8 +236,8 @@ def display():
         for i in range(len(data2)):
             for j in range(len(data2[i])):
                 displayData[j]["data"].append(data2[i][j])
-
         return (str(displayData))
+
     else:
         displayData = []
         data = []
@@ -250,7 +256,13 @@ def display():
         text.close()
         datas = str(content)
         newdata = ''
-        length = 10
+
+        #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
+        if int(dossier[-4])==1:
+            length = 10
+        else:
+            length = 100
+
         for j in range(0, len(datas)):
             if datas[j] == "\n":
                 newdata += '\t'
@@ -281,18 +293,42 @@ def displayTimeseries():
     text.close()
     datas = str(content)
     newdata = ''
-    length = 11
-    for j in range(0, len(datas)):
-        if datas[j] == "\n":
-            newdata += '\t'
-        else:
-            newdata += datas[j]
-    records = newdata.split("\t")
-    for row in range(243):
-        if row < length:
-            displayData.append({"label": str(records[row])[1:-1], "data": []})
-        elif row > length:
-            displayData[(row - 1) % length]["data"].append(records[row])
+    
+    #dossier have the form "insilico_size***_1" so the -4 char is eitheir 1<-(size'1'0_1) or 0<-(size1'0'0_1)
+
+    if int(dossier[-4])==1:
+        is_insilico10 = True
+    else:
+        is_insilico10 = False
+
+    if is_insilico10:
+        length = 11
+        for j in range(0, len(datas)):
+            if datas[j] == "\n":
+                newdata += '\t'
+            else:
+                newdata += datas[j]
+        records = newdata.split("\t")
+        print((records[1:243]))
+        for row in range(243):#243=21(nbre de pts)*10(nbre courbe)+21(absisses temporelles)+10(G1-G10)+2
+            if row < length:
+                displayData.append({"label": str(records[row])[1:-1], "data": []})
+            elif row > length:
+                displayData[(row - 1) % length]["data"].append(records[row])
+    else:
+        length = 101
+        for j in range(0, len(datas)):
+            if datas[j] == "\n":
+                newdata += '\t'
+            else:
+                newdata += datas[j]
+        records = newdata.split("\t")
+        print(records[2000:2200])
+        for row in range(2223):#2223=21(nbre de pts)*100(nbre courbe)+21(absisses temporelles)+100(G1-G100)+2
+            if row < length:
+                displayData.append({"label": str(records[row])[1:-1], "data": []})
+            elif row > length:
+                displayData[(row - 1) % length]["data"].append(records[row])     
     return (str(displayData))
 
 
