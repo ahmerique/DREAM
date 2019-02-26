@@ -248,6 +248,7 @@ def get_RL_coef_from_timeseries(df_timeseries):
     return M
 
 def get_relation_matrix(M, pourc=0.2, taille=10):
+    taille = len(M)
     X = np.zeros((taille,taille))
     Rel = []
     for i in range(len(M)):
