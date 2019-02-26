@@ -209,7 +209,6 @@ def getGold(Goldstandard,length):
         Gold_st.append((int(Goldstandard.values[i][0][1:]),int(Goldstandard.values[i][1][1:])))
         i+=1
     result=[[0 for i in range(length)]for i in range(length)]
-    print(Gold_st)
     for i in range(len(Gold_st)):
 
         result[Gold_st[i][0]-1][Gold_st[i][1]-1]=1

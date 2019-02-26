@@ -102,7 +102,6 @@ def getData():
             data[i]["type"] = types
         else:
             data[i]["type"] = ['test' + str(i)]
-    print(data)
     return (str(data))
 
 
@@ -297,7 +296,6 @@ def displayTimeseries():
             else:
                 newdata += datas[j]
         records = newdata.split("\t")
-        print((records[1:243]))
         for row in range(243):#243=21(nbre de pts)*10(nbre courbe)+21(absisses temporelles)+10(G1-G10)+2
             if row < length:
                 displayData.append({"label": str(records[row])[1:-1], "data": []})
@@ -311,7 +309,6 @@ def displayTimeseries():
             else:
                 newdata += datas[j]
         records = newdata.split("\t")
-        print(records[2000:2200])
         for row in range(2223):#2223=21(nbre de pts)*100(nbre courbe)+21(absisses temporelles)+100(G1-G100)+2
             if row < length:
                 displayData.append({"label": str(records[row])[1:-1], "data": []})
@@ -326,7 +323,6 @@ def score():
     headers = request.get_json(force=True)
     matrice = headers['matrice']
     score = FunctionML.score(matrice)
-    print(score)
     return (str(score))
 
 
@@ -355,7 +351,6 @@ def getModel():
             'Backend/data/' + headers['name'] + '/' + headers['name'] + '_' +
             'timeseries' + '.tsv',
             sep='\t')
-        print(('knockouts') in headers['data'])
         if headers['learning'] == 'XGBoost':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
