@@ -6,7 +6,7 @@ from statistics import mean
 
 
 ##Etude variation
-def etudeRelationAbsolue(df_knockouts,df_wildtype,v=0.12):
+def etudeRelationAbsolue(df_knockouts,df_wildtype):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
     mat2= np.zeros((m,m))
@@ -14,13 +14,13 @@ def etudeRelationAbsolue(df_knockouts,df_wildtype,v=0.12):
         for j in range(m):
             if i != j:
                 mat[i][j] =abs(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))
-                if mat[i][j] < v: 
+                if mat[i][j] < .12: 
                     mat[i][j] = 0.
                 else:
                     mat[i][j] = 1.
     return mat
 
-def etudeRelationRelatif(df_knockouts,df_wildtype,v=0.38):
+def etudeRelationRelatif(df_knockouts,df_wildtype):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
     mat2= np.zeros((m,m))
@@ -28,14 +28,14 @@ def etudeRelationRelatif(df_knockouts,df_wildtype,v=0.38):
         for j in range(m):
             if i != j:
                 mat[i][j] =abs(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))/df_wildtype.values[0][j]
-                if mat[i][j] < v: 
+                if mat[i][j] < .38: 
                     mat[i][j] = 0.
                 else:
                     mat[i][j] = 1.
     return mat
 ##Etude dictionnaire
 
-def etudeRelationSigne(df_knockouts,df_wildtype,v=0.12):
+def etudeRelationSigne(df_knockouts,df_wildtype):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
 
@@ -43,7 +43,7 @@ def etudeRelationSigne(df_knockouts,df_wildtype,v=0.12):
         for j in range(m):
             if i != j:
                 mat[i][j] =(round(df_knockouts.values[i][j] - df_wildtype.values[0][j], 3))
-                if -v < mat[i][j] < v : 
+                if -0.12 < mat[i][j] < 0.12 : 
                     mat[i][j] = 0.
                 elif mat[i][j]>0:
                     mat[i][j] = 1.
@@ -51,11 +51,11 @@ def etudeRelationSigne(df_knockouts,df_wildtype,v=0.12):
                     mat[i][j] = -1.
     return mat
 
-def creationDict(df_knockouts,df_wildtype,v=0.12):
+def creationDict(df_knockouts,df_wildtype):
     dict={}
     for i in range(len(df_knockouts.values)):
         dict[i+1]={}
-    relation=etudeRelationSigne(df_knockouts,df_wildtype,v)  
+    relation=etudeRelationSigne(df_knockouts,df_wildtype)  
     for i in range(len(relation)):
         newrel=[]
         for j in range(len(relation)):
@@ -68,10 +68,10 @@ def creationDict(df_knockouts,df_wildtype,v=0.12):
             dict[abs(newrel[l])][i+1]=(newrel)
     return dict
 
-def etudedict(df_knockouts,df_wildtype,v=0.12):
+def etudedict(df_knockouts,df_wildtype):
     m = len(df_knockouts.values)
     mat = np.zeros((m,m))
-    dict1=creationDict(df_knockouts,df_wildtype,v)
+    dict1=creationDict(df_knockouts,df_wildtype)
     for i in range (len(dict1)):
         list1=dict1[i+1][i+1]
         list2=[]
@@ -89,7 +89,7 @@ def etudedict(df_knockouts,df_wildtype,v=0.12):
 
 
 ##Variation
-def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
+def etudeVariation(df_knockouts,df_wildtype):
     m = len(df_knockouts.values)
     mat=etudedict(df_knockouts,df_knockdowns,df_wildtype).T
     retour=[]
@@ -110,7 +110,7 @@ def etudeVariation(df_knockouts,df_knockdowns,df_wildtype):
             retour.append(0)
     return retour
 
-def implementation1(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
+def implementation1(df_knockouts,df_wildtype,var1,var2):
     variation=etudeVariation(df_knockouts,df_knockdowns,df_wildtype)
     answer=[-1 for i in range(len(df_knockouts.values))]
     if var1[0]=='o':
@@ -132,7 +132,7 @@ def implementation1(df_knockouts,df_knockdowns,df_wildtype,var1,var2):
                 answer[i]=getValue(df_knockouts,df_knockdowns,df_wildtype,var2,i)
     return (answer)
 
-def getValue(df_knockouts,df_knockdowns,df_wildtype,var,i):
+def getValue(df_knockouts,df_wildtype,var,i):
     if var[0]=='o':
         return df_knockouts.values[int(var[1:])-1][i]
     else:

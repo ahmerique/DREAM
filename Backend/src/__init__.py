@@ -185,7 +185,7 @@ def graph():
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
         else:
-            M = FunctionML.etudedict(df_knockouts, df_knockdowns, df_wildtype)
+            M = FunctionML.etudedict(df_knockouts, df_wildtype)
     retour = []
 
     for i in range(len(M[0])):
@@ -345,7 +345,7 @@ def getModel():
         elif headers['learning'] == 'Relative Gap':
             M = FunctionML.etudeRelationRelatif(df_knockouts,df_wildtype)      
         elif headers['learning'] == 'Dictionnary':
-            M=FunctionML.etudedict(df_knockouts,df_wildtype,0.12)
+            M=FunctionML.etudedict(df_knockouts,df_wildtypes)
         else : 
             M=FunctionML.testcomplet(df_timeseries,df_wildtype)
     retour = "["
