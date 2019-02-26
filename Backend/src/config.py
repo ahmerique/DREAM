@@ -6,7 +6,9 @@ user_name = 'postgres'
 password = 'postgres'
 database_name = 'postgres'
 
-postgres_local_base = 'postgres://fnsfvbzahondck:9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20@ec2-54-75-227-10.eu-west-1.compute.amazonaws.com:5432/d9t02rla10o05u'
+postgres_local_base = 'postgresql://' + user_name + ':' + password + '@localhost/'
+
+#postgres_local_base = 'postgres://fnsfvbzahondck:9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20@ec2-54-75-227-10.eu-west-1.compute.amazonaws.com:5432/d9t02rla10o05u'
 
 
 class BaseConfig:
