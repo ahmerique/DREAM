@@ -30,10 +30,10 @@ from Backend.src.authentication.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
 
-# local_host = 'localhost'
-# local_database = 'postgres'
-# local_user = 'postgres'
-# local_password = "postgres"
+#local_host = 'localhost'
+#local_database = 'postgres'
+#local_user = 'postgres'
+#local_password = "postgres"
 
 local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
 local_database = 'd9t02rla10o05u'
@@ -205,7 +205,24 @@ def display():
     headers = request.get_json(force=True)
     dossier = headers['donnee']
     name = headers['type']
-    if name != 'knockouts':
+    if name == 'wildtype':
+
+
+        files = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
+
+        displayData = []
+        data = files.values
+        length = int(len(files.values[0]))
+        print(data)
+        for i in range(length):
+            displayData.append({"label": "G" + str(i + 1), "data": []})
+        for i in range(len(data)):
+            for j in range(len(data[i])):
+                displayData[j]["data"].append(data[0][j])
+        print(str(displayData))
+        return (str(displayData))
+    elif name != 'knockouts':
         displayData = []
         files = pd.read_csv(
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
@@ -218,14 +235,14 @@ def display():
         for i in range(len(data)):
             for j in range(len(data[i])):
                 displayData[j]["data"].append(data[i][j])
-
+        print(str(displayData))
         return (str(displayData))
 
     else:
         displayData = []
         data = []
         files2 = pd.read_csv(
-            'Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',
+            'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv',
             sep='\t')
         data = (files2.values)
         files = pd.read_csv(
@@ -449,5 +466,5 @@ def predict():
 
     for row in datas:
         hello += ' ' + str(row)
-
+    print(hello)
     return (hello)

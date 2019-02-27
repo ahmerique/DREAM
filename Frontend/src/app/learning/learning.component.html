@@ -32,7 +32,7 @@
       <div class="left">
         <div>
           <h2>Learning:</h2>
-          <h3>Datas: </h3>
+          <h3>Data: </h3>
 
           <div *ngFor="let x of table">
             <select [(ngModel)]="selectedType[x]" (change)="updateLearning()">
@@ -70,7 +70,7 @@
   <div *ngIf="lang=='en'">
     <div class="right">
       <h2>2. Data and model selection</h2>
-      <p>Firstly, you have to select the genetic data(s) you will want to analyse.</p>
+      <p>Firstly, you have to select the genetic data you will want to analyse.</p>
       <p>It is important to select enough datas to have an accurate model. You have to understand that the more datas
         you will select, the more precise the machine will be</p>
       <p>You also have to chose which learning model you will want to apply on those datas. Each algorithm has its

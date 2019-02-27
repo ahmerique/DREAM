@@ -21,6 +21,7 @@ export class LearningComponent implements OnInit {
   @Input() dataChange: any;
   @Input() tabId: number;
   @Input() lang;
+  @Input() lengthNumber;
 
   links = [];
   selectedType = {};
@@ -29,7 +30,6 @@ export class LearningComponent implements OnInit {
   dataSend: String;
   dataTab: any;
   parameters = false;
-  lengthNumber: number = 10;//nombre de données dans la table utilisée
   learningList = []
   model = ''
   gold = ''
