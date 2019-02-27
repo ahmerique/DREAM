@@ -48,6 +48,7 @@ img {
 }
 
 .logo {
+  width: auto;
   height: 150px;
   float: left;
   margin-right: 0.25em;
@@ -55,6 +56,7 @@ img {
 }
 
 .logo2 {
+  width: auto;
   height: 150px;
   float: right;
   margin-right: 0.25em;

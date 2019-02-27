@@ -41,12 +41,12 @@ body {
   display: table;
 
 }
-.clearfix{
-    text-align: center;
-    clear: both
-  
-  
+
+.clearfix {
+  text-align: center;
+  clear: both
 }
+
 .line {
   border-style: solid;
   border-width: 1px;
