@@ -8,7 +8,7 @@
       <p>L'objectif par la suite est d'y appliquer un algorithme de Machine Learning afin de déterminer
         les
         interactions entre gènes et l'évolution de leurs expressions pour une perturbation donnée.</p>
-      <p>Ce type d'étude est permet de mieux comprendre les phénomènes génétiques.</p>
+      <p>Ce type d'étude permet de mieux comprendre les phénomènes génétiques.</p>
       <br />
       <p>Pour visualiser les données, on utilise des courbes pour les données temporelles et des histogrammes pour
         les données des états stables (avec ou sans perturbation).</p>
@@ -31,24 +31,23 @@
     <div *ngIf="lang=='en'">
 
       <h2>1. Data Visualisation</h2>
-      <p>Here you can visualise the different genetic data we provide.</p>
-      <p>The objective will be to apply a Machine Learning algorithm on those data to determine the interaction between
-        the genes and the evolution of there expressions for a given perturbation.</p>
-      <p>This type of study allows us to have a better understanding of genetic phenomenom.</p>
+      <p>Here you can visualise the different genetic data provided as input.</p>
+      <p>The objective is to apply a Machine Learning algorithm on those data to determine the interactions between
+        the genes and the evolution of their expressions for a given perturbation.</p>
+      <p>This type of study allows to have a better understanding of genetic phenomenom.</p>
       <br />
-      <p>The manipulated data have different type:</p>
+      <p>The manipulated data are of different kinds:</p>
       <p>Timeseries: Evolution over time of the concentration of the protein associated with each gene. On the first
-        half of the graph, one third of the genes are perturbated. perturbation is then released.</p>
-      <p>Wildtype: Representation of stable states obtained when there's no perturbation.</p>
-      <p>Knockout: Representation of stable states obtained when one protein has its concentration fixed to 0.</p>
-      <p>Knockdown: Representation of stable states obtained when one protein has its concentration fixed to half its
+        half of the graph, one third of the genes are perturbated. Perturbation is then released.</p>
+      <p>Wildtype: Representation of steady states obtained when there's no perturbation.</p>
+      <p>Knockout: Representation of steady states obtained when one protein has its concentration fixed to 0.</p>
+      <p>Knockdown: Representation of steady states obtained when one protein has its concentration fixed to half its
         stable value.</p>
-      <p>Multifactorial: Representation of stable states obtained when maintaining small perturbation on a few
+      <p>Multifactorial: Representation of steady states obtained when maintaining small perturbation on a few
         proteins.
       </p>
       <p>You can filter datas to have a better visualisation.</p>
       <p>You can also rework measurements points by clicking on them if you want to!</p>
-      <p>Tu peux aussi retravailler les points de mesure des courbes en cliquant dessus si tu le souhaites !</p>
     </div>
   </div>
   <div class="right">
@@ -74,10 +73,10 @@
 
     <br />
     <div *ngIf="lang==='fr'">
-      <h3>Affichage : Timeseries</h3>
+      <h3>Affichage : Séries temporelles</h3>
       <button (click)="straightLine()">droite</button>
       <button (click)="curveLine()">courbe</button>
-      <button (click)="dots()">Nuage de points</button>
+      <button (click)="dots()">nuage de points</button>
     </div>
     <div *ngIf="lang=='en'">
       <h3>Display : Timeseries</h3>
@@ -111,5 +110,5 @@
 </div>
 <br />
 <div class="line"></div><br />
-<app-learning [id]=selectedOption [dataChange]="displayData" [tabId]=tabId [lang]=lang></app-learning>
+<app-learning [id]=selectedOption [dataChange]="displayData" [tabId]=tabId [lang]=lang [lengthNumber]=lengthData></app-learning>
 <app-footer></app-footer>

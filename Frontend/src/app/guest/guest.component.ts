@@ -125,6 +125,7 @@ export class GuestComponent implements OnInit {
     this.dataService.displayData({ donnee: this.getDataName(), type: this.selectedGraphType2 }).subscribe(data => {
       this.listData2 = [];
       this.displayData2 = JSON.parse(data.replace(/'/g, '"'));
+      console.log(this.displayData2.length)
       this.tabId = this.getDataId();
       for (let j = 0; j < this.displayData2[0]['data'].length; j++) {
         this.listData2.push(j + 1);
@@ -139,6 +140,8 @@ export class GuestComponent implements OnInit {
       (this.selectedGraphType2 === 'wildtype' || this.selectedGraphType2 === 'multifactorial') ? this.flagG = false : this.flagG = true;
 
       if (this.selectedGraphType2 !== 'knockouts') {
+        this.lengthData=this.displayData2.length;
+
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';
           j < 10 ? colorline = this.setColor[j] : colorline = this.getRandomColor();
@@ -153,6 +156,8 @@ export class GuestComponent implements OnInit {
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
       } else {
+        this.lengthData=this.displayData2.length/2;
+
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';
           if (j % 2 === 0) {
@@ -171,6 +176,7 @@ export class GuestComponent implements OnInit {
             this.displayData2[j]['label'] = 'G' + ((j - 1) / 2 + 1).toString() + ' (Wild)';
           }
         }
+        console.log(this.displayData2)
         this.chart2.options.title.display = true;
         this.chart2.options.title.text = this.getDataName() + ' ' + this.selectedGraphType2;
         this.chart2.data.datasets = this.displayData2;
