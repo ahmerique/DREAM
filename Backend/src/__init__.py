@@ -30,15 +30,15 @@ from Backend.src.authentication.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
 
-local_host = 'localhost'
-local_database = 'postgres'
-local_user = 'postgres'
-local_password = "postgres"
+# local_host = 'localhost'
+# local_database = 'postgres'
+# local_user = 'postgres'
+# local_password = "postgres"
 
-# local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
-# local_database = 'd9t02rla10o05u'
-# local_user = 'fnsfvbzahondck'
-# local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
+local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
+local_database = 'd9t02rla10o05u'
+local_user = 'fnsfvbzahondck'
+local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
 
 
 @app.route('/')
