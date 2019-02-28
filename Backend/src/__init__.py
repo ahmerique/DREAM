@@ -13,6 +13,7 @@ import pandas as pd
 import os
 import ast
 from flask_mail import Mail
+import numpy as np
 
 
 app = Flask(__name__)
@@ -179,7 +180,10 @@ def graph():
         if headers['learning'] == 'XGBoost':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
-            M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
+            if len(np.transpose(df_timeseries)) > 50:
+                M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries), 0.02)
+            else:
+                 M =  Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries), 0.2)
 
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
@@ -289,7 +293,7 @@ def displayTimeseries():
             if row < length:
                 displayData.append({"label": str(records[row])[1:-1], "data": []})
             elif row > length:
-                displayData[(row - 1) % length]["data"].append(records[row])     
+                displayData[(row - 1) % length]["data"].append(records[row])
     return (str(displayData))
 
 
@@ -330,7 +334,10 @@ def getModel():
         if headers['learning'] == 'XGBoost':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'RL':
-            M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries))
+            if len(np.transpose(df_timeseries)) > 50:
+                M = Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries), 0.02)
+            else:
+                 M =  Regressors.get_relation_matrix(Regressors.get_RL_coef_from_timeseries(df_timeseries), 0.2)
         elif headers['learning'] == 'Random Forest':
             M = Regressors.get_relation_matrix(Regressors.get_coef_matrix_from_RandomForest_coef(df_timeseries, df_wildtype), 6)
         elif headers['learning'] == 'MLP Regressor':

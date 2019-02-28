@@ -113,14 +113,8 @@ def train_XGBoost_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_
     for i in range(1,n_echant):
         Xi2 += list(Xi[0:21*i])
         Yi2 += list(Yi[0:21*i])
-        #Xi[21*i-1] = extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Xi']
-        #Yi[21*i-1] = extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Yi']
     Xi2 += list(Xi[21*n_echant+1:])
     Yi2 += list(Yi[21*n_echant+1:])
-    #Xi2 += list(extract_Xi_and_Yi_from_echant(df_multivarie_10_1.values, gene_label, shift=0)['Xi'])
-    #Yi2 += list(extract_Xi_and_Yi_from_echant(df_multivarie_10_1.values, gene_label, shift=0)['Yi'])
-    #Xi2 += list([extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Xi']])
-    #Yi2 += list([extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Yi']])
     clf = ensemble.GradientBoostingRegressor(**params)
     model = clf.fit(Xi2, Yi2)
     print(str(gene_label)+' TRAINED')
@@ -135,14 +129,8 @@ def train_RandomForest_for_one_gene_from_timeseries(df_timeseries, df_wildtype, 
     for i in range(1,n_echant):
         Xi2 += list(Xi[0:21*i])
         Yi2 += list(Yi[0:21*i])
-        #Xi[21*i-1] = extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Xi']
-        #Yi[21*i-1] = extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Yi']
     Xi2 += list(Xi[21*n_echant+1:])
     Yi2 += list(Yi[21*n_echant+1:])
-    #Xi2 += list(extract_Xi_and_Yi_from_echant(df_multivarie_10_1.values, gene_label, shift=0)['Xi'])
-    #Yi2 += list(extract_Xi_and_Yi_from_echant(df_multivarie_10_1.values, gene_label, shift=0)['Yi'])
-    #Xi2 += list([extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Xi']])
-    #Yi2 += list([extract_Xi_and_Yi_from_echant(init_df_wildtype(df_wildtype), gene_label, shift=0)['Yi']])
     rgr = RandomForestRegressor(max_depth=2, random_state=0, n_estimators=100)
     model = rgr.fit(Xi2, Yi2)
     print(str(gene_label)+' TRAINED')
@@ -158,21 +146,11 @@ def get_RandomForest_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtyp
 
 def get_all_XGBoost_coef_from_timeseries(df_timeseries, df_wildtype, params={'n_estimators': 500, 'max_depth': 10, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
     n_gene=len(np.transpose(init_df_timeseries(df_timeseries)))
-    X = []
-    for gene_label in range(1, 1+n_gene):
-        X+= list([get_XGBoost_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label)])
-        print(str(gene_label)+' CALCULATED')
-        print('///////')
-    return X #[get_XGBoost_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label) for gene_label in range(1, 1+n_gene)]
+    return [get_XGBoost_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label) for gene_label in range(1, 1+n_gene)]
 
 def get_all_RandomForest_coef_from_timeseries(df_timeseries, df_wildtype, params={'n_estimators': 500, 'max_depth': 10, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}):
     n_gene=len(np.transpose(init_df_timeseries(df_timeseries)))
-    X = []
-    for gene_label in range(1, 1+n_gene):
-        X+= list([get_RandomForest_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label)])
-        print(str(gene_label)+' CALCULATED')
-        print('///////')
-    return X #[get_XGBoost_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label) for gene_label in range(1, 1+n_gene)]
+    return [get_XGBoost_coef_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label) for gene_label in range(1, 1+n_gene)]
 
 def get_coef_matrix_from_XGBoost_coef(df_timeseries, df_wildtype, params={'n_estimators': 500, 'max_depth': 10, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}, test='no'):
     if test == 'no':
