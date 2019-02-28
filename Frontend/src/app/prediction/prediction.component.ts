@@ -38,7 +38,6 @@ export class PredictionComponent implements OnInit {
       id: this.id,
       method: this.method
     }
-    console.log(perturbation)
     //appelle la fonction prediction de learning.service pour recuperer les données en cas de perturbation
     this.learningService.prediction(perturbation).subscribe(data => {
       this.dataTab = data.split(' ');

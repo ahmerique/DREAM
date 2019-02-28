@@ -46,7 +46,6 @@ export class HistoryComponent implements OnInit {
   }
 
   hide() {
-    console.log(this.displayFlag);
     this.SoldQuery = {};
     this.links = [];
     this.displayFlag = false;
@@ -65,7 +64,6 @@ export class HistoryComponent implements OnInit {
 
 
     this.selectedLearning = this.SoldQuery['model'];
-    console.log(this.selectedLearning);
     for (let i = 0; i < JSON.parse(this.SoldQuery['results'])[0].length; i++) {
       this.links.push({ 'source': parseInt(JSON.parse(this.SoldQuery['results'])[0][i]['source']['name']), 'target': parseInt(JSON.parse(this.SoldQuery['results'])[0][i]['target']['name']), 'type': 'unknown' });
     }
@@ -81,7 +79,6 @@ export class HistoryComponent implements OnInit {
   deleteQuery(query_id): void {
     this.authenticationService.deleteQueryHistory(query_id).subscribe(
       data => {
-        console.log(data.message);
         this.authenticationService.getQueryHistory().subscribe(
           data2 => {
             this._history = data2.data;

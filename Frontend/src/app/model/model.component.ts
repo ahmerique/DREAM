@@ -18,7 +18,6 @@ export class ModelComponent implements OnInit {
   constructor(private learningService: LearningService) { }
 
   ngOnInit() {
-    console.log(this.gold)
     this.matrice = (JSON.parse(this.model))
     this.matriceGold = (JSON.parse(this.gold))
     this.Actualise();
@@ -29,7 +28,6 @@ export class ModelComponent implements OnInit {
   }
   Actualise() {
     this.flagScore = false;
-    console.log(this.flagScore)
     for (let j = 0; j < this.matriceGold.length; j++) {
       for (let i = 0; i < this.matriceGold[j].length; i++) {
 
@@ -61,7 +59,6 @@ export class ModelComponent implements OnInit {
       gold: this.matriceGold
     }
     this.learningService.getScore(dataSent).subscribe(data => {
-      console.log(data)
       this.score = data;
     });
   }

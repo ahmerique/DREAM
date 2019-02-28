@@ -198,13 +198,11 @@ def display():
         displayData = []
         data = files.values
         length = int(len(files.values[0]))
-        print(data)
         for i in range(length):
             displayData.append({"label": "G" + str(i + 1), "data": []})
         for i in range(len(data)):
             for j in range(len(data[i])):
                 displayData[j]["data"].append(data[0][j])
-        print(str(displayData))
         return (str(displayData))
     elif name != 'knockouts':
         displayData = []
@@ -219,7 +217,6 @@ def display():
         for i in range(len(data)):
             for j in range(len(data[i])):
                 displayData[j]["data"].append(data[i][j])
-        print(str(displayData))
         return (str(displayData))
 
     else:
@@ -445,5 +442,4 @@ def predict():
 
     for row in datas:
         hello += ' ' + str(row)
-    print(hello)
     return (hello)
