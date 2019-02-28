@@ -24,8 +24,9 @@ class User(db.Model):
         self.email = email
         self.pseudo = pseudo
         self.registered_on = datetime.datetime.now()
-        self.password = bcrypt.generate_password_hash(
-            password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+
+        self.password = bcrypt.generate_password_hash(password, 
+          app.config.get('BCRYPT_LOG_ROUNDS')).decode()
 
     def encode_auth_token(self, user_id):
         """

@@ -31,15 +31,12 @@ from Backend.src.authentication.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
 
-local_host = 'localhost'
-local_database = 'postgres'
-local_user = 'postgres'
-local_password = "postgres"
+user_name = 'postgres'
+password = "postgres"
+database_name = 'postgres'
+postgres_local_base = 'postgresql://' + user_name + ':' + password + '@localhost/'
 
-# local_host = 'ec2-54-75-227-10.eu-west-1.compute.amazonaws.com'
-# local_database = 'd9t02rla10o05u'
-# local_user = 'fnsfvbzahondck'
-# local_password = '9a20686b27d19a625773fa6c8b322da023e057c9fc900e01f88ceaddfaabaa20'
+DATABASE_URL=os.getenv('DATABASE_URL', postgres_local_base + database_name)
 
 
 @app.route('/')
@@ -53,12 +50,7 @@ def result():
 ##Fonction test pour verifier que le front est bien relié a la BDD, renvoie les données de la table test1
 def config():
     hello = ""
-    conn = psycopg2.connect(
-        host=local_host,
-        database=local_database,
-        user=local_user,
-        password=local_password)
-
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cur = conn.cursor()
 
     sql2 = "select * from test1"
@@ -76,11 +68,7 @@ def config():
 @app.route('/data', methods=['GET'])
 def getData():
     data = []
-    conn = psycopg2.connect(
-        host=local_host,
-        database=local_database,
-        user=local_user,
-        password=local_password)
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cur = conn.cursor()
     sql2 = "select folder_id,name from folder order by name"
     cur.execute(sql2)
@@ -118,11 +106,7 @@ def getDataId(data, id):
 def wildtype():
     hello = ""
     datas = []
-    conn = psycopg2.connect(
-        host=local_host,
-        database=local_database,
-        user=local_user,
-        password=local_password)
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cur = conn.cursor()
     headers = request.get_json(force=True)
     id = int(headers['id'])
@@ -209,7 +193,22 @@ def display():
     headers = request.get_json(force=True)
     dossier = headers['donnee']
     name = headers['type']
-    if name != 'knockouts':
+    if name == 'wildtype':
+
+
+        files = pd.read_csv(
+        'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv', sep='\t')
+
+        displayData = []
+        data = files.values
+        length = int(len(files.values[0]))
+        for i in range(length):
+            displayData.append({"label": "G" + str(i + 1), "data": []})
+        for i in range(len(data)):
+            for j in range(len(data[i])):
+                displayData[j]["data"].append(data[0][j])
+        return (str(displayData))
+    elif name != 'knockouts':
         displayData = []
         files = pd.read_csv(
             'Backend/data/' + dossier + '/' + dossier + '_' + name + '.tsv',
@@ -222,14 +221,13 @@ def display():
         for i in range(len(data)):
             for j in range(len(data[i])):
                 displayData[j]["data"].append(data[i][j])
-
         return (str(displayData))
 
     else:
         displayData = []
         data = []
         files2 = pd.read_csv(
-            'Backend/data/insilico_size10_1/insilico_size10_1_wildtype.tsv',
+            'Backend/data/' + dossier + '/' + dossier + '_wildtype.tsv',
             sep='\t')
         data = (files2.values)
         files = pd.read_csv(
@@ -400,12 +398,7 @@ def getGold():
 #Route en cas de prediction de knockdown/knockout -> x est un json a 2 parametre de type {pert1: "knockdown G2", pert2 : "knockout G7"}
 #La fonction renvoie directement les données récupérées post-traitement (sous forme de 10 valeurs successives)
 def predict():
-    conn = psycopg2.connect(
-        host=local_host,
-        database=local_database,
-        user=local_user,
-        password=local_password)
-
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cur = conn.cursor()
     headers = request.get_json(force=True)
     if headers['pert1'][5] != 'o':
@@ -456,5 +449,4 @@ def predict():
 
     for row in datas:
         hello += ' ' + str(row)
-
     return (hello)

@@ -27,4 +27,3 @@ requests
 six
 SQLAlchemy
 Werkzeug
-matplotlib

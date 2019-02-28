@@ -52,7 +52,7 @@
     <div class="left">
       <h2>3. Prediction Explication</h2>
       <p>The algorithm learned a model based on the data you previously chose.
-        It can now predict stable states depending on the perturbation you chose to apply.
+        It can now predict steady states depending on the perturbation you chose to apply.
         We limit ourselves to a 2-elements perturbation, beyond that the results aren't accurate enough
       </p>
 
@@ -60,7 +60,7 @@
     <div class="right">
       <h1>Results</h1>
 
-      <h2>Reminder of the stable states</h2>
+      <h2>Reminder of the steady states</h2>
 
       <table *ngFor="let G of wildtype">
         <tr>
@@ -69,7 +69,7 @@
         <td> {{G.value}}</td>
       </table>
       <h2>Prediction</h2>
-      <p>Stable states with perturbation:</p>
+      <p>Steady states with perturbation:</p>
       <p>Perturbation:</p>
       <select [(ngModel)]="selectedOption1">
         <option *ngFor="let G of perturbation" value="knockout {{G.name}}">Knockout {{G.name}}</option>

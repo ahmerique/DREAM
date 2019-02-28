@@ -1,5 +1,4 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import ensemble
 from sklearn import metrics
@@ -101,7 +100,6 @@ def extract_Xi_and_Yi_from_echant(echant, gene_label, shift=-1):
 
         return {"Xi": Xi, "Yi": Yi}
     else:
-        print(shift)
         return "Error, shift "+ str(shift)+" is not suported yet"
 
 def train_XGBoost_for_one_gene_from_timeseries(df_timeseries, df_wildtype, gene_label, shift=-1, params={'n_estimators': 500, 'max_depth': 10, 'min_samples_split': 2,'learning_rate': 0.01, 'loss': 'ls'}, df_multivarie="no"):

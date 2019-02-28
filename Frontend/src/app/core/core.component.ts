@@ -125,6 +125,8 @@ export class CoreComponent implements OnInit {
       (this.selectedGraphType2 === 'wildtype' || this.selectedGraphType2 === 'multifactorial') ? this.flagG = false : this.flagG = true;
 
       if (this.selectedGraphType2 !== 'knockouts') {
+        this.lengthData = this.displayData2.length;
+
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';
           j < 10 ? colorline = this.setColor[j] : colorline = this.getRandomColor();
@@ -139,6 +141,8 @@ export class CoreComponent implements OnInit {
         this.chart2.data.datasets = this.displayData2;
         this.chart2.update();
       } else {
+        this.lengthData = this.displayData2.length / 2;
+
         for (let j = 0; j < this.displayData2.length; j++) {
           let colorline = '';
           if (j % 2 === 0) {

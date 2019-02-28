@@ -21,6 +21,7 @@ export class LearningComponent implements OnInit {
   @Input() dataChange: any;
   @Input() tabId: number;
   @Input() lang;
+  @Input() lengthNumber;
 
   links = [];
   selectedType = {};
@@ -29,7 +30,6 @@ export class LearningComponent implements OnInit {
   dataSend: String;
   dataTab: any;
   parameters = false;
-  lengthNumber: number = 10;//nombre de données dans la table utilisée
   learningList = []
   model = ''
   gold = ''
@@ -59,7 +59,6 @@ export class LearningComponent implements OnInit {
   }
 
   Result() {
-    console.log((this.selectedLearning))
     if (!(this.selectedLearning)) {
       this.parameters = true
       this.result = false;
@@ -97,7 +96,6 @@ export class LearningComponent implements OnInit {
       this.learningService.learn(dataSent).subscribe(data => {
         this.loading = true;
         this.dataString = data;
-        console.log(this.dataString);
         this.Learn(dataSent);
         this.getRealModel(dataSent);
         this.getGold(dataSent);
@@ -133,7 +131,7 @@ export class LearningComponent implements OnInit {
       this.learningList.push('Absolute Gap')
       this.learningList.push('Relative Gap')
     }
-    if (listSelected.includes("knockdowns") && listSelected.includes("knockouts")){
+    if (listSelected.includes("knockdowns") && listSelected.includes("knockouts")) {
       this.learningList.push('Dictionnary')
 
 
@@ -177,7 +175,6 @@ export class LearningComponent implements OnInit {
   }
   Learn(dataSent) {
     this.learningService.createGraph(dataSent).subscribe(data => {
-      console.log(data);
       this.links = JSON.parse((data.replace(/'/g, '"')));
       this.loading = false;
       this.result = true;
@@ -187,14 +184,12 @@ export class LearningComponent implements OnInit {
   getRealModel(dataSent) {
 
     this.learningService.getRealModel(dataSent).subscribe(data => {
-      console.log(data)
       this.model = data;
     });
   }
   getGold(dataSent) {
 
     this.learningService.getGold(dataSent).subscribe(data => {
-      console.log(data)
       this.gold = data;
     });
   }

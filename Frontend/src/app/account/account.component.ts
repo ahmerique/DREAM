@@ -49,7 +49,6 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
 
     this.lang = localStorage.getItem('language') ? localStorage.getItem('language') : 'fr';
-    console.log(this.lang);
     this.authenticationService.getUser()
       .pipe(first())
       .subscribe(

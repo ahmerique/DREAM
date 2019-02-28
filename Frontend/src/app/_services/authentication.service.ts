@@ -62,7 +62,6 @@ export class AuthenticationService {
   }
   addQueryHistory2(json) {
     let x = json
-    console.log(x)
     return this.http.post<any>(API_URL + '/auth/addsearchquery', x);
   }
 
