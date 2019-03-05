@@ -2,8 +2,6 @@ import os
 import psycopg2
 from . import FunctionML
 from . import MLPRegressor
-from . import XGBoost
-from . import RL
 from . import Regressors
 from flask import Flask, render_template, request
 from flask_cors import CORS
@@ -296,7 +294,6 @@ def displayTimeseries():
 
 
 @app.route('/score', methods=['POST'])
-#Route créée pour afficher les timeseries sur le graphe.
 def score():
     headers = request.get_json(force=True)
     matrice = headers['matrice']
@@ -305,7 +302,6 @@ def score():
 
 
 @app.route('/model', methods=['POST'])
-#Route créée pour afficher les timeseries sur le graphe.
 def getModel():
     headers = request.get_json(force=True)
     if True:  #Creer une condition pour choisir la methode
@@ -377,7 +373,6 @@ def getModel():
 
 
 @app.route('/gold', methods=['POST'])
-#Route créée pour afficher les timeseries sur le graphe.
 def getGold():
     headers = request.get_json(force=True)
     if True:  #Creer une condition pour choisir la methode

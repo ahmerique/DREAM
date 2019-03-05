@@ -9,8 +9,7 @@ from Backend.src.models import User, BlacklistToken, Search_query
 
 auth_blueprint = Blueprint('auth', __name__)
 
-FRONTEND_URL='http://centrale-genetic-lab.herokuapp.com/'
-#FRONTEND_URL='http://localhost:4200/'
+FRONTEND_URL=os.getenv('FRONTEND_URL', 'http://localhost:4200/')
 
 #TOOLS
 
